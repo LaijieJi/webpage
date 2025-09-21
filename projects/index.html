@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" data-page="projects">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Proyectos — Laijie Ji</title>
+    <meta name="description" content="Selección de proyectos de Laijie Ji con foco en Flutter, backend y accesibilidad." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Proyectos — Laijie Ji" />
+    <meta property="og:description" content="Explora Project Gaia y otros proyectos en progreso de Laijie Ji." />
+    <meta property="og:image" content="https://laijieji.dev/assets/og-image.png" />
+    <meta property="og:url" content="https://laijieji.dev/projects/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Proyectos — Laijie Ji" />
+    <meta name="twitter:description" content="Portafolio técnico de Laijie Ji." />
+    <meta name="twitter:image" content="https://laijieji.dev/assets/og-image.png" />
+    <link rel="canonical" href="https://laijieji.dev/projects/" />
+    <script>
+      (function () {
+        const storageKey = 'lj-theme';
+        try {
+          const stored = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (error) {
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+    <header class="site-header" data-component="navbar"></header>
+    <main id="contenido">
+      <section class="hero">
+        <div class="wrap">
+          <h1 class="hero__heading">Proyectos seleccionados</h1>
+          <p class="hero__text project-hero__intro">
+            Trabajo en soluciones que combinan arquitectura robusta con interfaces accesibles. Aquí encontrarás proyectos recientes y próximas iniciativas en las que estoy colaborando.
+          </p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <h2 class="section__heading">Trabajos destacados</h2>
+          <div class="card-grid project-grid" data-project-list></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" data-component="footer"></footer>
+    <script type="application/json" id="projects-data">
+      [
+        {
+          "title": "Project Gaia",
+          "period": "Feb. 2024 – May 2024",
+          "description": "App para la gestión de huertos urbanos con marketplace, chats, organización de parcelas, fichas de plantas y más.",
+          "stack": ["Flutter", "Supabase"],
+          "links": [
+            {
+              "label": "Repositorio",
+              "href": "https://github.com/Gaia-Artemis-Codethon/Gaia",
+              "external": true
+            }
+          ]
+        },
+        {
+          "title": "Coming soon — Automatización",
+          "period": "2025",
+          "description": "Diseño de pipelines y paneles de monitoreo para equipos pequeños que desean automatizar despliegues cloud sin fricción.",
+          "stack": ["Java", "AWS", "Terraform"],
+          "links": [
+            {
+              "label": "Escríbeme para saber más",
+              "href": "mailto:ji.laijie@gmail.com",
+              "external": false
+            }
+          ]
+        },
+        {
+          "title": "Coming soon — Experiencia educativa",
+          "period": "En diseño",
+          "description": "Explorando experiencias móviles inclusivas con Flutter para mentorías y recursos de programación en universidades.",
+          "stack": ["Flutter", "Firebase"],
+          "links": [
+            {
+              "label": "Seguir progreso en LinkedIn",
+              "href": "https://linkedin.com/in/laijie-ji",
+              "external": true
+            }
+          ]
+        }
+      ]
+    </script>
+    <script type="module" src="../js/main.js"></script>
+  </body>
+</html>

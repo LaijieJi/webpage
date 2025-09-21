@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" data-page="blog">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blog — Laijie Ji</title>
+    <meta name="description" content="Notas y reflexiones de Laijie Ji sobre ingeniería de software, aprendizaje y comunidad." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog — Laijie Ji" />
+    <meta property="og:description" content="Últimas publicaciones de Laijie Ji sobre tecnología y experiencias." />
+    <meta property="og:image" content="https://laijieji.dev/assets/og-image.png" />
+    <meta property="og:url" content="https://laijieji.dev/blog/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Blog — Laijie Ji" />
+    <meta name="twitter:description" content="Historias y aprendizajes recientes de Laijie Ji." />
+    <meta name="twitter:image" content="https://laijieji.dev/assets/og-image.png" />
+    <link rel="canonical" href="https://laijieji.dev/blog/" />
+    <script>
+      (function () {
+        const storageKey = 'lj-theme';
+        try {
+          const stored = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (error) {
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+    <header class="site-header" data-component="navbar"></header>
+    <main id="contenido">
+      <section class="hero">
+        <div class="wrap">
+          <h1 class="hero__heading">Blog</h1>
+          <p class="hero__text">
+            Bitácora en progreso: reflexiones sobre estudiar Computer Science, construir productos y viajar mientras comparto recursos con la comunidad.
+          </p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <h2 class="section__heading">Entradas recientes</h2>
+          <div class="post-list" data-blog-list></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" data-component="footer"></footer>
+    <script type="application/json" id="posts-data">
+      [
+        {
+          "title": "Escuchar al equipo y al código",
+          "date": "2025-02-12",
+          "href": "/blog/posts/first-post.html",
+          "excerpt": "Aprendizajes tras coordinar un sprint donde la comunicación y la documentación marcaron la diferencia.",
+          "tags": ["Equipo", "Documentación"]
+        },
+        {
+          "title": "Cuaderno de viaje: ferias tecnológicas europeas",
+          "date": "2024-11-03",
+          "href": "/blog/posts/second-post.html",
+          "excerpt": "Un repaso personal a charlas, personas y herramientas descubiertas durante una ruta por eventos en Berlín y Barcelona.",
+          "tags": ["Viajes", "Comunidades"]
+        }
+      ]
+    </script>
+    <script type="module" src="../js/main.js"></script>
+  </body>
+</html>
