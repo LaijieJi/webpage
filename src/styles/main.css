@@ -219,8 +219,8 @@ html[data-theme='dark'] .theme-toggle:focus-visible {
   padding: var(--space-sm) var(--space-xl);
   border-radius: var(--radius);
   border: 1px solid transparent;
-  background: var(--accent);
-  color: #053328;
+  background: var(--card);
+  color: var(--text);
   font-weight: 600;
   transition: transform var(--transition), box-shadow var(--transition);
 }
@@ -229,6 +229,16 @@ html[data-theme='dark'] .theme-toggle:focus-visible {
 .button:focus-visible {
   transform: translateY(-1px);
   box-shadow: var(--shadow);
+}
+
+.button--accent {
+  background: var(--accent);
+  color: #052318;
+}
+
+.button--accent:hover,
+.button--accent:focus-visible {
+  color: #03120d;
 }
 
 .button--ghost {

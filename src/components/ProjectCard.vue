@@ -1,5 +1,11 @@
 <template>
-  <article class="card project-card">
+  <component
+    :is="isLink ? 'a' : 'div'"
+    class="card project-card card--link"
+    :href="isLink ? primaryHref : undefined"
+    target="_blank"
+    rel="noreferrer"
+  >
     <header>
       <h3>{{ title }}</h3>
       <p v-if="dates" class="project-card__dates">{{ dates }}</p>
@@ -8,29 +14,21 @@
     <ul v-if="tech?.length" class="badges">
       <li v-for="item in tech" :key="item">{{ item }}</li>
     </ul>
-    <div v-if="links?.length" class="project-card__actions">
-      <a
-        v-for="link in links"
-        :key="link.label + link.href"
-        class="project-card__link"
-        :href="link.href"
-        target="_blank"
-        rel="noreferrer"
-      >
-        {{ link.label }}
-      </a>
-    </div>
-  </article>
+    <span v-if="isLink" class="project-card__hint" aria-hidden="true">Abrir proyecto →</span>
+  </component>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   title: { type: String, required: true },
   tech: { type: Array, default: () => [] },
   dates: { type: String, default: '' },
   summary: { type: String, default: '' },
   links: { type: Array, default: () => [] }
 });
+
+const primaryHref = props.links?.[0]?.href ?? null;
+const isLink = Boolean(primaryHref);
 </script>
 
 <style scoped>
@@ -43,20 +41,21 @@ defineProps({
   color: var(--muted);
 }
 
-.project-card__actions {
+.card--link {
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  cursor: pointer;
+}
+
+.card--link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.project-card__hint {
   margin-top: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.project-card__link {
-  font-weight: 600;
+  font-size: 0.85rem;
   color: var(--accent-strong);
-}
-
-.project-card__link:hover,
-.project-card__link:focus-visible {
-  color: var(--accent);
 }
 </style>
