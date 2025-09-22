@@ -1,158 +1,32 @@
 <!DOCTYPE html>
-<html lang="es" data-page="home">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Laijie Ji — Computer Science student &amp; software developer</title>
-    <meta name="description" content="Sitio personal de Laijie Ji con biografía, contacto y enlaces a proyectos." />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Laijie Ji — Computer Science student &amp; software developer" />
-    <meta property="og:description" content="Conoce a Laijie Ji, estudiante de Computer Science especializado en desarrollo de software accesible." />
-    <meta property="og:image" content="https://laijieji.dev/assets/og-image.png" />
-    <meta property="og:url" content="https://laijieji.dev" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Laijie Ji — Computer Science student &amp; software developer" />
-    <meta name="twitter:description" content="Portafolio personal y contacto de Laijie Ji." />
-    <meta name="twitter:image" content="https://laijieji.dev/assets/og-image.png" />
-    <link rel="canonical" href="https://laijieji.dev" />
+    <title>Laijie Ji — Computer Science student & software developer</title>
+    <meta name="description" content="Portafolio y blog de Laijie Ji, Computer Science student & software developer." />
     <script>
       (function () {
         const storageKey = 'lj-theme';
         try {
           const stored = localStorage.getItem(storageKey);
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = stored || (prefersDark ? 'dark' : 'light');
-          document.documentElement.dataset.theme = theme;
+          if (stored) {
+            document.documentElement.dataset.theme = stored;
+            return;
+          }
         } catch (error) {
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
+          /* ignore */
+        }
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.dataset.theme = 'dark';
+        } else {
+          document.documentElement.dataset.theme = 'light';
         }
       })();
     </script>
-    <link rel="stylesheet" href="./css/style.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Laijie Ji",
-        "jobTitle": "Computer Science student & software developer",
-        "email": "mailto:ji.laijie@gmail.com",
-        "url": "https://laijieji.dev",
-        "sameAs": [
-          "https://github.com/LaijieJi",
-          "https://linkedin.com/in/laijie-ji"
-        ]
-      }
-    </script>
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
-    <header class="site-header" data-component="navbar"></header>
-    <main id="contenido">
-      <section class="hero">
-        <div class="wrap">
-          <p class="hero__eyebrow">Laijie Ji</p>
-          <h1 class="hero__heading">Computer Science student &amp; software developer</h1>
-          <p class="hero__text">
-            Diseño y desarrollo soluciones que combinan ingeniería rigurosa con experiencias amables. Me interesa construir productos accesibles, sustentables y orientados a las personas que los usan cada día.
-          </p>
-          <div class="hero__actions">
-            <a class="button" href="/projects/">Ver proyectos</a>
-            <a class="button button--ghost" href="#contacto">Contacto</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="sobre-mi">
-        <div class="wrap">
-          <h2 class="section__heading">Sobre mí</h2>
-          <div class="section__text">
-            <p>
-              Soy estudiante de Computer Science en la Universidad Politécnica de València. Actualmente enfoco mi energía en crear aplicaciones escalables, con énfasis en la calidad de código, la accesibilidad y los flujos de colaboración claros.
-            </p>
-            <p>
-              Disfruto orquestando proyectos donde backend y frontend se encuentran: desde APIs en la nube hasta interfaces móviles con Flutter. En el camino he aprendido a documentar, automatizar y compartir conocimiento con mi comunidad.
-            </p>
-            <p>
-              Hoy dedico mis esfuerzos a productos que mejoran la educación y la salud, explorando buenas prácticas de DevOps y diseño inclusivo para equipos distribuidos.
-            </p>
-          </div>
-          <div class="languages">
-            <h3>Idiomas</h3>
-            <ul class="inline-list">
-              <li>Spanish · Native</li>
-              <li>Catalan · Advanced</li>
-              <li>English · Advanced</li>
-              <li>Chinese · Basic</li>
-              <li>German · Basic</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="experiencia">
-        <div class="wrap">
-          <h2 class="section__heading">Experiencia reciente</h2>
-          <div class="section__text">
-            <p>
-              Colaboro con equipos multidisciplinares para construir servicios confiables, automatizar despliegues y compartir aprendizajes con la comunidad universitaria.
-            </p>
-          </div>
-          <div class="timeline">
-            <article class="timeline__item">
-              <h3 class="timeline__role">EBHealth3 · Software Developer</h3>
-              <p class="timeline__meta">Mar. 2024 – Actualidad</p>
-              <p class="timeline__meta">Backend con Spring Boot, AWS y Docker. Aplicaciones móviles con Flutter.</p>
-            </article>
-            <article class="timeline__item">
-              <h3 class="timeline__role">EBHealth3 · Internship</h3>
-              <p class="timeline__meta">Sept. 2023 – Mar. 2024</p>
-            </article>
-            <article class="timeline__item">
-              <h3 class="timeline__role">T-Systems · Internship</h3>
-              <p class="timeline__meta">Feb. 2025 – Aug. 2025</p>
-              <p class="timeline__meta">DevOps y soporte para equipos internos.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contacto">
-        <div class="wrap">
-          <h2 class="section__heading">Contacto</h2>
-          <p class="section__text">
-            ¿Te gustaría colaborar, comentar una idea o conversar sobre tecnología? Estoy disponible para proyectos, charlas y mentorías puntuales.
-          </p>
-          <div class="contact">
-            <div class="contact__actions">
-              <a class="button" href="mailto:ji.laijie@gmail.com">Escríbeme</a>
-              <a class="button button--ghost" href="/projects/">Explorar proyectos</a>
-            </div>
-            <div class="contact__links">
-              <a class="link-button" href="https://github.com/LaijieJi" target="_blank" rel="noreferrer">
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                  <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.42 7.88 10.96.58.1.8-.25.8-.57 0-.28-.01-1.04-.02-2.05-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.71-1.3-1.71-1.07-.74.08-.72.08-.72 1.18.08 1.8 1.22 1.8 1.22 1.05 1.8 2.75 1.28 3.42.98.1-.77.41-1.28.74-1.57-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.27 1.2-3.07-.12-.29-.52-1.45.12-3.03 0 0 .98-.31 3.2 1.17a11.1 11.1 0 0 1 5.82 0c2.22-1.48 3.2-1.17 3.2-1.17.64 1.58.24 2.74.12 3.03.75.8 1.2 1.82 1.2 3.07 0 4.41-2.7 5.38-5.27 5.66.42.37.8 1.1.8 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.68.81.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path>
-                </svg>
-                GitHub
-              </a>
-              <a class="link-button" href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                  <path fill="currentColor" d="M4.5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm1.5 6H3V21h3V9.5ZM9 9.5h2.9v1.6h.04c.41-.78 1.42-1.6 2.92-1.6 3.12 0 3.7 2.05 3.7 4.7V21H16v-6c0-1.43-.02-3.27-2-3.27-2 0-2.3 1.56-2.3 3.16V21H9V9.5Z"></path>
-                </svg>
-                LinkedIn
-              </a>
-              <a class="link-button" href="mailto:ji.laijie@gmail.com">
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                  <path fill="currentColor" d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.18l8 5 8-5V7H4Zm16 9V9.48l-7.6 4.75a1 1 0 0 1-1.04 0L4 9.48V16h16Z"></path>
-                </svg>
-                ji.laijie@gmail.com
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <footer class="site-footer" data-component="footer"></footer>
-    <script type="module" src="./js/main.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

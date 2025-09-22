@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Project Gaia",
+    "tech": ["Flutter", "Supabase"],
+    "dates": "Feb 2024 – May 2024",
+    "summary": "App for the management of urban gardens with marketplace, chats, field organization, plant details, and more.",
+    "links": [
+      {
+        "label": "Repo",
+        "href": "https://github.com/Gaia-Artemis-Codethon/Gaia"
+      }
+    ]
+  },
+  {
+    "title": "Coming soon",
+    "tech": ["TBD"],
+    "dates": "",
+    "summary": "Placeholder project.",
+    "links": []
+  }
+]

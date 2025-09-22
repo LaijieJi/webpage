@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "first-reflections",
+    "title": "First Reflections",
+    "date": "2025-09-01",
+    "tags": ["reflections"],
+    "excerpt": "Some early thoughts on learning and building.",
+    "html": "<h2>Why I write</h2><p>Short reflective piece here...</p>"
+  },
+  {
+    "slug": "a-quick-trip",
+    "title": "A Quick Trip",
+    "date": "2025-09-10",
+    "tags": ["travel"],
+    "excerpt": "Notes from a short getaway.",
+    "html": "<h2>Notes</h2><p>Simple travel notes...</p>"
+  }
+]
