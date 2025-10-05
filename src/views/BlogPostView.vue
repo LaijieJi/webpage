@@ -3,10 +3,10 @@
     <div class="wrap" v-if="post">
       <article class="post">
         <header>
-          <h1 class="view-heading">{{ post.title }}</h1>
-          <PostMeta :date="post.date" :tags="post.tags" />
+          <h1 class="view-heading">{{ post.frontmatter.title }}</h1>
+          <PostMeta :date="post.frontmatter.date" :tags="post.frontmatter.tags" />
         </header>
-        <div class="post-content" v-html="post.html"></div>
+        <component :is="post.component" class="post-content" />
         <router-link class="button button--ghost" to="/blog">← Volver al blog</router-link>
       </article>
     </div>
@@ -23,10 +23,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import posts from '../data/posts.json';
+import posts, { getPostBySlug } from '../data/posts.js';
 import PostMeta from '../components/PostMeta.vue';
 
 const route = useRoute();
 
-const post = computed(() => posts.find((entry) => entry.slug === route.params.slug));
+const post = computed(() => getPostBySlug(route.params.slug));
 </script>

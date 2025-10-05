@@ -1,7 +1,7 @@
 # Laijie Ji — Personal Site (Vue 3 + Vite)
 
 ## 1. Project Overview
-Single-page application built with Vue 3, Vite, and Vue Router. It includes four routes (Home, Projects, Blog index, Blog post), a reusable component system, and a light/dark theme toggle that respects system preferences and persists selections. Styling relies on plain CSS variables for a lightweight bundle.
+Single-page application built with Vue 3, Vite, and Vue Router. It includes four routes (Home, Projects, Blog index, Blog post), a reusable component system, and a light/dark theme toggle that respects system preferences and persists selections. Styling relies on plain CSS variables for a lightweight bundle, and blog posts are authored in Markdown (compiled at build time via `unplugin-vue-markdown`).
 
 ## 2. Prerequisites
 - Node.js ≥ 18
@@ -10,7 +10,7 @@ Single-page application built with Vue 3, Vite, and Vue Router. It includes four
 ## 3. Getting Started
 ```bash
 # clone
-git clone <repo-url>
+git clone https://github.com/LaijieJi/webpage.git
 cd <repo-directory>
 
 # install dependencies
@@ -37,11 +37,12 @@ The dev server opens automatically (default: http://localhost:5173) with hot-mod
 │  ├─ router.js             # vue-router configuration
 │  ├─ assets/icons/         # inline SVG icons used across components
 │  ├─ styles/main.css       # global variables, base styles, theming
-│  ├─ data/                 # JSON data sources (projects, blog posts)
+│  ├─ data/                 # data helpers (projects.json, posts.js loader)
 │  ├─ components/           # reusable UI pieces (header, footer, cards, toggle)
+│  ├─ posts/                # blog posts written in Markdown + front matter
 │  └─ views/                # route components (Home, Projects, Blog, Post detail)
 ```
-Components consume JSON via standard imports, so updating content does not require code changes.
+Posts are authored in Markdown and aggregated via `src/data/posts.js` for the blog routes.
 
 ## 6. Configuration Notes
 - Router uses `createWebHistory`. Deploying to static hosts (e.g., GitHub Pages) requires an SPA fallback (`404.html`) or switching to hash mode. Update `router.js` if necessary.
@@ -61,19 +62,25 @@ Each entry follows:
 ```
 Add, remove, or edit objects and they will render automatically.
 
-### Blog posts (`src/data/posts.json`)
-Schema:
-```json
-{
-  "slug": "unique-slug",
-  "title": "Post title",
-  "date": "YYYY-MM-DD",
-  "tags": ["tag"],
-  "excerpt": "Short teaser",
-  "html": "<h2>...</h2><p>...</p>"
-}
-```
-Posts render with `v-html`, so keep content trusted. If exposing to user-generated content, sanitize on write.
+### Blog posts (`src/posts/*.md` + `src/data/posts.js`)
+- Create one Markdown file per post inside `src/posts/`. The filename becomes the slug (e.g., `first-reflections.md`).
+- Start each file with a front matter block, then write Markdown content. Example:
+  ```md
+  ---
+  title: First Reflections
+  date: 2025-09-01
+  tags: [reflections]
+  excerpt: Some early thoughts on learning and building.
+  ---
+
+  ## Why I write
+  Short reflective piece here...
+  ```
+- Supported front matter keys: `title`, `date`, `tags` (comma-separated list inside `[]`), and `excerpt`.
+- `src/data/posts.js` aggregates the compiled modules produced by `unplugin-vue-markdown`, exposing each post's Vue component and front matter for the blog index/detail views.
+- To add a new post, drop a `.md` file in `src/posts/`; no other wiring is required.
+
+> Markdown is processed by Markdown-It via `unplugin-vue-markdown`; you can tweak rendering hooks in `vite.config.js` if you need custom syntax.
 
 ## 8. Theming
 - Theme toggle sets `<html data-theme="light|dark">`. Default is the stored preference (`localStorage.lj-theme`) or system `prefers-color-scheme`.
@@ -98,4 +105,4 @@ MIT License.
 
 ## 12. Credits
 - Icons are handcrafted SVGs stored locally under `src/assets/icons/`.
-- Built with Vue 3, Vite, and Vue Router.
+- Built with Vue 3, Vite, Vue Router, and `unplugin-vue-markdown` for Markdown-driven posts.

@@ -6,9 +6,9 @@
       class="post-card post-card--link"
       :to="`/blog/${post.slug}`"
     >
-      <h2 class="post-card__title">{{ post.title }}</h2>
-      <PostMeta :date="post.date" :tags="post.tags" />
-      <p class="post-card__excerpt">{{ post.excerpt }}</p>
+      <h2 class="post-card__title">{{ post.frontmatter.title }}</h2>
+      <PostMeta :date="post.frontmatter.date" :tags="post.frontmatter.tags" />
+      <p class="post-card__excerpt">{{ post.frontmatter.excerpt }}</p>
       <span class="post-card__hint" aria-hidden="true">Leer más →</span>
     </router-link>
   </section>
@@ -26,7 +26,9 @@ const props = defineProps({
 });
 
 const orderedPosts = computed(() =>
-  [...props.posts].sort((a, b) => new Date(b.date) - new Date(a.date))
+  [...props.posts].sort(
+    (a, b) => new Date(b.frontmatter?.date || 0) - new Date(a.frontmatter?.date || 0)
+  )
 );
 </script>
 
