@@ -4,14 +4,17 @@
       <header class="hero">
         <div>
           <h1 class="view-heading">Computer Science student &amp; software developer</h1>
+          <p class="view-text">Hola! 👋</p>
           <p class="view-text">
-            Soy Laijie Ji, estudiante de Computer Science en la Universidad Politécnica de València. Me apasiona crear productos digitales accesibles y sostenibles que resuelvan problemas reales.
+            Soy Laijie Ji, estudiante de Ingeniería Informática en la Universidad Politécnica de València. Me apasiona crear productos accesibles que resuelvan problemas reales y tengan un impacto en las vidas de los demás.
           </p>
+          <br></br>
           <p class="view-text">
-            Disfruto trabajando en equipos multidisciplinares donde la comunicación clara y la documentación transparente ayudan a construir software confiable. Actualmente exploro patrones de DevOps, experiencias móviles con Flutter y APIs diseñadas con intención.
+            Disfruto trabajando en equipos multidisciplinares donde la comunicación clara y la documentación transparente ayudan a construir software en el que se puede confiar. Actualmente me encuentro ampliando mis conocimientos en Desarrollo de Software, experiencias móviles con Flutter e Inteligencia Artifical.
           </p>
+          <br></br>
           <p class="view-text">
-            Cuando no estoy programando, organizo talleres, comparto recursos con comunidades estudiantiles y aprendo de otras personas constructoras.
+            Cuando no estoy programando, me gusta invertir mi tiempo leyendo📖, haciendo ejercicio🏃 o aprendiendo🎒.
           </p>
         </div>
         <div>

@@ -2,7 +2,7 @@
   {
     "title": "Project Gaia",
     "tech": ["Flutter", "Supabase"],
-    "dates": "Feb 2024 – May 2024",
+    "dates": "Feb 2024 - May 2024",
     "summary": "App for the management of urban gardens with marketplace, chats, field organization, plant details, and more.",
     "links": [
       {
@@ -12,10 +12,15 @@
     ]
   },
   {
-    "title": "Coming soon",
-    "tech": ["TBD"],
-    "dates": "",
-    "summary": "Placeholder project.",
-    "links": []
+    "title": "Fart or no Fart.",
+    "tech": ["PyTorch", "FastAPI"],
+    "dates": "2020",
+    "summary": "Basic project for applying knowledge about audio processing and classification.",
+    "links": [
+      {
+        "label": "Repo",
+        "href": "https://github.com/Gaia-Artemis-Codethon/Gaia"
+      }
+    ]
   }
 ]
