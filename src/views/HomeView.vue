@@ -6,11 +6,11 @@
           <h1 class="view-heading">Computer Science student &amp; software developer</h1>
           <p class="view-text">Hola! 👋</p>
           <p class="view-text">
-            Soy Laijie Ji, estudiante de Ingeniería Informática en la Universidad Politécnica de València. Me apasiona crear productos accesibles que resuelvan problemas reales y tengan un impacto en las vidas de los demás.
+            I'm Laijie Ji, a Computer Engineering student at the Polytechnic University of Valencia. I'm passionate about creating accessible products that solve real problems and make a meaningful impact on peopl'es lives.
           </p>
           <br></br>
           <p class="view-text">
-            Disfruto trabajando en equipos multidisciplinares donde la comunicación clara y la documentación transparente ayudan a construir software en el que se puede confiar. Actualmente me encuentro ampliando mis conocimientos en Desarrollo de Software, experiencias móviles con Flutter e Inteligencia Artifical.
+            I enjoy working in multidisciplinary teams where clear communication and transparent documentation help build trustworthy software. Currently expanding my knowledge in Software Development, mobile experiences with Flutter, and Artificial Intelligence..
           </p>
           <br></br>
           <p class="view-text">
@@ -44,15 +44,16 @@
         </div>
       </section>
       <section class="view-section">
-        <h2>Experiencia</h2>
+        <h2>Experiencie</h2>
         <ul class="experience-list">
           <li>
             <div class="experience-header">
               <h3>EBHealth3 · Software Developer</h3>
-              <span class="experience-dates">Mar. 2024 – Actualidad</span>
+              <span class="experience-dates">Mar. 2024 – Currently</span>
             </div>
             <p class="view-text">
               Desarrollo backend con Spring Boot, AWS y Docker; aplicaciones móviles con Flutter.
+              Backend Dev with Sring Boot, AWS, Docekr. And also mobile
             </p>
           </li>
           <li>
@@ -66,7 +67,7 @@
               <h3>T-Systems · Internship</h3>
               <span class="experience-dates">Feb. 2025 – Aug. 2025</span>
             </div>
-            <p class="view-text">DevOps y soporte para equipos internos.</p>
+            <p class="view-text">DevOps y soporte  para equipos internos.</p>
           </li>
         </ul>
       </section>

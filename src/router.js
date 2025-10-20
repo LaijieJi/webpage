@@ -5,10 +5,10 @@ import BlogIndexView from './views/BlogIndexView.vue';
 import BlogPostView from './views/BlogPostView.vue';
 
 const routes = [
-  { path: '/', name: 'home', component: HomeView, meta: { title: 'Inicio' } },
-  { path: '/projects', name: 'projects', component: ProjectsView, meta: { title: 'Proyectos' } },
+  { path: '/', name: 'home', component: HomeView, meta: { title: 'Home' } },
+  { path: '/projects', name: 'projects', component: ProjectsView, meta: { title: 'Projects' } },
   { path: '/blog', name: 'blog', component: BlogIndexView, meta: { title: 'Blog' } },
-  { path: '/blog/:slug', name: 'blog-post', component: BlogPostView, props: true, meta: { title: 'Entrada de blog' } },
+  { path: '/blog/:slug', name: 'blog-post', component: BlogPostView, props: true, meta: { title: 'Blog Entry' } },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
@@ -17,9 +17,9 @@ const routes = [
       template: `
         <section class="view-section">
           <div class="wrap">
-            <h1 class="view-heading">Página no encontrada</h1>
-            <p>Lo sentimos, no encontramos la ruta solicitada.</p>
-            <router-link class="button" to="/">Volver a inicio</router-link>
+            <h1 class="view-heading">Page not found</h1>
+            <p>I am sorry, I could not find the requested route</p>
+            <router-link class="button" to="/">Return to init</router-link>
           </div>
         </section>
       `

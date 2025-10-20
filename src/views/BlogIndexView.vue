@@ -5,7 +5,7 @@
         <div>
           <h1 class="view-heading">Blog</h1>
           <p class="view-text">
-            Notas rápidas sobre aprendizaje continuo, experiencias de equipo y viajes tecnológicos.
+            Notes from when I feel like it.
           </p>
         </div>
       </header>

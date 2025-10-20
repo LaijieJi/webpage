@@ -7,13 +7,15 @@
           <PostMeta :date="post.frontmatter.date" :tags="post.frontmatter.tags" />
         </header>
         <component :is="post.component" class="post-content" />
-        <router-link class="button button--ghost" to="/blog">← Volver al blog</router-link>
+        <router-link class="button button--ghost" to="/blog">← Return to content.</router-link>
       </article>
     </div>
     <div class="wrap" v-else>
       <article class="post">
-        <h1 class="view-heading">Entrada no encontrada</h1>
-        <p class="view-text">No pudimos encontrar este artículo. Quizás te interese revisar otras notas.</p>
+        <h1 class="view-heading">We couldn't not find the requested item. </h1>
+        <p class="view-text">No pudimos encontrar este artículo. Quizás te interese revisar otras notas.
+          We couldn not find the article, maybe it is interesting for you to review different notes.
+        </p>
         <router-link class="button" to="/blog">Ir al blog</router-link>
       </article>
     </div>
