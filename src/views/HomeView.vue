@@ -18,28 +18,28 @@
           </p>
         </div>
         <div>
-          <h2>Idiomas</h2>
+          <h2>Languages</h2>
           <ul class="inline-list">
-            <li>Spanish · Native</li>
-            <li>Catalan · Advanced</li>
-            <li>English · Advanced</li>
-            <li>Chinese · Basic</li>
-            <li>German · Basic</li>
+            <li>spanish · native</li>
+            <li>catalan · advanced</li>
+            <li>english · advanced</li>
+            <li>chinese · basic</li>
+            <li>german · basic</li>
           </ul>
         </div>
       </header>
       <section class="view-section">
-        <h2>Contact</h2>
+        <h2>contact</h2>
         <p class="view-text">
-          Let's Talk! You can send me an email, follow me on Github or connect with me via LinkedIn
+          let's talk! you can send me an email, follow me on github or connect with me via linkedin
         </p>
         <div class="inline-actions">
-          <a class="button button--accent" href="mailto:ji.laijie@gmail.com">Email</a>
-          <a class="button button--ghost" href="https://github.com/LaijieJi" target="_blank" rel="noreferrer">
-            GitHub
+          <a class="button button--accent" href="mailto:ji.laijie@gmail.com">email</a>
+          <a class="button button--ghost" href="https://github.com/laijieji" target="_blank" rel="noreferrer">
+            github
           </a>
           <a class="button button--ghost" href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">
-            LinkedIn
+            linkedin
           </a>
         </div>
       </section>

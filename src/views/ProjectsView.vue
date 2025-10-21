@@ -7,6 +7,7 @@
           <p class="view-text">
             A selection of projects where I combine clean architecture, automation, and accessible experiences.
           </p>
+          <br/>
         </div>
       </header>
       <div class="card-grid">

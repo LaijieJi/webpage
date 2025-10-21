@@ -58,4 +58,18 @@ const isLink = Boolean(primaryHref);
   font-size: 0.85rem;
   color: var(--accent-strong);
 }
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+  margin-top: var(--space-sm);
+}
+
+.badges li {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

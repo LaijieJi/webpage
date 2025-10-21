@@ -7,6 +7,7 @@
           <p class="view-text">
             Notes from when I feel like it.
           </p>
+          <br/>
         </div>
       </header>
       <PostList :posts="posts" />

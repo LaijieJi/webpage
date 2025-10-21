@@ -12,6 +12,18 @@
     ]
   },
   {
+    "title": "MercadonaChef",
+    "tech": ["Angular", "FastAPI", "ElasticSearch", "ML"],
+    "dates": "Feb 202",
+    "summary": "Webpage for scanning meals and obtaining recipes and ingredients for the meal, available to be bought at Mercadona.",
+    "links": [
+      {
+        "label": "Repo",
+        "href": "https://github.com/LaijieJi/mercadonaIT"
+      }
+    ]
+  },
+  {
     "title": "F/nF IN PROGRESS",
     "tech": ["PyTorch", "FastAPI"],
     "dates": "2020",
