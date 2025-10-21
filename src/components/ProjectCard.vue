@@ -14,7 +14,7 @@
     <ul v-if="tech?.length" class="badges">
       <li v-for="item in tech" :key="item">{{ item }}</li>
     </ul>
-    <span v-if="isLink" class="project-card__hint" aria-hidden="true">Abrir proyecto →</span>
+    <span v-if="isLink" class="project-card__hint" aria-hidden="true">Open project</span>
   </component>
 </template>
 

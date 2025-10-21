@@ -12,14 +12,14 @@
     ]
   },
   {
-    "title": "Fart or no Fart.",
+    "title": "F/nF IN PROGRESS",
     "tech": ["PyTorch", "FastAPI"],
     "dates": "2020",
-    "summary": "Basic project for applying knowledge about audio processing and classification.",
+    "summary": "In progress",
     "links": [
       {
         "label": "Repo",
-        "href": "https://github.com/Gaia-Artemis-Codethon/Gaia"
+        "href": "https://github.com/"
       }
     ]
   }

@@ -5,7 +5,7 @@
         <div>
           <h1 class="view-heading">Projects</h1>
           <p class="view-text">
-            Selección de trabajos donde combino arquitectura limpia, automatización y experiencias accesibles.
+            A selection of projects where I combine clean architecture, automation, and accessible experiences.
           </p>
         </div>
       </header>

@@ -1,19 +1,38 @@
 ---
-title: Why taking a break is important
+title: Why Taking a Break Can Boost Your Productivity and Creativity
 date: 2025-10-20
-tags: [reflections]
-excerpt: Some thoughts on how taking some breaks can totally change you
+tags: [reflections, productivity, mental-health, creativity]
+excerpt: Taking time off isn’t laziness — it’s a way to recharge your mind, regain focus, and reconnect with what truly matters.
 ---
 
-## Where does this come from
+## The Moment I Realized I Needed to Slow Down
 
-Recently, I moved from Spain to Germany to start my studies at Technical University of Munich, and at an initial point, I had already set my plan of not only start grinding like a demon during my stay in Germany, but also to connect and learn from as much people as possible.
+A few months ago, I moved from Spain to Germany to start my studies at the Technical University of Munich.  
+Before even landing, I had made a clear plan: work hard, learn fast, and connect with as many people as possible. In short, make every day count.
 
-The reality is, however, quite different. At the end, just a few days after arriving to Munich, I started working on some stuff, while I was also handling some initial paperwork and trying to adapt to this new life style. From the first moment, I noticed that something was off, I couldn't just focus for an entire day over and over again.
+But reality had its own plans.  
+Just a few days after arriving in Munich, I found myself buried under paperwork, new responsibilities, and a constant feeling that I wasn’t doing enough. I tried to push through, study, work, repeat, but something felt off. I couldn’t focus for long, and my motivation slowly faded away.
 
-Luckily, I started taking some walks, strolling around the city and exploring all what it had. From impressive buildings, to massive gardens and lots of wonderful churches that leave you with a neck pain after having to look up for a lot of time.
+## The Power of Stepping Away
 
-I took the opportunity to bring the camera and start shooting to whatever I saw. That is when something started to change inside me. In a span of a few days, I began feeling that creative tasks, those that always hated, were somehow easier on my brain than spending the whole day reading, learning and doing stuff. Then I understood it, it wasn't that I had developed some new skill, it was that my body, tired of those intense work sessions, was just tired of it. It was asking for a break, a moment of peace, and the fact that the Englischer Garten is another level of relaxing, combined with the opportunity of finally unleashing some creativity, was what my body was asking for such a long time.
+One day, instead of forcing myself to keep working, I decided to take a walk around the city.  
+Munich surprised me, the massive gardens, the old churches, the calm energy of the Englischer Garten. I started bringing my camera along, taking pictures of everything that caught my attention.  
 
-I am writing this to myself, to remind me that I do not need to be a machine that works non-stop(computers are designed for that). I can relax a bit, and **just be who I am**. Invest some time in my preferred hobbies, and let my mind be free for a while, not worried of that *X* is not working or that *Y* needs to be done.
+That’s when something changed.  
+Suddenly, creative tasks, the ones I usually avoided, started to feel natural. It wasn’t that I had developed a new skill overnight; it was that my mind, exhausted from constant mental strain, had finally found a way to breathe.  
 
+Taking breaks wasn’t a sign of weakness. It was a form of recovery.
+
+## Listening to What Your Mind Is Trying to Tell You
+
+In those quiet walks, I learned something simple but powerful:  
+Our brains are not machines. They need rest. They crave novelty, movement, and silence. When we ignore that need, we lose clarity, joy, and focus, the very things we’re trying to cultivate by “working harder.”
+
+The combination of nature, calmness, and a creative outlet gave me back something I didn’t know I was missing: presence.  
+
+Now, I remind myself of this often:  
+I don’t need to be a machine. I can **slow down**, take a break, and let my mind wander. Because sometimes, doing nothing is exactly what allows you to move forward.
+
+---
+
+*Keywords: taking breaks, productivity, creativity, mental health, rest, motivation, self-reflection*
