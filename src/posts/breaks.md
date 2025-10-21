@@ -2,7 +2,7 @@
 title: Why Taking a Break Can Boost Your Productivity and Creativity
 date: 2025-10-20
 tags: [reflections, productivity, mental-health, creativity]
-excerpt: Taking time off isn’t laziness — it’s a way to recharge your mind, regain focus, and reconnect with what truly matters.
+excerpt: Taking time off isn’t laziness, it’s a way to recharge your mind, regain focus, and reconnect with what truly matters.
 ---
 
 ## The Moment I Realized I Needed to Slow Down

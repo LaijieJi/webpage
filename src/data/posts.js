@@ -25,7 +25,7 @@ const posts = Object.entries(modules)
         title: frontmatter.title || slug,
         date: frontmatter.date || '',
         tags: normalizeTags(frontmatter.tags),
-        excerpt: frontmatter.excerpt || mod.excerpt || ''
+        excerpt: "" //frontmatter.excerpt || mod.excerpt || ''
       }
     };
   })
