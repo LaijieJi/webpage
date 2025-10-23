@@ -29,7 +29,7 @@
         </div>
       </header>
       <section class="view-section">
-        <h2>contact</h2>
+        <h2>Contact</h2>
         <p class="view-text">
           let's talk! you can send me an email, follow me on github or connect with me via linkedin
         </p>
