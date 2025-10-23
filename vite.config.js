@@ -5,7 +5,7 @@ import Markdown from 'unplugin-vue-markdown/vite';
 const repo = process.env.GITHUB_REPOSITORY?.split('/')[1];
 
 export default defineConfig({
-  base: '/webpage/',
+  base: '/',
   plugins: [
     vue({
       include: [/\.vue$/, /\.md$/]
