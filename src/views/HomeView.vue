@@ -34,7 +34,7 @@
           let's talk! you can send me an email, follow me on github or connect with me via linkedin
         </p>
         <div class="inline-actions">
-          <a class="button button--accent" href="mailto:ji.laijie@gmail.com">email</a>
+          <a class="button button--accent" href="mailto:contact@laijie.dev">email</a>
           <a class="button button--ghost" href="https://github.com/laijieji" target="_blank" rel="noreferrer">
             github
           </a>
