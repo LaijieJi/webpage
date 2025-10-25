@@ -16,6 +16,13 @@
           <p class="view-text">
             When I am not writing code, I enjoy spending time reading📖, exercising🏃 or learning new things🎒.
           </p>
+          <p class="view-text">
+            In addition to that, I also spend time doing photography📸 and exploring new places🌍. Click the button to visit my IG account, where I upload the pics I liked.
+          </p>
+          <br/>
+          <a class="button button--accent" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
         </div>
         <div>
           <h2>Languages</h2>
@@ -36,10 +43,10 @@
         <div class="inline-actions">
           <a class="button button--accent" href="mailto:contact@laijie.dev">email</a>
           <a class="button button--ghost" href="https://github.com/laijieji" target="_blank" rel="noreferrer">
-            github
+            Github
           </a>
           <a class="button button--ghost" href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">
-            linkedin
+            Linkedin
           </a>
         </div>
       </section>
