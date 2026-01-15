@@ -10,7 +10,7 @@
           <br/>
         </div>
       </header>
-      <PostList :posts="posts" />
+      <!-- <PostList :posts="posts" /> -->
     </div>
   </section>
 </template>
