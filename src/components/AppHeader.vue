@@ -27,7 +27,8 @@ const route = useRoute();
 const links = [
   { label: 'Home', to: '/' },
   { label: 'Projects', to: '/projects' },
-  { label: 'Blog', to: '/blog' }
+  { label: 'Blog', to: '/blog' },
+  { label: 'Photography', to: '/photography' }
 ];
 
 const isCurrent = (path) => {

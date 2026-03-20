@@ -3,12 +3,16 @@ import HomeView from './views/HomeView.vue';
 import ProjectsView from './views/ProjectsView.vue';
 import BlogIndexView from './views/BlogIndexView.vue';
 import BlogPostView from './views/BlogPostView.vue';
+import PhotographyIndexView from './views/PhotographyIndexView.vue';
+import PhotographyPostView from './views/PhotographyPostView.vue';
 
 const routes = [
   { path: '/', name: 'home', component: HomeView, meta: { title: 'Home' } },
   { path: '/projects', name: 'projects', component: ProjectsView, meta: { title: 'Projects' } },
   { path: '/blog', name: 'blog', component: BlogIndexView, meta: { title: 'Blog' } },
   { path: '/blog/:slug', name: 'blog-post', component: BlogPostView, props: true, meta: { title: 'Blog Entry' } },
+  { path: '/photography', name: 'photography', component: PhotographyIndexView, meta: { title: 'Photography' } },
+  { path: '/photography/:slug', name: 'photography-post', component: PhotographyPostView, props: true, meta: { title: 'Photography' } },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',

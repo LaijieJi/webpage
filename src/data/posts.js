@@ -17,15 +17,14 @@ function normalizeTags(value) {
 const posts = Object.entries(modules)
   .map(([path, mod]) => {
     const slug = path.split('/').pop().replace(/\.md$/, '');
-    const frontmatter = mod.frontmatter || {};
     return {
       slug,
       component: mod.default,
       frontmatter: {
-        title: frontmatter.title || slug,
-        date: frontmatter.date || '',
-        tags: normalizeTags(frontmatter.tags),
-        excerpt: "" //frontmatter.excerpt || mod.excerpt || ''
+        title: mod.title || slug,
+        date: mod.date || '',
+        tags: normalizeTags(mod.tags),
+        excerpt: "" //mod.excerpt || ''
       }
     };
   })
