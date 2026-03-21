@@ -23,6 +23,7 @@ defineProps({
 .instagram-embed {
   width: 100%;
   max-width: 540px;
+  margin: 0 auto;
 }
 
 .instagram-embed iframe {

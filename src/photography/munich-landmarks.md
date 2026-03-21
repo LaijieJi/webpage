@@ -1,6 +1,6 @@
 ---
 title: Munich's Landmarks
-date: 2025-10-03
+date: 2025-10-08
 excerpt: Admiring Munich's historical landmarks during my first weeks in the city
 instagramPostId: DQON_J6jP8u
 ---
