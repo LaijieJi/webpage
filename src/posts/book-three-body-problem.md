@@ -30,3 +30,9 @@ The second one, after being given the role of Swordholder, faced the situation i
 ## An image of the society
 
 Throughout the Trilogy, human civilization faces events that lead to the best and the worst of it. From a civilized world where peace was onmipresent and everyone enjoyed the best of conditions, to a civilization that was forced to relocate to a single continent and fight against each other for their own survival, the humans went through many events where they couldn't see a bright future, but still, they decided to be comfident about it, and never lost the hope, even in the last of their days.
+
+## Final thoughts
+
+What stayed with me after closing the last page was not the scale of the events, but the contrast between the immensity of the universe and the smallness of human decisions in front of it. Where *Metro* and *Roadside Picnic* drop you into a world that has already collapsed, *The Three Body Problem* makes you watch the collapse approach for centuries, and forces you to ask what you would carry with you, and what you would let go.
+
+I went into this book expecting another desolate setting to lose myself into, and walked out of it with a trilogy that questioned how I think about responsibility, time, and the weight of being alive at the wrong moment in history. If you enjoy science fiction that takes its philosophy as seriously as its physics, give it a chance, you will not regret it.
