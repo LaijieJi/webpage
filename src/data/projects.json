@@ -1,5 +1,17 @@
 [
   {
+    "title": "Flow",
+    "tech": ["Python", "SQLite", "TUI"],
+    "dates": "2026",
+    "summary": "Terminal-based habit tracker that prioritizes momentum over streaks using weighted recency scoring. Local-first with SQLite storage, Pomodoro timer, and CSV/JSON export.",
+    "links": [
+      {
+        "label": "Repo",
+        "href": "https://github.com/LaijieJi/flow"
+      }
+    ]
+  },
+  {
     "title": "Project Gaia",
     "tech": ["Flutter", "Supabase"],
     "dates": "Feb 2024 - May 2024",
