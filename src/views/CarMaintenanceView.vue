@@ -7,8 +7,8 @@
           <img
             class="cm-stage__car"
             :src="mx5Photo"
-            width="1005"
-            height="296"
+            width="877"
+            height="295"
             alt="Mazda MX-5 (ND, 2015) in Soul Red Crystal with the soft top up"
           />
           <img class="cm-stage__reflection" :src="mx5Reflection" alt="" aria-hidden="true" />
