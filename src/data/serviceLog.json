@@ -1,14 +1,7 @@
 {
-  "oil": { "lastKm": 42000, "lastDate": "2025-10-12" },
-  "tyre-rotation": { "lastKm": 40000 },
-  "cabin-filter": { "lastKm": 30000, "lastDate": "2025-05-20" },
-  "brake-pads": { "lastKm": 35000 },
-  "air-filter": { "lastKm": 12000, "lastDate": "2023-08-01" },
-  "spark-plugs": { "lastKm": 12000, "lastDate": "2023-08-01" },
-  "transmission-oil": { "lastKm": 12000 },
-  "differential-oil": { "lastKm": 12000 },
-  "coolant": { "lastKm": 0, "lastDate": "2015-08-01" },
-  "brake-fluid": { "lastDate": "2024-07-01" },
-  "wipers": { "lastDate": "2025-12-01" },
-  "battery": { "lastDate": "2022-05-01" }
+  "oil": { "lastKm": 204980, "lastDate": "2025-07-22" },
+  "air-filter": { "lastKm": 204980, "lastDate": "2025-07-22" },
+  "spark-plugs": { "lastKm": 135000, "lastDate": "2023-01-20" },
+  "brake-pads": { "lastKm": 163000, "lastDate": "2024-04-19" },
+  "battery": { "lastDate": "2026-04-19" }
 }

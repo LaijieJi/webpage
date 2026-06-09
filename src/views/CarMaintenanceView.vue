@@ -3,14 +3,15 @@
     <div class="wrap">
       <!-- Vehicle hero -->
       <header class="cm-hero">
-        <div class="cm-hero__art">
+        <div class="cm-stage">
           <img
-            class="cm-car"
+            class="cm-stage__car"
             :src="mx5Photo"
-            width="1200"
-            height="455"
+            width="1005"
+            height="296"
             alt="Mazda MX-5 (ND, 2015) in Soul Red Crystal with the soft top up"
           />
+          <img class="cm-stage__reflection" :src="mx5Reflection" alt="" aria-hidden="true" />
         </div>
         <div class="cm-hero__info">
           <p class="cm-hero__eyebrow">Maintenance dashboard</p>
@@ -71,13 +72,13 @@
             class="cm-odo__range"
             type="range"
             min="0"
-            max="200000"
+            max="250000"
             step="500"
             v-model.number="odometer"
             aria-label="Adjust odometer reading"
           />
           <div class="cm-odo__scale">
-            <span>0</span><span>100k</span><span>200k</span>
+            <span>0</span><span>125k</span><span>250k</span>
           </div>
           <p class="cm-odo__hint">Progress is measured from each item's last logged service.</p>
         </div>
@@ -168,6 +169,8 @@
         </article>
       </div>
 
+      <ServiceHistory />
+
       <MaintenanceGuide />
 
       <p class="cm-footnote">
@@ -186,9 +189,11 @@ import { ref, computed } from 'vue';
 import { vehicle, categories, maintenanceItems, statusLegend } from '../data/carMaintenance.js';
 import serviceLog from '../data/serviceLog.json';
 import MaintenanceGuide from '../components/MaintenanceGuide.vue';
+import ServiceHistory from '../components/ServiceHistory.vue';
 import mx5Photo from '../assets/media/mx5-soul-red.png';
+import mx5Reflection from '../assets/media/mx5-reflection.png';
 
-const odometer = ref(46500);
+const odometer = ref(210000);
 const activeCategory = ref('All');
 const today = new Date();
 
@@ -346,47 +351,102 @@ const summary = computed(() => {
 <style scoped>
 /* Hero */
 .cm-hero {
+  position: relative;
+  overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: var(--space-2xl);
   align-items: center;
-  padding: var(--space-2xl);
+  padding: var(--space-3xl) var(--space-2xl);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius) * 1.4);
   background:
-    radial-gradient(120% 140% at 0% 0%, rgba(56, 189, 248, 0.1), transparent 55%),
-    var(--card);
+    radial-gradient(90% 130% at 88% -15%, rgba(200, 16, 46, 0.14), transparent 60%),
+    radial-gradient(80% 130% at 0% 115%, rgba(56, 189, 248, 0.08), transparent 55%),
+    linear-gradient(165deg, color-mix(in srgb, var(--text) 4%, var(--card)), var(--card));
   box-shadow: var(--shadow);
 }
 
-.cm-hero__art {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-lg);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: linear-gradient(160deg, #ffffff 0%, #eef1f6 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+html[data-theme='dark'] .cm-hero {
+  background:
+    radial-gradient(90% 130% at 88% -15%, rgba(216, 28, 58, 0.28), transparent 60%),
+    radial-gradient(80% 130% at 0% 115%, rgba(56, 189, 248, 0.12), transparent 55%),
+    linear-gradient(165deg, #1a2540, #0e1729);
 }
 
-.cm-car {
-  width: min(100%, 32rem);
+/* Showroom stage for the car photo */
+.cm-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cm-stage::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: 80%;
+  height: 30%;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(200, 16, 46, 0.18), transparent 74%);
+  filter: blur(14px);
+  z-index: 0;
+}
+
+html[data-theme='dark'] .cm-stage::before {
+  background: radial-gradient(closest-side, rgba(224, 30, 60, 0.5), transparent 72%);
+}
+
+.cm-stage__car {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 34rem);
   height: auto;
   display: block;
+  filter: drop-shadow(0 22px 18px rgba(8, 12, 24, 0.45));
+}
+
+html[data-theme='dark'] .cm-stage__car {
+  filter: drop-shadow(0 26px 22px rgba(0, 0, 0, 0.6));
+}
+
+.cm-stage__reflection {
+  width: min(100%, 34rem);
+  height: auto;
+  display: block;
+  margin-top: -1px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+html[data-theme='dark'] .cm-stage__reflection {
+  opacity: 0.22;
 }
 
 .cm-hero__eyebrow {
+  display: inline-block;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: var(--accent-strong);
+  color: #c8102e;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #c8102e 12%, transparent);
+}
+
+html[data-theme='dark'] .cm-hero__eyebrow {
+  color: #ff6472;
+  background: color-mix(in srgb, #ff6472 15%, transparent);
 }
 
 .cm-hero__name {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  margin-top: var(--space-xs);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  margin-top: var(--space-md);
+  letter-spacing: -0.01em;
 }
 
 .cm-hero__sub {
@@ -648,8 +708,19 @@ const summary = computed(() => {
 
 /* Section title */
 .cm-section-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin: var(--space-3xl) 0 var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cm-section-title::before {
+  content: '';
+  width: 4px;
+  height: 1.05em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e23a44, #9e0f20);
 }
 
 /* Filter chips */
@@ -713,8 +784,9 @@ const summary = computed(() => {
 }
 
 .cm-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 28px 48px -32px rgba(15, 23, 42, 0.6);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--cat) 45%, var(--border));
+  box-shadow: 0 26px 44px -30px rgba(15, 23, 42, 0.6), 0 0 0 1px color-mix(in srgb, var(--cat) 32%, transparent);
 }
 
 .cm-card__top {

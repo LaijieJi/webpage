@@ -139,6 +139,17 @@ const codeHtml = `<span class="p">{</span>
 
 .cmg__title {
   font-size: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cmg__title::before {
+  content: '';
+  width: 4px;
+  height: 1.05em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e23a44, #9e0f20);
 }
 
 .cmg__sub {
