@@ -93,9 +93,9 @@
         <div class="milestone">
           <span class="milestone__n">02</span>
           <p class="milestone__label">the writing</p>
-          <router-link class="writing__post" to="/blog/book-three-body-problem">
-            <span class="writing__title">Book Review — The Three-Body Problem</span>
-            <span class="writing__date">25 apr 2026</span>
+          <router-link v-if="latestBook" class="writing__post" :to="`/blog/${latestBook.slug}`">
+            <span class="writing__title">{{ latestBook.frontmatter.title }}</span>
+            <span class="writing__date">{{ formatDate(latestBook.frontmatter.date) }}</span>
           </router-link>
           <router-link class="writing__more" to="/blog">read the journal →</router-link>
         </div>
@@ -128,6 +128,16 @@
 <script setup>
 import photoLeaf from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
 import bavariaAlpine from '../assets/media/bavaria-alpine.jpeg';
+import posts from '../data/posts.js';
+
+// Posts are sorted newest-first, so the first one tagged "books" is the latest read.
+const latestBook = posts.find((post) => (post.frontmatter.tags || []).includes('books'));
+
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+function formatDate(value) {
+  const d = value ? new Date(value) : new Date();
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
 </script>
 
 <style scoped>
