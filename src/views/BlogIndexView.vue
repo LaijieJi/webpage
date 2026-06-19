@@ -7,7 +7,7 @@
       <p class="cover__hand">pull up a chair —</p>
       <div class="cover__frame">
         <div class="cover__photo">
-          <img :src="lamy" alt="My Lamy Safari resting on a notebook" />
+          <ResponsiveImg :src="lamyImg.src" :webp="lamyImg.webp" alt="My Lamy Safari resting on a notebook" fill cover eager />
         </div>
       </div>
       <p class="cover__cap">my Lamy Safari — where the words come from</p>
@@ -24,6 +24,7 @@
           </svg>
         </span>
         <span class="journal__stamp" aria-hidden="true"></span>
+        <span class="journal__scribble" aria-hidden="true">newest first ↓</span>
 
         <div class="journal__head">
           <p class="journal__kicker">The Journal</p>
@@ -35,11 +36,12 @@
           v-for="post in posts"
           :key="post.slug"
           class="entry"
+          v-reveal
           :to="`/blog/${post.slug}`"
         >
           <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
           <div>
-            <div v-if="post.frontmatter.tags?.length" class="entry__tags">{{ post.frontmatter.tags.join(' · ') }}</div>
+            <div class="entry__tags"><template v-if="post.frontmatter.tags?.length">{{ post.frontmatter.tags.join(' · ') }} · </template>{{ post.readingTime }} min</div>
             <h2 class="entry__title">{{ post.frontmatter.title }}</h2>
             <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
           </div>
@@ -53,7 +55,8 @@
 
 <script setup>
 import posts from '../data/posts.js';
-import lamy from '../assets/media/lamy-notebook.jpeg';
+import { lamyImg } from '../data/media.js';
+import ResponsiveImg from '../components/ResponsiveImg.vue';
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
@@ -202,6 +205,17 @@ function dateShort(value) {
   pointer-events: none;
 }
 
+.journal__scribble {
+  position: absolute;
+  top: 130px;
+  right: 40px;
+  font-family: var(--font-hand);
+  font-size: 21px;
+  color: var(--accent2);
+  transform: rotate(-5deg);
+  pointer-events: none;
+}
+
 .journal__head {
   display: flex;
   align-items: baseline;
@@ -308,6 +322,7 @@ function dateShort(value) {
   .journal__margin { left: 18px; }
   .journal__river { left: 40px; }
   .journal__stamp { display: none; }
+  .journal__scribble { display: none; }
   .entry { grid-template-columns: 64px 1fr; gap: 16px; }
 }
 </style>

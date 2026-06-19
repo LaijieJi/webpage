@@ -23,6 +23,7 @@
             </div>
             <p class="g-odo__hint">on the clock · {{ car.asOf }}, and still rolling</p>
           </div>
+          <p class="g-scribble" aria-hidden="true">Soul Red, always</p>
         </div>
         <div>
           <p class="g-specs__label">The car</p>
@@ -37,9 +38,22 @@
     </section>
 
     <!-- schedule -->
-    <section class="g-schedule">
+    <section class="g-schedule" v-reveal>
       <h2 class="g-h2">On the schedule</h2>
       <p class="g-schedule__summary">{{ summaryLine }}</p>
+
+      <div v-if="nextUp" class="g-next" :style="{ '--c': nextUp.barVar }">
+        <div class="g-next__top">
+          <span class="g-next__kicker">Next up</span>
+          <span class="g-next__status">{{ nextUp.statusLabel }}</span>
+        </div>
+        <p class="g-next__name">{{ nextUp.name }}</p>
+        <p class="g-next__meta">{{ nextUp.intervalLabel }} · {{ nextUp.lastLabel }}</p>
+        <div class="g-bar">
+          <div class="g-bar__fill" :style="{ width: nextUp.pct + '%', background: nextUp.barVar }"></div>
+        </div>
+      </div>
+
       <div class="g-schedule__list">
         <div v-for="item in schedule" :key="item.id" class="g-item" :class="{ 'is-dim': item.dim }">
           <div class="g-item__main">
@@ -62,7 +76,27 @@
     </section>
 
     <!-- logbook -->
-    <section class="g-logbook">
+    <section class="g-logbook" v-reveal>
+      <div class="g-spark">
+        <div class="g-spark__head">
+          <span class="g-spark__title">Distance over time</span>
+          <span class="g-spark__range">{{ mileage.fromYear }} → now</span>
+        </div>
+        <svg
+          class="g-spark__svg"
+          :viewBox="mileage.viewBox"
+          role="img"
+          :aria-label="`Odometer over time, rising from ${mileage.minKm} to ${mileage.maxKm} kilometres`"
+        >
+          <path :d="mileage.area" class="g-spark__area" />
+          <path :d="mileage.line" class="g-spark__line" />
+          <circle :cx="mileage.last.x" :cy="mileage.last.y" r="4" class="g-spark__dot" />
+        </svg>
+        <div class="g-spark__axis">
+          <span>{{ mileage.minKm }} km · {{ mileage.fromYear }}</span>
+          <span>{{ mileage.maxKm }} km · now</span>
+        </div>
+      </div>
       <h2 class="g-h2">The logbook</h2>
       <p class="g-logbook__sub">Every visit since 2017 — newest first.</p>
       <div v-for="(e, i) in history" :key="i" class="g-log">
@@ -81,8 +115,11 @@
 </template>
 
 <script setup>
-import { car, schedule, summaryLine, history, odoChars } from '../data/garage.js';
+import { car, schedule, summaryLine, history, odoChars, mileage } from '../data/garage.js';
 import mx5Photo from '../assets/media/mx5-soul-red.png';
+
+// The most urgent serviceable item (schedule is already sorted by urgency).
+const nextUp = schedule.find((s) => s.hasBar) || null;
 </script>
 
 <style scoped>
@@ -194,6 +231,14 @@ import mx5Photo from '../assets/media/mx5-soul-red.png';
   margin: 12px 0 0;
 }
 
+.g-scribble {
+  font-family: var(--font-hand);
+  font-size: 23px;
+  color: var(--garage);
+  transform: rotate(-3deg);
+  margin: 20px 0 0 4px;
+}
+
 /* Specs */
 .g-specs__label {
   font-family: var(--font-mono);
@@ -257,6 +302,53 @@ import mx5Photo from '../assets/media/mx5-soul-red.png';
   letter-spacing: 0.04em;
   color: var(--muted);
   margin: 0;
+}
+
+.g-next {
+  margin: 18px 0 6px;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c, var(--accent));
+  border-radius: 3px;
+  background: var(--surface);
+}
+
+.g-next__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.g-next__kicker {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.g-next__status {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c, var(--accent));
+}
+
+.g-next__name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 21px;
+  color: var(--ink);
+  margin: 6px 0 0;
+}
+
+.g-next__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin: 4px 0 12px;
 }
 
 .g-schedule__list { margin-top: 18px; }
@@ -337,6 +429,65 @@ import mx5Photo from '../assets/media/mx5-soul-red.png';
   max-width: 1040px;
   margin: 0 auto;
   padding: 60px 40px 84px;
+}
+
+.g-spark {
+  margin-bottom: 44px;
+}
+
+.g-spark__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.g-spark__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.g-spark__range {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.g-spark__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.g-spark__area {
+  fill: var(--accent);
+  fill-opacity: 0.1;
+}
+
+.g-spark__line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.g-spark__dot {
+  fill: var(--accent2);
+}
+
+.g-spark__axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
 }
 
 .g-logbook__sub {

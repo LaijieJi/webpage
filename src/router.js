@@ -6,6 +6,7 @@ import BlogPostView from './views/BlogPostView.vue';
 import PhotographyIndexView from './views/PhotographyIndexView.vue';
 import PhotographyPostView from './views/PhotographyPostView.vue';
 import CarMaintenanceView from './views/CarMaintenanceView.vue';
+import NotFoundView from './views/NotFoundView.vue';
 
 const routes = [
   { path: '/', name: 'home', component: HomeView, meta: { title: 'Home' } },
@@ -18,18 +19,8 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
-    component: {
-      name: 'NotFoundFallback',
-      template: `
-        <section class="view-section">
-          <div class="wrap">
-            <h1 class="view-heading">Page not found</h1>
-            <p>I am sorry, I could not find the requested route</p>
-            <router-link class="button" to="/">Return to init</router-link>
-          </div>
-        </section>
-      `
-    }
+    component: NotFoundView,
+    meta: { title: 'Page not found' }
   }
 ];
 
@@ -45,7 +36,7 @@ router.afterEach((to) => {
   if (to?.meta?.title) {
     document.title = `Laijie Ji — ${to.meta.title}`;
   } else {
-    document.title = 'Laijie Ji — Computer Science student & software developer';
+    document.title = 'Laijie Ji — Full-Stack Developer';
   }
 });
 

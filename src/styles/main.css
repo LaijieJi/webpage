@@ -21,8 +21,25 @@
   --shade: #dcded4;
   --veil: rgba(233, 234, 226, 0.86);
   --garage: #a4161a;   /* deep red, garage section (literal in the reference) */
+  --mat: #e3e4db;      /* page colour behind the sheets */
 
   --transition: 160ms ease;
+}
+
+/* Warm palette — the reference's other variant ("summer"). */
+:root[data-palette='warm'] {
+  --paper: #f2ece0;
+  --surface: #fbf7ef;
+  --gallery: #f7f2e8;
+  --ink: #2a2620;
+  --muted: #756b5d;
+  --faint: #9a8f7e;
+  --line: rgba(42, 38, 32, 0.14);
+  --accent: #50653c;
+  --accent2: #b25533;
+  --shade: #e7dfcf;
+  --veil: rgba(242, 236, 224, 0.86);
+  --mat: #ece6da;
 }
 
 *, *::before, *::after {
@@ -31,12 +48,12 @@
 
 html {
   scroll-behavior: smooth;
-  background: #e3e4db;
+  background: var(--mat);
 }
 
 body {
   margin: 0;
-  background: #e3e4db;
+  background: var(--mat);
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -190,6 +207,30 @@ em { font-style: italic; }
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+/* Soft cross-fade between routes. */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 240ms ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* Scroll-reveal — the .reveal class is added by the v-reveal directive
+   only when motion is allowed, so reduced-motion users see content as-is. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.reveal--in {
+  opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 768px) {

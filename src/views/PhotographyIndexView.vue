@@ -17,11 +17,17 @@
           v-for="(entry, i) in entries"
           :key="entry.slug"
           class="plate"
+          v-reveal
           :to="`/photography/${entry.slug}`"
         >
           <div class="plate__frame" :style="frameStyle(i)">
             <div class="plate__photo">
-              <img :src="mediaFor(entry.slug).image" :alt="entry.frontmatter.title" loading="lazy" />
+              <ResponsiveImg
+                :src="mediaFor(entry.slug).image"
+                :webp="mediaFor(entry.slug).webp"
+                :alt="entry.frontmatter.title"
+                sizes="(max-width: 980px) 92vw, 900px"
+              />
             </div>
           </div>
           <div class="plate__cap">
@@ -42,6 +48,7 @@
 <script setup>
 import entries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
+import ResponsiveImg from '../components/ResponsiveImg.vue';
 
 const tilts = ['-1.1deg', '0.8deg', '-0.6deg', '1deg'];
 function frameStyle(i) {

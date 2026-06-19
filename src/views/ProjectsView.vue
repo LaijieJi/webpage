@@ -6,7 +6,7 @@
       <p class="projects__lede">Mostly built to learn something, or to scratch an itch I couldn't ignore.</p>
     </section>
     <section class="projects__list">
-      <article v-for="project in projects" :key="project.name" class="proj">
+      <article v-for="project in projects" :key="project.name" class="proj" v-reveal>
         <div class="proj__head">
           <h2 class="proj__name">{{ project.name }}</h2>
           <span class="proj__dates">{{ project.dates }}</span>

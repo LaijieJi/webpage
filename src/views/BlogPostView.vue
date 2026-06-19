@@ -1,11 +1,13 @@
 <template>
-  <article class="post" v-if="post">
+  <div class="post-page">
+    <article class="post" v-if="post">
     <router-link class="post__back" to="/blog">← the journal</router-link>
     <div class="post__card">
       <div class="post__grid">
         <div class="post__aside">
           <div class="post__date">{{ dateLong(post.frontmatter.date) }}</div>
           <div v-if="post.frontmatter.tags?.length" class="post__tags">{{ post.frontmatter.tags.join(' · ') }}</div>
+          <div class="post__read">{{ post.readingTime }} min read</div>
           <p class="post__hand">a good one —</p>
         </div>
         <div class="post__main">
@@ -16,6 +18,17 @@
             <router-link class="post__more" to="/blog">← back to all entries</router-link>
             <span class="post__mark">~ i ~</span>
           </div>
+          <nav v-if="newer || older" class="post__nav">
+            <router-link v-if="older" class="post__nav-link" :to="`/blog/${older.slug}`">
+              <span class="post__nav-dir">← earlier</span>
+              <span class="post__nav-title">{{ older.frontmatter.title }}</span>
+            </router-link>
+            <span v-else aria-hidden="true"></span>
+            <router-link v-if="newer" class="post__nav-link post__nav-link--next" :to="`/blog/${newer.slug}`">
+              <span class="post__nav-dir">later →</span>
+              <span class="post__nav-title">{{ newer.frontmatter.title }}</span>
+            </router-link>
+          </nav>
         </div>
       </div>
     </div>
@@ -26,15 +39,23 @@
     <p class="post__excerpt">Maybe browse the other notes instead.</p>
     <router-link class="post__more" to="/blog">← back to the journal</router-link>
   </article>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPostBySlug } from '../data/posts.js';
+import { getPostBySlug, getAdjacentPosts } from '../data/posts.js';
 
 const route = useRoute();
 const post = computed(() => getPostBySlug(route.params.slug));
+const adjacent = computed(() => getAdjacentPosts(route.params.slug));
+const newer = computed(() => adjacent.value.newer);
+const older = computed(() => adjacent.value.older);
+
+onMounted(() => {
+  if (post.value) document.title = `${post.value.frontmatter.title} — Laijie Ji`;
+});
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 function dateLong(value) {
@@ -93,6 +114,13 @@ function dateLong(value) {
   font-size: 11px;
   color: var(--muted);
   margin-top: 14px;
+}
+
+.post__read {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+  margin-top: 8px;
 }
 
 .post__hand {
@@ -228,6 +256,47 @@ function dateLong(value) {
   color: var(--faint);
 }
 
+.post__nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.post__nav-link {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink);
+  transition: border-color var(--transition);
+}
+
+.post__nav-link:hover,
+.post__nav-link:focus-visible {
+  border-color: var(--accent);
+}
+
+.post__nav-link--next {
+  text-align: right;
+}
+
+.post__nav-dir {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+}
+
+.post__nav-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
 .post--missing {
   max-width: 60ch;
 }
@@ -252,5 +321,7 @@ function dateLong(value) {
   }
   .post__hand { margin: 0; }
   .post__main { padding: 32px 26px; }
+  .post__nav { grid-template-columns: 1fr; }
+  .post__nav-link--next { text-align: left; }
 }
 </style>

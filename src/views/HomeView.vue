@@ -6,6 +6,11 @@
         <div class="hero__tag-main">VALENCIA · ESP</div>
         <div class="hero__tag-sub">39.47°N · 0.37°W</div>
       </div>
+      <p class="hero__hello" aria-hidden="true">
+        <transition name="hello" mode="out-in">
+          <span :key="hello">{{ hello }}</span>
+        </transition><span class="hero__hello-comma">,</span>
+      </p>
       <h1 class="hero__title">
         I write software. The rest of the time, I'm
         <span class="hero__accent">
@@ -20,7 +25,7 @@
     </section>
 
     <!-- intro + snapshot -->
-    <section class="intro">
+    <section class="intro" v-reveal>
       <div class="intro__prose">
         <p class="intro__lead">I read more than I probably should, still write letters by hand, and happily lose an afternoon to a long trail or a quiet lake.</p>
         <p class="intro__lead intro__lead--muted">I'd rather make one thing properly than rush through ten, and I like understanding how things actually work.</p>
@@ -55,7 +60,7 @@
         </svg>
 
         <!-- the work -->
-        <div class="milestone">
+        <div class="milestone" v-reveal>
           <span class="milestone__n">01</span>
           <p class="milestone__label">the work</p>
           <div class="work">
@@ -90,7 +95,7 @@
         </div>
 
         <!-- the writing -->
-        <div class="milestone">
+        <div class="milestone" v-reveal>
           <span class="milestone__n">02</span>
           <p class="milestone__label">the writing</p>
           <router-link v-if="latestBook" class="writing__post" :to="`/blog/${latestBook.slug}`">
@@ -101,7 +106,7 @@
         </div>
 
         <!-- the seeing -->
-        <div class="milestone milestone--last">
+        <div class="milestone milestone--last" v-reveal>
           <span class="milestone__n milestone__n--alt">03</span>
           <p class="milestone__label milestone__label--alt">the seeing</p>
           <p class="seeing__text">A camera I carry on slow walks. A few frames find their way back here.</p>
@@ -109,12 +114,12 @@
           <div class="seeing__row">
             <router-link class="polaroid polaroid--a" to="/photography/hiking-bavaria">
               <span class="polaroid__tape" aria-hidden="true"></span>
-              <img :src="photoLeaf" alt="A single leaf on clear water" loading="lazy" />
+              <ResponsiveImg :src="leafImg.src" :webp="leafImg.webp" alt="A single leaf on clear water" ratio="1 / 1" cover sizes="160px" />
               <span class="polaroid__caption">starnberg · '25</span>
             </router-link>
             <router-link class="polaroid polaroid--b" to="/photography/hiking-bavaria">
               <span class="polaroid__tape" aria-hidden="true"></span>
-              <img :src="bavariaAlpine" alt="The Herzogstand summit in the Bavarian Alps" loading="lazy" />
+              <ResponsiveImg :src="bavariaImg.src" :webp="bavariaImg.webp" alt="The Herzogstand summit in the Bavarian Alps" ratio="1 / 1" cover sizes="160px" />
               <span class="polaroid__caption">Herzogstand '26</span>
             </router-link>
             <router-link class="seeing__gallery" to="/photography">the gallery →</router-link>
@@ -126,12 +131,27 @@
 </template>
 
 <script setup>
-import photoLeaf from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
-import bavariaAlpine from '../assets/media/bavaria-alpine.jpeg';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { leafImg, bavariaImg } from '../data/media.js';
+import ResponsiveImg from '../components/ResponsiveImg.vue';
 import posts from '../data/posts.js';
 
 // Posts are sorted newest-first, so the first one tagged "books" is the latest read.
 const latestBook = posts.find((post) => (post.frontmatter.tags || []).includes('books'));
+
+// Rotating greeting across the languages I speak.
+const greetings = ['hola', 'bon dia', 'hello', '你好', 'hallo'];
+const greetIndex = ref(0);
+const hello = computed(() => greetings[greetIndex.value]);
+let greetTimer;
+onMounted(() => {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  greetTimer = window.setInterval(() => {
+    greetIndex.value = (greetIndex.value + 1) % greetings.length;
+  }, 3600);
+});
+onBeforeUnmount(() => window.clearInterval(greetTimer));
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 function formatDate(value) {
@@ -176,6 +196,26 @@ function formatDate(value) {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--muted);
+}
+
+.hero__hello {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-hand);
+  font-size: clamp(22px, 3vw, 30px);
+  color: var(--accent);
+  margin: 0 0 6px;
+  min-height: 1.1em;
+}
+
+.hello-enter-active,
+.hello-leave-active {
+  transition: opacity 550ms ease;
+}
+
+.hello-enter-from,
+.hello-leave-to {
+  opacity: 0;
 }
 
 .hero__title {

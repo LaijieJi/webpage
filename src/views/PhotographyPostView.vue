@@ -5,7 +5,13 @@
 
       <div class="story__frame">
         <div class="story__photo">
-          <img :src="media.image" :alt="entry.frontmatter.title" />
+          <ResponsiveImg
+            :src="media.image"
+            :webp="media.webp"
+            :alt="entry.frontmatter.title"
+            sizes="(max-width: 1040px) 92vw, 960px"
+            eager
+          />
         </div>
       </div>
       <div class="story__cap">
@@ -45,14 +51,19 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getPhotoEntryBySlug } from '../data/photography.js';
+import ResponsiveImg from '../components/ResponsiveImg.vue';
 import { mediaFor } from '../data/photoMedia.js';
 
 const route = useRoute();
 const entry = computed(() => getPhotoEntryBySlug(route.params.slug));
 const media = computed(() => mediaFor(route.params.slug));
+
+onMounted(() => {
+  if (entry.value) document.title = `${entry.value.frontmatter.title} — Laijie Ji`;
+});
 const igHref = computed(() => {
   const id = entry.value?.frontmatter?.instagramPostId;
   return id ? `https://www.instagram.com/p/${id}/` : null;

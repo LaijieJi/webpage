@@ -144,3 +144,40 @@ export const odoChars = car.currentKm.toLocaleString('en-US').split('').map((ch)
   ch,
   digit: /\d/.test(ch)
 }));
+
+// ----- Mileage over time (sparkline above the logbook) -----
+const VW = 820;
+const VH = 150;
+const PADX = 6;
+const PADY = 16;
+
+const points = hist
+  .filter((e) => e.km != null)
+  .map((e) => ({ t: new Date(e.date).getTime(), km: e.km }))
+  .sort((a, b) => a.t - b.t);
+
+const ts = points.map((p) => p.t);
+const kms = points.map((p) => p.km);
+const minT = Math.min(...ts);
+const maxT = Math.max(...ts);
+const minK = Math.min(...kms);
+const maxK = Math.max(...kms);
+
+const sx = (t) => PADX + ((t - minT) / (maxT - minT)) * (VW - 2 * PADX);
+const sy = (k) => VH - PADY - ((k - minK) / (maxK - minK)) * (VH - 2 * PADY);
+const coords = points.map((p) => [sx(p.t), sy(p.km)]);
+const last = coords[coords.length - 1];
+
+export const mileage = {
+  viewBox: `0 0 ${VW} ${VH}`,
+  line: coords.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' '),
+  area:
+    `M${coords[0][0].toFixed(1)} ${VH} ` +
+    coords.map(([x, y]) => `L${x.toFixed(1)} ${y.toFixed(1)}`).join(' ') +
+    ` L${last[0].toFixed(1)} ${VH} Z`,
+  last: { x: last[0], y: last[1] },
+  fromYear: new Date(minT).getFullYear(),
+  toYear: new Date(maxT).getFullYear(),
+  minKm: minK.toLocaleString('en-US'),
+  maxKm: maxK.toLocaleString('en-US')
+};

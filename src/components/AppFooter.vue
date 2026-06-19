@@ -2,17 +2,22 @@
   <footer class="site-footer">
     <div class="site-footer__inner">
       <span class="site-footer__note">Let's talk — or send a letter.</span>
-      <div class="site-footer__links">
-        <a href="mailto:contact@laijie.dev">email</a>
-        <a href="https://github.com/LaijieJi" target="_blank" rel="noreferrer">github</a>
-        <a href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">linkedin</a>
-        <a class="is-alt" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">instagram</a>
+      <div class="site-footer__right">
+        <div class="site-footer__links">
+          <a href="mailto:contact@laijie.dev">email</a>
+          <a href="https://github.com/LaijieJi" target="_blank" rel="noreferrer">github</a>
+          <a href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">linkedin</a>
+          <a class="is-alt" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">instagram</a>
+        </div>
+        <PaletteToggle />
       </div>
     </div>
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+import PaletteToggle from './PaletteToggle.vue';
+</script>
 
 <style scoped>
 .site-footer {
@@ -36,6 +41,13 @@
   font-style: italic;
   font-size: 17px;
   color: var(--muted);
+}
+
+.site-footer__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
 }
 
 .site-footer__links {
@@ -65,6 +77,9 @@
 @media (max-width: 640px) {
   .site-footer__inner {
     padding: 28px 22px;
+  }
+  .site-footer__right {
+    align-items: flex-start;
   }
 }
 </style>

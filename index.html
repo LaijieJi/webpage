@@ -3,8 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Laijie Ji — Computer Science student & software developer</title>
-    <meta name="description" content="Portafolio y blog de Laijie Ji, Computer Science student & software developer." />
+    <title>Laijie Ji — Full-Stack Developer</title>
+    <meta name="description" content="Laijie Ji — full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph / social cards. Update the domain if you deploy elsewhere. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Laijie Ji" />
+    <meta property="og:title" content="Laijie Ji — I write software. The rest of the time, I'm outside." />
+    <meta property="og:description" content="Full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5." />
+    <meta property="og:url" content="https://laijie.dev/" />
+    <meta property="og:image" content="https://laijie.dev/og.jpg" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1066" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Laijie Ji — I write software. The rest of the time, I'm outside." />
+    <meta name="twitter:description" content="Full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5." />
+    <meta name="twitter:image" content="https://laijie.dev/og.jpg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,9 +28,21 @@
       rel="stylesheet"
     />
     <style>
-      /* Pre-paint background to avoid a white flash before the stylesheet loads. */
+      /* Pre-paint background to avoid a flash before the stylesheet loads. */
       html { background: #e3e4db; }
+      html[data-palette='warm'] { background: #ece6da; }
     </style>
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('lj-palette') === 'warm') {
+            document.documentElement.dataset.palette = 'warm';
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
