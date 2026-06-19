@@ -5,7 +5,7 @@ import bavariaAlpine from '../assets/media/bavaria-alpine.jpeg';
 import leaf from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
 
 export const photoMedia = {
-  'hiking-bavaria': { image: bavariaAlpine, place: 'Bavaria · ’25' },
+  'hiking-bavaria': { image: bavariaAlpine, place: 'Herzogstand · ’26' },
   'munich-landmarks': { image: munich, place: 'München' }
 };
 

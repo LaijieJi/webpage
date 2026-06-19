@@ -29,7 +29,7 @@
         <span class="card__tape" aria-hidden="true"></span>
         <div class="card__row">
           <div class="card__label">Currently</div>
-          <div class="card__value">Software Developer · EBHealth3</div>
+          <div class="card__value">Full Stack Developer · Wegrant</div>
         </div>
         <div class="card__row">
           <div class="card__label">Based in</div>
@@ -61,8 +61,15 @@
           <div class="work">
             <div class="work__item">
               <div class="work__head">
+                <span class="work__role">Wegrant — Full Stack Developer</span>
+                <span class="work__dates">Jun 2026 → now</span>
+              </div>
+              <p class="work__note">Frontend in Vue, backend in Django, cloud on Azure, and automations with n8n.</p>
+            </div>
+            <div class="work__item">
+              <div class="work__head">
                 <span class="work__role">EBHealth3 — Software Developer</span>
-                <span class="work__dates">Mar 2024 → now</span>
+                <span class="work__dates">Mar 2024 → May 2026</span>
               </div>
               <p class="work__note">Backend with Spring Boot, AWS and Docker. Mobile apps in Flutter.</p>
             </div>
@@ -107,8 +114,8 @@
             </router-link>
             <router-link class="polaroid polaroid--b" to="/photography/hiking-bavaria">
               <span class="polaroid__tape" aria-hidden="true"></span>
-              <img :src="photoLake" alt="A lake between trees in Bavaria" loading="lazy" />
-              <span class="polaroid__caption">bavaria · '25</span>
+              <img :src="bavariaAlpine" alt="The Herzogstand summit in the Bavarian Alps" loading="lazy" />
+              <span class="polaroid__caption">Herzogstand '26</span>
             </router-link>
             <router-link class="seeing__gallery" to="/photography">the gallery →</router-link>
           </div>
@@ -120,7 +127,7 @@
 
 <script setup>
 import photoLeaf from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
-import photoLake from '../assets/media/F629BFE3-0C58-40A2-BD01-CC8D12B0E433_1_105_c.jpeg';
+import bavariaAlpine from '../assets/media/bavaria-alpine.jpeg';
 </script>
 
 <style scoped>

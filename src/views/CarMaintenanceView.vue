@@ -4,7 +4,7 @@
     <section class="g-hero">
       <p class="g-hero__eyebrow">The garage</p>
       <h1 class="g-hero__name">{{ car.name }}</h1>
-      <p class="g-hero__sub">{{ car.sub }} — Soul Red, and still my favourite drive.</p>
+      <p class="g-hero__sub">{{ car.sub }} — Soul Red.</p>
 
       <div class="g-hero__stage">
         <img :src="mx5Photo" alt="Mazda MX-5 ND in Soul Red, soft top up" />
