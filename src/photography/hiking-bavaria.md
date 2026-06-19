@@ -18,7 +18,3 @@ Once I arrived to the ski station, I set off to the peak, and since this path wa
 After an hour or so, I decided to head back to Kochel, I took the gondola from the ski station, and then the bus. Before taking the train back to Munich, I decided to stop by for a little rest in the lake, from where I could see Herzogstand, towering over the lake with its presence while little ducks were chilling in the calm water.
 
 Once in Munich, I went to one of my favourite places of the city, Mamma Bao(if you haven't been there, you must do it), around five minutes from Hauptbahnhof, to top off this day with a delicious dinner.
-
-## Camera settings
-
-- Shot on Canon R10 with RF-S 18-150mm kit lens
