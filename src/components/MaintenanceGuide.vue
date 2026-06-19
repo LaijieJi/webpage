@@ -130,7 +130,7 @@ const codeHtml = `<span class="p">{</span>
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background:
-    radial-gradient(120% 140% at 100% 0%, rgba(110, 231, 183, 0.1), transparent 55%),
+    radial-gradient(120% 140% at 100% 0%, var(--accent-tint), transparent 55%),
     var(--card);
   box-shadow: var(--shadow);
   display: grid;
@@ -138,7 +138,9 @@ const codeHtml = `<span class="p">{</span>
 }
 
 .cmg__title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -149,7 +151,7 @@ const codeHtml = `<span class="p">{</span>
   width: 4px;
   height: 1.05em;
   border-radius: 999px;
-  background: linear-gradient(180deg, #e23a44, #9e0f20);
+  background: linear-gradient(180deg, #b25533, #a4161a);
 }
 
 .cmg__sub {
@@ -236,7 +238,7 @@ const codeHtml = `<span class="p">{</span>
   border-radius: 50%;
   font-weight: 700;
   font-size: 0.9rem;
-  color: #052318;
+  color: var(--paper);
   background: var(--accent);
 }
 
@@ -255,7 +257,7 @@ const codeHtml = `<span class="p">{</span>
   margin: 0;
   border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(28, 26, 22, 0.6);
   box-shadow: var(--shadow);
 }
 
@@ -264,8 +266,8 @@ const codeHtml = `<span class="p">{</span>
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
-  background: #111a2e;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  background: #2c2924;
+  border-bottom: 1px solid rgba(236, 230, 218, 0.12);
 }
 
 .cmg-code__dots {
@@ -277,33 +279,33 @@ const codeHtml = `<span class="p">{</span>
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #3b4a66;
+  background: #5a5247;
 }
 
 .cmg-code__name {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: #93a3bd;
+  color: #b3a998;
 }
 
 .cmg-code__body {
   margin: 0;
   padding: var(--space-lg);
-  background: #0b1220;
+  background: #1c1a16;
   overflow-x: auto;
 }
 
 .cmg-code__body code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.86rem;
   line-height: 1.7;
-  color: #cdd6e4;
+  color: #ece6da;
 }
 
-.cmg-code__body :deep(.k) { color: #7dd3fc; }
-.cmg-code__body :deep(.s) { color: #6ee7b7; }
-.cmg-code__body :deep(.n) { color: #fbbf24; }
-.cmg-code__body :deep(.p) { color: #64748b; }
+.cmg-code__body :deep(.k) { color: #c2872b; }
+.cmg-code__body :deep(.s) { color: #93a877; }
+.cmg-code__body :deep(.n) { color: #d2895f; }
+.cmg-code__body :deep(.p) { color: #9a8f7e; }
 
 /* Field reference */
 .cmg-fields {

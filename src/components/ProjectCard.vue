@@ -1,20 +1,19 @@
 <template>
   <component
     :is="isLink ? 'a' : 'div'"
-    class="card project-card card--link"
+    class="entry"
+    :class="{ 'entry--link': isLink }"
     :href="isLink ? primaryHref : undefined"
-    target="_blank"
-    rel="noreferrer"
+    :target="isLink ? '_blank' : undefined"
+    :rel="isLink ? 'noreferrer' : undefined"
   >
-    <header>
-      <h3>{{ title }}</h3>
-      <p v-if="dates" class="project-card__dates">{{ dates }}</p>
-    </header>
-    <p class="project-card__summary">{{ summary }}</p>
-    <ul v-if="tech?.length" class="badges">
-      <li v-for="item in tech" :key="item">{{ item }}</li>
-    </ul>
-    <span v-if="isLink" class="project-card__hint" aria-hidden="true">Open project</span>
+    <div class="entry__head">
+      <h3 class="entry__title">{{ title }}</h3>
+      <span v-if="dates" class="entry__dates">{{ dates }}</span>
+    </div>
+    <p v-if="tech?.length" class="entry__tech">{{ tech.join(' · ') }}</p>
+    <p v-if="summary" class="entry__summary">{{ summary }}</p>
+    <span v-if="isLink" class="entry__hint" aria-hidden="true">Open project →</span>
   </component>
 </template>
 
@@ -32,44 +31,73 @@ const isLink = Boolean(primaryHref);
 </script>
 
 <style scoped>
-.project-card__dates {
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.project-card__summary {
-  color: var(--muted);
-}
-
-.card--link {
-  text-decoration: none;
+.entry {
+  border-top: 1px solid var(--line);
+  padding: var(--space-2xl) 0;
+  display: grid;
+  gap: var(--space-sm);
   color: inherit;
-  position: relative;
+  text-decoration: none;
+}
+
+.entry--link {
   cursor: pointer;
 }
 
-.card--link:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
-}
-
-.project-card__hint {
-  margin-top: auto;
-  font-size: 0.85rem;
-  color: var(--accent-strong);
-}
-
-.badges {
+.entry__head {
   display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-lg);
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  align-items: center;
-  margin-top: var(--space-sm);
 }
 
-.badges li {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.entry__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  transition: color var(--transition);
+}
+
+.entry--link:hover .entry__title,
+.entry--link:focus-visible .entry__title {
+  color: var(--accent);
+}
+
+.entry__dates {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.entry__tech {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+}
+
+.entry__summary {
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.entry__hint {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.entry--link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 </style>

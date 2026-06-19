@@ -1,366 +1,508 @@
 <template>
-  <section class="view-section">
-    <div class="wrap">
-      <header class="hero">
-        <div>
-          <h1 class="view-heading">Computer Science student &amp; software developer</h1>
-          <p class="view-text">Hi! 👋</p>
-          <p class="view-text">
-            I'm Laijie Ji, a Computer Engineering student at the Polytechnic University of Valencia. I'm passionate about creating accessible products that solve real problems and make a meaningful impact on people's lives.
-          </p>
-          <br></br>
-          <p class="view-text">
-            I enjoy working in multidisciplinary teams where clear communication and transparent documentation help build trustworthy software. Currently expanding my knowledge in Software Development, mobile experiences with Flutter, and Artificial Intelligence.
-          </p>
-          <br></br>
-          <p class="view-text">
-            When I am not writing code, I enjoy spending time reading📖, exercising🏃 or learning new things🎒.
-          </p>
-        </div>
-        <div>
-          <h2>Languages</h2>
-          <ul class="inline-list">
-            <li>spanish · native</li>
-            <li>catalan · advanced</li>
-            <li>english · advanced</li>
-            <li>chinese · basic</li>
-            <li>german · basic</li>
-          </ul>
-        </div>
-      </header>
-      <section class="view-section">
-        <h2>Photography</h2>
-        <br/>
-        <div class="photo-highlight">
-          <div class="photo-highlight__copy">
-            <p class="view-text">
-              I love capturing quiet moments from my travels and daily life. Visit my Instagram gallery to see the latest shots.
-            </p>
-            <br/>
-            <a class="button button--accent" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">
-              Follow on Instagram
-            </a>
-          </div>
-          <div class="photo-highlight__preview">
-            <button
-              v-for="photo in photos"
-              :key="photo.src"
-              class="photo-thumb"
-              type="button"
-              @click="openLightbox(photo)"
-            >
-              <img :src="photo.thumb" :alt="photo.alt" loading="lazy" />
-            </button>
-          </div>
-        </div>
-      </section>
+  <div class="home">
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero__tag" aria-hidden="true">
+        <div class="hero__tag-main">VALENCIA · ESP</div>
+        <div class="hero__tag-sub">39.47°N · 0.37°W</div>
+      </div>
+      <h1 class="hero__title">
+        I write software. The rest of the time, I'm
+        <span class="hero__accent">
+          <em>outside</em>
+          <span class="hero__underline" aria-hidden="true">
+            <svg viewBox="0 0 120 13" preserveAspectRatio="none">
+              <path d="M2 8 Q 18 2 34 8 T 66 8 T 98 8 T 118 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+            </svg>
+          </span></span>.
+      </h1>
+      <p class="hero__note">— still figuring it out, slowly</p>
+    </section>
 
-      <transition name="lightbox">
-        <div
-          v-if="activePhoto"
-          class="lightbox"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="`Photo: ${activePhoto.alt}`"
-        >
-          <button class="lightbox__overlay" type="button" @click="closeLightbox"></button>
-          <div class="lightbox__content">
-            <img :src="activePhoto.src" :alt="activePhoto.alt" />
-            <p class="lightbox__caption">{{ activePhoto.caption }}</p>
-            <button class="lightbox__close" type="button" @click="closeLightbox" aria-label="Cerrar">
-              ×
-            </button>
+    <!-- intro + snapshot -->
+    <section class="intro">
+      <div class="intro__prose">
+        <p class="intro__lead">I read more than I probably should, still write letters by hand, and happily lose an afternoon to a long trail or a quiet lake.</p>
+        <p class="intro__lead intro__lead--muted">I'd rather make one thing properly than rush through ten, and I like understanding how things actually work.</p>
+      </div>
+      <aside class="card">
+        <span class="card__tape" aria-hidden="true"></span>
+        <div class="card__row">
+          <div class="card__label">Currently</div>
+          <div class="card__value">Software Developer · EBHealth3</div>
+        </div>
+        <div class="card__row">
+          <div class="card__label">Based in</div>
+          <div class="card__value">Valencia, Spain</div>
+        </div>
+        <div class="card__row">
+          <div class="card__label">Studying</div>
+          <div class="card__value">Computer Engineering · UPV</div>
+        </div>
+        <div class="card__row">
+          <div class="card__label">Languages</div>
+          <div class="card__langs">es · ca · en <span>fluent</span><br />zh · de <span>basics</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- the journey -->
+    <section class="journey">
+      <p class="journey__kicker">— a short walk through it</p>
+      <div class="journey__track">
+        <svg class="journey__river" width="68" viewBox="0 0 68 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M34 0 C 62 110, 8 210, 34 320 C 60 430, 6 520, 34 640 C 58 740, 12 850, 34 1000" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+        </svg>
+
+        <!-- the work -->
+        <div class="milestone">
+          <span class="milestone__n">01</span>
+          <p class="milestone__label">the work</p>
+          <div class="work">
+            <div class="work__item">
+              <div class="work__head">
+                <span class="work__role">EBHealth3 — Software Developer</span>
+                <span class="work__dates">Mar 2024 → now</span>
+              </div>
+              <p class="work__note">Backend with Spring Boot, AWS and Docker. Mobile apps in Flutter.</p>
+            </div>
+            <div class="work__item">
+              <div class="work__head">
+                <span class="work__role">T-Systems — Internship</span>
+                <span class="work__dates">Feb → Aug 2025</span>
+              </div>
+              <p class="work__note">DevOps and support for internal teams.</p>
+            </div>
+            <div class="work__item">
+              <div class="work__head">
+                <span class="work__role">EBHealth3 — Internship</span>
+                <span class="work__dates">Sept 2023 → Mar 2024</span>
+              </div>
+            </div>
           </div>
         </div>
-      </transition>
 
-      <section class="view-section">
-        <h2>Contact</h2>
-        <p class="view-text">
-          Let's talk! you can send me an email, follow me on github or connect with me via linkedin
-        </p>
-        <div class="inline-actions">
-          <a class="button button--accent" href="mailto:contact@laijie.dev">email</a>
-          <a class="button button--ghost" href="https://github.com/laijieji" target="_blank" rel="noreferrer">
-            Github
-          </a>
-          <a class="button button--ghost" href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">
-            Linkedin
-          </a>
+        <!-- the writing -->
+        <div class="milestone">
+          <span class="milestone__n">02</span>
+          <p class="milestone__label">the writing</p>
+          <router-link class="writing__post" to="/blog/book-three-body-problem">
+            <span class="writing__title">Book Review — The Three-Body Problem</span>
+            <span class="writing__date">25 apr 2026</span>
+          </router-link>
+          <router-link class="writing__more" to="/blog">read the journal →</router-link>
         </div>
-      </section>
-      <section class="view-section">
-        <h2>Experience</h2>
-        <ul class="experience-list">
-          <li>
-            <div class="experience-header">
-              <h3>EBHealth3 | Software Developer</h3>
-              <span class="experience-dates">Mar. 2024 - Currently</span>
-            </div>
-            <p class="view-text">
-              Backend Development with Spring Boot, AWS and Docker.
-              Mobile Apps with Flutter.
-            </p>
-          </li>
-          <li>
-            <div class="experience-header">
-              <h3>EBHealth3 | Internship</h3>
-              <span class="experience-dates">Sept. 2023 - Mar. 2024</span>
-            </div>
-          </li>
-          <li>
-            <div class="experience-header">
-              <h3>T-Systems | Internship</h3>
-              <span class="experience-dates">Feb. 2025 - Aug. 2025</span>
-            </div>
-            <p class="view-text">DevOps and support for other internal teams.</p>
-          </li>
-        </ul>
-      </section>
 
-      <section class="view-section">
-        <h2>Certifications</h2>
-        <ul class="cert-list">
-          <li>
-            <div class="cert-title">Computer Science</div>
-            <div class="cert-meta">Universidad Politécnica de València · 2022 - 2026</div>
-          </li>
-          <li>
-            <div class="cert-title">LFS101x: Introduction to Linux</div>
-            <div class="cert-meta">The Linux Foundation · Feb 2024</div>
-          </li>
-          <li>
-            <div class="cert-title">Google IT Automation with Python</div>
-            <div class="cert-meta">Google Career Certificates · Nov 2022</div>
-          </li>
-        </ul>
-      </section>
-    </div>
-  </section>
+        <!-- the seeing -->
+        <div class="milestone milestone--last">
+          <span class="milestone__n milestone__n--alt">03</span>
+          <p class="milestone__label milestone__label--alt">the seeing</p>
+          <p class="seeing__text">A camera I carry on slow walks. A few frames find their way back here.</p>
+          <p class="seeing__note">a few favourites ↓</p>
+          <div class="seeing__row">
+            <router-link class="polaroid polaroid--a" to="/photography/hiking-bavaria">
+              <span class="polaroid__tape" aria-hidden="true"></span>
+              <img :src="photoLeaf" alt="A single leaf on clear water" loading="lazy" />
+              <span class="polaroid__caption">starnberg · '25</span>
+            </router-link>
+            <router-link class="polaroid polaroid--b" to="/photography/hiking-bavaria">
+              <span class="polaroid__tape" aria-hidden="true"></span>
+              <img :src="photoLake" alt="A lake between trees in Bavaria" loading="lazy" />
+              <span class="polaroid__caption">bavaria · '25</span>
+            </router-link>
+            <router-link class="seeing__gallery" to="/photography">the gallery →</router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import photoOne from '../assets/media/CC41B5D9-DBE7-4E0C-8089-DEC0EE1275A1_1_105_c.jpeg';
-import photoTwo from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
-import photoThree from '../assets/media/F629BFE3-0C58-40A2-BD01-CC8D12B0E433_1_105_c.jpeg';
-
-const photos = [
-  {
-    src: photoOne,
-    thumb: photoOne,
-    alt: 'Sunset casting warm light over a building in Munich',
-    caption: 'Sunset light bathing the Bayerische Staatskanzlei in Munich.'
-  },
-  {
-    src: photoTwo,
-    thumb: photoTwo,
-    alt: 'A leaf floating over clear water',
-    caption: 'Day trip to Starnberger See'
-  },
-  {
-    src: photoThree,
-    thumb: photoThree,
-    alt: 'Lake between trees',
-    caption: 'Tranquil view of Starnberger See surrounded by autumn trees.'
-  }
-];
-
-const activePhoto = ref(null);
-
-function openLightbox(photo) {
-  activePhoto.value = photo;
-  document.documentElement.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  activePhoto.value = null;
-  document.documentElement.style.overflow = '';
-}
-
-function onKeyDown(event) {
-  if (event.key === 'Escape' && activePhoto.value) {
-    closeLightbox();
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', onKeyDown);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onKeyDown);
-  document.documentElement.style.overflow = '';
-});
+import photoLeaf from '../assets/media/CF12C5E8-3BBE-4973-8C44-2B4ABD00A866_1_105_c.jpeg';
+import photoLake from '../assets/media/F629BFE3-0C58-40A2-BD01-CC8D12B0E433_1_105_c.jpeg';
 </script>
 
 <style scoped>
-.inline-actions {
-  margin-top: var(--space-lg);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
+.home {
+  display: block;
 }
 
-.experience-list {
-  margin: var(--space-xl) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--space-lg);
+/* ---- Hero --------------------------------------------------------------- */
+.hero {
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 60px 40px 4px;
 }
 
-.experience-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  align-items: baseline;
-  justify-content: space-between;
+.hero__tag {
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  transform: rotate(4deg);
+  border: 1.5px dashed var(--accent2);
+  border-radius: 3px;
+  padding: 9px 13px;
+  text-align: center;
+  line-height: 1.5;
 }
 
-.experience-dates {
+.hero__tag-main {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--accent2);
+}
+
+.hero__tag-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
   color: var(--muted);
-  font-size: 0.95rem;
 }
 
-.photo-highlight {
+.hero__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 6.2vw, 78px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 15ch;
+}
+
+.hero__accent {
+  position: relative;
+  white-space: nowrap;
+}
+
+.hero__accent em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero__underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 13px;
+  color: var(--accent);
+}
+
+.hero__underline svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__note {
+  font-family: var(--font-hand);
+  font-size: clamp(22px, 2.8vw, 30px);
+  color: var(--muted);
+  transform: rotate(-3deg);
+  margin: 30px 0 0 auto;
+  text-align: right;
+  max-width: 24ch;
+}
+
+/* ---- Intro + snapshot --------------------------------------------------- */
+.intro {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 40px 60px;
   display: grid;
-  gap: var(--space-lg);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-xl);
-  box-shadow: var(--shadow);
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: 1.55fr 0.95fr;
+  gap: 60px;
+  align-items: start;
 }
 
-.photo-highlight__preview {
+.intro__prose {
   display: grid;
-  gap: var(--space-sm);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.photo-thumb {
-  border: none;
-  padding: 0;
-  background: none;
-  cursor: pointer;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 12px 24px -18px rgba(0, 0, 0, 0.4);
-  transition: transform var(--transition), box-shadow var(--transition);
+.intro__lead {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
 }
 
-.photo-thumb img {
+.intro__lead--muted {
+  color: var(--muted);
+}
+
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 28px 24px 24px;
+  transform: rotate(-1.3deg);
+  box-shadow: 0 18px 34px -26px rgba(42, 38, 32, 0.55);
+  display: grid;
+  gap: 18px;
+}
+
+.card__tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2.5deg);
+  width: 96px;
+  height: 22px;
+  background: rgba(176, 85, 51, 0.12);
+  border: 1px solid rgba(176, 85, 51, 0.16);
+}
+
+.card__label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.card__value {
+  font-size: 15px;
+}
+
+.card__langs {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.card__langs span {
+  color: var(--muted);
+}
+
+/* ---- The journey -------------------------------------------------------- */
+.journey {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 48px 40px 72px;
+}
+
+.journey__kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 32px;
+}
+
+.journey__track {
+  position: relative;
+  padding-left: 96px;
+}
+
+.journey__river {
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  height: calc(100% - 16px);
+  overflow: visible;
+}
+
+.milestone {
+  position: relative;
+  padding: 0 0 48px;
+}
+
+.milestone--last {
+  padding-bottom: 4px;
+}
+
+.milestone__n {
+  position: absolute;
+  left: -96px;
+  top: -12px;
+  font-family: var(--font-serif);
+  font-size: 50px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.milestone__n--alt {
+  color: var(--accent2);
+}
+
+.milestone__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+}
+
+.milestone__label--alt {
+  color: var(--accent2);
+  margin-bottom: 12px;
+}
+
+/* the work */
+.work {
+  display: grid;
+  gap: 18px;
+}
+
+.work__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.work__role {
+  font-family: var(--font-serif);
+  font-size: 22px;
+}
+
+.work__dates {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.work__note {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 5px 0 0;
+}
+
+/* the writing */
+.writing__post {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--ink);
+}
+
+.writing__post:hover .writing__title,
+.writing__post:focus-visible .writing__title {
+  color: var(--accent);
+}
+
+.writing__title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  transition: color var(--transition);
+}
+
+.writing__date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.writing__more {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+}
+
+/* the seeing */
+.seeing__text {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+  max-width: 42ch;
+}
+
+.seeing__note {
+  font-family: var(--font-hand);
+  font-size: 25px;
+  color: var(--accent2);
+  transform: rotate(-2deg);
+  margin: 18px 0 0 6px;
+}
+
+.seeing__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.polaroid {
+  position: relative;
+  background: #fffdf7;
+  padding: 7px 7px 24px;
+  box-shadow: 0 14px 26px -16px rgba(42, 38, 32, 0.55);
+  width: 140px;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.polaroid--a { transform: rotate(-3deg); }
+.polaroid--b { transform: rotate(2.4deg); margin-top: 16px; }
+
+.polaroid:hover,
+.polaroid:focus-visible {
+  transform: rotate(0deg) scale(1.04);
+}
+
+.polaroid__tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 64px;
+  height: 19px;
+  background: rgba(245, 240, 225, 0.55);
+  border: 1px solid rgba(42, 38, 32, 0.07);
+}
+
+.polaroid img {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  display: block;
 }
 
-.photo-thumb:hover,
-.photo-thumb:focus-visible {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 40px -30px rgba(0, 0, 0, 0.6);
+.polaroid__caption {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: #8a8170;
+  text-align: center;
+  margin-top: 8px;
 }
 
-.lightbox-enter-active,
-.lightbox-leave-active {
-  transition: opacity 180ms ease;
+.seeing__gallery {
+  align-self: center;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--accent2);
+  padding-bottom: 2px;
 }
 
-.lightbox-enter-from,
-.lightbox-leave-to {
-  opacity: 0;
-}
-
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: grid;
-  place-items: center;
-}
-
-.lightbox__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  border: none;
-  padding: 0;
-}
-
-.lightbox__content {
-  position: relative;
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: var(--space-xl);
-  max-width: min(90vw, 48rem);
-  max-height: 90vh;
-  display: grid;
-  gap: var(--space-md);
-  box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.8);
-}
-
-.lightbox__content img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  object-fit: contain;
-}
-
-.lightbox__caption {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.lightbox__close {
-  position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  border: none;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  font-size: 1.4rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.lightbox__close:hover,
-.lightbox__close:focus-visible {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.cert-list {
-  list-style: none;
-  margin: var(--space-xl) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-md);
-}
-
-.cert-title {
-  font-weight: 600;
-}
-
-.cert-meta {
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-@media (max-width: 640px) {
-  .photo-highlight__preview {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .lightbox__content {
-    padding: var(--space-lg);
-  }
+@media (max-width: 760px) {
+  .hero { padding: 40px 22px 4px; }
+  .hero__tag { position: static; transform: rotate(2deg); display: inline-block; margin-bottom: 22px; }
+  .hero__note { margin-left: 0; text-align: left; }
+  .intro { grid-template-columns: 1fr; gap: 30px; padding: 30px 22px 50px; }
+  .card { transform: none; }
+  .journey { padding: 40px 22px 60px; }
+  .journey__track { padding-left: 60px; }
+  .milestone__n { left: -60px; font-size: 38px; }
 }
 </style>

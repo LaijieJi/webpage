@@ -1,50 +1,38 @@
 [
   {
-    "title": "Flow",
-    "tech": ["Python", "SQLite", "TUI"],
+    "name": "Flow",
     "dates": "2026",
-    "summary": "Terminal-based habit tracker that prioritizes momentum over streaks using weighted recency scoring. Local-first with SQLite storage, Pomodoro timer, and CSV/JSON export.",
-    "links": [
-      {
-        "label": "Repo",
-        "href": "https://github.com/LaijieJi/flow"
-      }
-    ]
+    "tech": "Python · SQLite · TUI",
+    "summary": "A terminal habit tracker that rewards momentum over streaks, using weighted-recency scoring. Local-first, with a Pomodoro timer and CSV / JSON export.",
+    "href": "https://github.com/LaijieJi/flow",
+    "label": "Repo",
+    "wip": false
   },
   {
-    "title": "Project Gaia",
-    "tech": ["Flutter", "Supabase"],
-    "dates": "Feb 2024 - May 2024",
-    "summary": "App for the management of urban gardens with marketplace, chats, field organization, plant details, and more.",
-    "links": [
-      {
-        "label": "Repo",
-        "href": "https://github.com/Gaia-Artemis-Codethon/Gaia"
-      }
-    ]
+    "name": "Project Gaia",
+    "dates": "2024",
+    "tech": "Flutter · Supabase",
+    "summary": "An app for managing urban gardens — marketplace, chats, plot organisation, and plant details. Built during a codethon.",
+    "href": "https://github.com/Gaia-Artemis-Codethon/Gaia",
+    "label": "Repo",
+    "wip": false
   },
   {
-    "title": "MercadonaChef",
-    "tech": ["Angular", "FastAPI", "ElasticSearch", "ML"],
-    "dates": "Feb 202",
-    "summary": "Webpage for scanning meals and obtaining recipes and ingredients for the meal, available to be bought at Mercadona.",
-    "links": [
-      {
-        "label": "Repo",
-        "href": "https://github.com/LaijieJi/mercadonaIT"
-      }
-    ]
+    "name": "MercadonaChef",
+    "dates": "2024",
+    "tech": "Angular · FastAPI · ElasticSearch · ML",
+    "summary": "Scan a meal and get back the recipe and its ingredients — each one ready to buy at Mercadona.",
+    "href": "https://github.com/LaijieJi/mercadonaIT",
+    "label": "Repo",
+    "wip": false
   },
   {
-    "title": "F/nF IN PROGRESS",
-    "tech": ["PyTorch", "FastAPI"],
-    "dates": "2020",
-    "summary": "In progress",
-    "links": [
-      {
-        "label": "Repo",
-        "href": "https://github.com/"
-      }
-    ]
+    "name": "F / nF",
+    "dates": "in progress",
+    "tech": "PyTorch · FastAPI",
+    "summary": "A small machine-learning experiment, still cooking.",
+    "href": "",
+    "label": "",
+    "wip": true
   }
 ]

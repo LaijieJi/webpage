@@ -23,9 +23,9 @@ export const serviceHistory = [
 ];
 
 export const historyTypes = {
-  service: { label: 'Service', icon: '🔧', color: '#f97316' },
-  inspection: { label: 'ITV', icon: '🛡️', color: '#38bdf8' },
-  cosmetic: { label: 'Bodywork', icon: '🎨', color: '#ef4444' },
-  part: { label: 'Part', icon: '🔋', color: '#10b981' },
-  milestone: { label: 'Milestone', icon: '🏁', color: '#64748b' }
+  service: { label: 'Service', icon: '🔧', color: '#b25533' },
+  inspection: { label: 'ITV', icon: '🛡️', color: '#3f6e84' },
+  cosmetic: { label: 'Bodywork', icon: '🎨', color: '#a4161a' },
+  part: { label: 'Part', icon: '🔋', color: '#4c6b4a' },
+  milestone: { label: 'Milestone', icon: '🏁', color: '#8a6d3b' }
 };

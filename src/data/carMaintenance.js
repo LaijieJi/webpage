@@ -19,22 +19,23 @@ export const vehicle = {
 };
 
 // Status colours shared by the dashboard cards and the guide legend.
+// Earthy, paper-friendly palette: olive = good, ochre = soon, deep red = due.
 export const statusLegend = [
-  { id: 'ok', label: 'On track', color: '#10b981', desc: 'Under 85% of the interval used.' },
-  { id: 'soon', label: 'Due soon', color: '#f59e0b', desc: '85% or more — start planning it in.' },
-  { id: 'due', label: 'Service due', color: '#ef4444', desc: 'Interval reached or passed (shows “Overdue by …”).' },
-  { id: 'unlogged', label: 'Not logged', color: '#94a3b8', desc: 'No record yet — add it to serviceLog.json.' },
-  { id: 'none', label: 'Maintenance-free', color: '#64748b', desc: 'No scheduled service, e.g. the timing chain.' }
+  { id: 'ok', label: 'On track', color: '#5b7740', desc: 'Under 85% of the interval used.' },
+  { id: 'soon', label: 'Due soon', color: '#c2872b', desc: '85% or more — start planning it in.' },
+  { id: 'due', label: 'Service due', color: '#a4161a', desc: 'Interval reached or passed (shows “Overdue by …”).' },
+  { id: 'unlogged', label: 'Not logged', color: '#9a8f7e', desc: 'No record yet — add it to serviceLog.json.' },
+  { id: 'none', label: 'Maintenance-free', color: '#8a8170', desc: 'No scheduled service, e.g. the timing chain.' }
 ];
 
 export const categories = {
-  Engine: { label: 'Engine', color: '#f97316' },
-  Filters: { label: 'Filters', color: '#10b981' },
-  Fluids: { label: 'Fluids', color: '#38bdf8' },
-  Brakes: { label: 'Brakes', color: '#ef4444' },
-  Drivetrain: { label: 'Drivetrain', color: '#a855f7' },
-  Tyres: { label: 'Tyres', color: '#eab308' },
-  General: { label: 'General', color: '#64748b' }
+  Engine: { label: 'Engine', color: '#b25533' },
+  Filters: { label: 'Filters', color: '#4c6b4a' },
+  Fluids: { label: 'Fluids', color: '#3f6e84' },
+  Brakes: { label: 'Brakes', color: '#a4161a' },
+  Drivetrain: { label: 'Drivetrain', color: '#8a6d3b' },
+  Tyres: { label: 'Tyres', color: '#c2872b' },
+  General: { label: 'General', color: '#756b5d' }
 };
 
 export const maintenanceItems = [

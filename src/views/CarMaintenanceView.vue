@@ -1,964 +1,418 @@
 <template>
-  <section class="view-section">
-    <div class="wrap">
-      <!-- Vehicle hero -->
-      <header class="cm-hero">
-        <div class="cm-stage">
-          <img
-            class="cm-stage__car"
-            :src="mx5Photo"
-            width="877"
-            height="295"
-            alt="Mazda MX-5 (ND, 2015) in Soul Red Crystal with the soft top up"
-          />
-          <img class="cm-stage__reflection" :src="mx5Reflection" alt="" aria-hidden="true" />
-        </div>
-        <div class="cm-hero__info">
-          <p class="cm-hero__eyebrow">Maintenance dashboard</p>
-          <h1 class="cm-hero__name">{{ vehicle.name }}</h1>
-          <p class="cm-hero__sub">{{ vehicle.generation }} · {{ vehicle.year }} · {{ vehicle.engine }}</p>
-          <ul class="cm-specs">
-            <li v-for="spec in vehicle.specs" :key="spec.label" class="cm-spec">
-              <span class="cm-spec__label">{{ spec.label }}</span>
-              <span class="cm-spec__value">
-                <span v-if="spec.label === 'Paint'" class="cm-swatch"></span>{{ spec.value }}
-              </span>
-            </li>
-          </ul>
-        </div>
-      </header>
+  <div class="garage">
+    <!-- hero -->
+    <section class="g-hero">
+      <p class="g-hero__eyebrow">The garage</p>
+      <h1 class="g-hero__name">{{ car.name }}</h1>
+      <p class="g-hero__sub">{{ car.sub }} — Soul Red, and still my favourite drive.</p>
 
-      <!-- Status overview -->
-      <div class="cm-overview">
-        <div class="cm-donut" :style="{ background: summary.gradient }">
-          <div class="cm-donut__hole">
-            <strong>{{ summary.tracked }}</strong>
-            <span>tracked</span>
+      <div class="g-hero__stage">
+        <img :src="mx5Photo" alt="Mazda MX-5 ND in Soul Red, soft top up" />
+      </div>
+
+      <div class="g-hero__cols">
+        <div>
+          <p class="g-hero__story">{{ car.story }}</p>
+          <div class="g-odo">
+            <div class="g-odo__display">
+              <template v-for="(c, i) in odoChars" :key="i">
+                <span v-if="c.digit" class="g-odo__digit">{{ c.ch }}</span>
+                <span v-else class="g-odo__sep">{{ c.ch }}</span>
+              </template>
+              <span class="g-odo__unit">KM</span>
+            </div>
+            <p class="g-odo__hint">on the clock · {{ car.asOf }}, and still rolling</p>
           </div>
         </div>
-        <div class="cm-kpis">
-          <div class="cm-kpi" :style="{ '--status': statusMeta.due.color }">
-            <strong>{{ summary.due }}</strong><span>Service due</span>
-          </div>
-          <div class="cm-kpi" :style="{ '--status': statusMeta.soon.color }">
-            <strong>{{ summary.soon }}</strong><span>Due soon</span>
-          </div>
-          <div class="cm-kpi" :style="{ '--status': statusMeta.ok.color }">
-            <strong>{{ summary.ok }}</strong><span>On track</span>
-          </div>
-          <div class="cm-kpi">
-            <strong>{{ summary.total }}</strong><span>Items total</span>
+        <div>
+          <p class="g-specs__label">The car</p>
+          <div v-for="spec in car.specs" :key="spec.l" class="g-spec">
+            <span class="g-spec__l">{{ spec.l }}</span>
+            <span class="g-spec__v">
+              <span v-if="spec.swatch" class="g-spec__swatch" aria-hidden="true"></span>{{ spec.v }}
+            </span>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Odometer control + most urgent service -->
-      <div class="cm-panel">
-        <div class="cm-odo">
-          <label class="cm-odo__label" for="cm-odometer">Current odometer</label>
-          <div class="cm-odo__field">
-            <input
-              id="cm-odometer"
-              class="cm-odo__number"
-              type="number"
-              min="0"
-              max="250000"
-              step="500"
-              v-model.number="odometer"
-            />
-            <span class="cm-odo__unit">km</span>
+    <!-- schedule -->
+    <section class="g-schedule">
+      <h2 class="g-h2">On the schedule</h2>
+      <p class="g-schedule__summary">{{ summaryLine }}</p>
+      <div class="g-schedule__list">
+        <div v-for="item in schedule" :key="item.id" class="g-item" :class="{ 'is-dim': item.dim }">
+          <div class="g-item__main">
+            <h3 class="g-item__name">{{ item.name }}</h3>
+            <p class="g-item__meta">{{ item.intervalLabel }}<span class="g-item__last">  ·  {{ item.lastLabel }}</span></p>
+            <p class="g-item__note">{{ item.note }}</p>
           </div>
-          <input
-            class="cm-odo__range"
-            type="range"
-            min="0"
-            max="250000"
-            step="500"
-            v-model.number="odometer"
-            aria-label="Adjust odometer reading"
-          />
-          <div class="cm-odo__scale">
-            <span>0</span><span>125k</span><span>250k</span>
-          </div>
-          <p class="cm-odo__hint">Progress is measured from each item's last logged service.</p>
-        </div>
-
-        <div
-          v-if="nextService"
-          class="cm-next"
-          :style="{ '--status': statusMeta[nextService.status].color }"
-        >
-          <span class="cm-next__tag">Most urgent service</span>
-          <div class="cm-next__head">
-            <span class="cm-next__icon">{{ nextService.icon }}</span>
-            <div>
-              <p class="cm-next__name">{{ nextService.name }}</p>
-              <p class="cm-next__sub">{{ bindingRemainingText(nextService) }}</p>
+          <div class="g-item__status">
+            <div class="g-item__label" :style="{ color: item.barVar }">{{ item.statusLabel }}</div>
+            <div v-if="item.hasBar" class="g-bar">
+              <div class="g-bar__fill" :style="{ width: item.pct + '%', background: item.barVar }"></div>
             </div>
           </div>
-          <div class="cm-bar">
-            <span class="cm-bar__fill" :style="{ width: nextService.barPct + '%' }"></span>
-          </div>
-          <span class="cm-next__status">{{ statusMeta[nextService.status].label }}</span>
         </div>
       </div>
-
-      <!-- Category filters -->
-      <h2 class="cm-section-title">Service schedule</h2>
-      <div class="cm-chips" role="group" aria-label="Filter by category">
-        <button
-          v-for="cat in categoryList"
-          :key="cat"
-          type="button"
-          class="cm-chip"
-          :class="{ 'cm-chip--active': activeCategory === cat }"
-          :style="cat !== 'All' ? { '--cat': categories[cat].color } : {}"
-          @click="activeCategory = cat"
-        >
-          {{ cat }}
-        </button>
-      </div>
-
-      <!-- Maintenance grid -->
-      <div class="cm-grid">
-        <article
-          v-for="item in filtered"
-          :key="item.id"
-          class="cm-card"
-          :style="{ '--cat': item.color, '--status': statusMeta[item.status].color }"
-        >
-          <div class="cm-card__top">
-            <span class="cm-card__icon">{{ item.icon }}</span>
-            <span class="cm-card__cat">{{ item.category }}</span>
-          </div>
-          <h2 class="cm-card__title">{{ item.name }}</h2>
-          <div class="cm-card__badges">
-            <span v-if="item.km" class="cm-pill">📏 {{ fmt(item.km) }} km</span>
-            <span v-if="item.months" class="cm-pill">🗓️ {{ formatTime(item.months) }}</span>
-          </div>
-          <p class="cm-card__note">{{ item.note }}</p>
-
-          <div class="cm-card__foot">
-            <template v-if="item.kind === 'tracked'">
-              <p class="cm-last">Last done: <strong>{{ lastDoneText(item) }}</strong></p>
-              <div class="cm-progress">
-                <div class="cm-bar">
-                  <span class="cm-bar__fill" :style="{ width: item.barPct + '%' }"></span>
-                </div>
-                <span class="cm-progress__pct">{{ item.roundPct }}%</span>
-              </div>
-              <div class="cm-card__meta">
-                <span class="cm-status"><span class="cm-dot"></span>{{ statusMeta[item.status].label }}</span>
-                <span>{{ bindingRemainingText(item) }}</span>
-              </div>
-              <div class="cm-due">
-                <span v-if="item.hasDistance">due at {{ fmt(item.dueKm) }} km</span>
-                <span v-if="item.hasTime">due {{ formatDate(item.dueDate) }}</span>
-              </div>
-            </template>
-
-            <p v-else-if="item.kind === 'unlogged'" class="cm-unlogged">
-              Not logged yet — add it under <code>"{{ item.id }}"</code> in <code>serviceLog.json</code>.
-            </p>
-
-            <div v-else class="cm-card__meta cm-card__meta--info">
-              <span class="cm-status"><span class="cm-dot"></span>{{ statusMeta[item.status].label }}</span>
-              <span>no fixed interval</span>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <ServiceHistory />
-
-      <MaintenanceGuide />
-
-      <p class="cm-footnote">
-        Guideline values for a 2015 MX-5 (ND) with the Skyactiv-G petrol engine under normal driving.
-        Progress is counted from the last service you record in
-        <code>src/data/serviceLog.json</code> — add <code>"lastKm"</code> and/or
-        <code>"lastDate"</code> (<code>YYYY-MM-DD</code>) under an item's id. Severe use shortens many
-        intervals; always defer to your owner's manual.
+      <p class="g-footnote">
+        Intervals are manufacturer guidelines for normal driving — halve the oil interval for short trips or
+        spirited drives. Status is figured against the odometer and the last logged service.
       </p>
-    </div>
-  </section>
+    </section>
+
+    <!-- logbook -->
+    <section class="g-logbook">
+      <h2 class="g-h2">The logbook</h2>
+      <p class="g-logbook__sub">Every visit since 2017 — newest first.</p>
+      <div v-for="(e, i) in history" :key="i" class="g-log">
+        <div class="g-log__when">
+          <div class="g-log__date">{{ e.dateLabel }}</div>
+          <div class="g-log__km">{{ e.kmLabel }}</div>
+        </div>
+        <div class="g-log__body">
+          <span class="g-log__dot" :style="{ background: e.dot }" aria-hidden="true"></span>
+          <div class="g-log__title">{{ e.title }}</div>
+          <div class="g-log__type">{{ e.typeLabel }}<template v-if="e.hasPlace"> · {{ e.place }}</template></div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { vehicle, categories, maintenanceItems, statusLegend } from '../data/carMaintenance.js';
-import serviceLog from '../data/serviceLog.json';
-import MaintenanceGuide from '../components/MaintenanceGuide.vue';
-import ServiceHistory from '../components/ServiceHistory.vue';
+import { car, schedule, summaryLine, history, odoChars } from '../data/garage.js';
 import mx5Photo from '../assets/media/mx5-soul-red.png';
-import mx5Reflection from '../assets/media/mx5-reflection.png';
-
-const odometer = ref(210000);
-const activeCategory = ref('All');
-const today = new Date();
-
-const categoryList = ['All', ...Object.keys(categories)];
-
-const statusMeta = Object.fromEntries(
-  statusLegend.map((s) => [s.id, { label: s.label, color: s.color }])
-);
-
-const fmt = (n) => Number(n).toLocaleString('en-US');
-
-const formatTime = (months) => {
-  if (!months) return null;
-  return months % 12 === 0 ? `${months / 12} yr` : `${months} mo`;
-};
-
-const formatDate = (value) => {
-  const d = value instanceof Date ? value : new Date(value);
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-};
-
-const addMonths = (date, n) => {
-  const r = new Date(date.getTime());
-  const day = r.getDate();
-  r.setMonth(r.getMonth() + n);
-  if (r.getDate() < day) r.setDate(0); // clamp to end of shorter month
-  return r;
-};
-
-const timeRemainingText = (days) => {
-  const abs = Math.abs(days);
-  let unit;
-  if (abs >= 60) unit = `${Math.round(abs / 30.44)} mo`;
-  else if (abs >= 14) unit = `${Math.round(abs / 7)} wk`;
-  else unit = `${abs} day${abs === 1 ? '' : 's'}`;
-  return days < 0 ? `Overdue by ${unit}` : `${unit} left`;
-};
-
-const bindingRemainingText = (item) => {
-  if (item.binding === 'distance') {
-    return item.kmRemaining < 0
-      ? `Overdue by ${fmt(-item.kmRemaining)} km`
-      : `${fmt(item.kmRemaining)} km left`;
-  }
-  return timeRemainingText(item.daysRemaining);
-};
-
-const lastDoneText = (item) => {
-  const parts = [];
-  if (item.lastDate) parts.push(formatDate(item.lastDate));
-  if (item.lastKm !== null) parts.push(`${fmt(item.lastKm)} km`);
-  return parts.join(' · ');
-};
-
-const processed = computed(() => {
-  const odo = Math.max(0, Number(odometer.value) || 0);
-  return maintenanceItems.map((item) => {
-    const base = { ...item, color: categories[item.category].color };
-
-    // No interval at all (e.g. timing chain) — never needs servicing.
-    if (!item.km && !item.months) {
-      return { ...base, kind: 'none', status: 'none' };
-    }
-
-    const log = serviceLog[item.id] || {};
-    const lastKm = typeof log.lastKm === 'number' ? log.lastKm : null;
-    const lastDate = log.lastDate || null;
-    const hasDistance = Boolean(item.km) && lastKm !== null;
-    const hasTime = Boolean(item.months) && Boolean(lastDate);
-
-    if (!hasDistance && !hasTime) {
-      return { ...base, kind: 'unlogged', status: 'unlogged', logged: false };
-    }
-
-    // Distance dimension.
-    let dpct = null;
-    let dueKm = null;
-    let kmRemaining = null;
-    if (hasDistance) {
-      dueKm = lastKm + item.km;
-      kmRemaining = dueKm - odo;
-      dpct = ((odo - lastKm) / item.km) * 100;
-    }
-
-    // Time dimension.
-    let tpct = null;
-    let dueDate = null;
-    let daysRemaining = null;
-    if (hasTime) {
-      const last = new Date(lastDate);
-      dueDate = addMonths(last, item.months);
-      const totalDays = (dueDate - last) / 86400000;
-      const elapsedDays = (today - last) / 86400000;
-      tpct = (elapsedDays / totalDays) * 100;
-      daysRemaining = Math.round((dueDate - today) / 86400000);
-    }
-
-    // Whichever dimension is closest to due drives the status.
-    const binding = (dpct ?? -Infinity) >= (tpct ?? -Infinity) ? 'distance' : 'time';
-    const pct = Math.max(0, binding === 'distance' ? dpct : tpct);
-    let status = 'ok';
-    if (pct >= 100) status = 'due';
-    else if (pct >= 85) status = 'soon';
-
-    return {
-      ...base,
-      kind: 'tracked',
-      logged: true,
-      lastKm,
-      lastDate,
-      hasDistance,
-      hasTime,
-      dueKm,
-      kmRemaining,
-      dueDate,
-      daysRemaining,
-      binding,
-      pct,
-      barPct: Math.min(100, pct),
-      roundPct: Math.round(pct),
-      status
-    };
-  });
-});
-
-const filtered = computed(() =>
-  activeCategory.value === 'All'
-    ? processed.value
-    : processed.value.filter((i) => i.category === activeCategory.value)
-);
-
-const nextService = computed(() => {
-  const tracked = processed.value.filter((i) => i.kind === 'tracked');
-  if (!tracked.length) return null;
-  return [...tracked].sort((a, b) => b.pct - a.pct)[0];
-});
-
-const summary = computed(() => {
-  const items = processed.value;
-  const tally = (s) => items.filter((i) => i.status === s).length;
-  const due = tally('due');
-  const soon = tally('soon');
-  const ok = tally('ok');
-  const tracked = due + soon + ok;
-  const dueDeg = tracked ? (due / tracked) * 360 : 0;
-  const soonDeg = tracked ? (soon / tracked) * 360 : 0;
-  const c = statusMeta;
-  const gradient = tracked
-    ? `conic-gradient(${c.due.color} 0 ${dueDeg}deg, ${c.soon.color} ${dueDeg}deg ${dueDeg + soonDeg}deg, ${c.ok.color} ${dueDeg + soonDeg}deg 360deg)`
-    : `conic-gradient(${c.none.color} 0 360deg)`;
-  return { due, soon, ok, tracked, total: items.length, gradient };
-});
 </script>
 
 <style scoped>
-/* Hero */
-.cm-hero {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--space-2xl);
-  align-items: center;
-  padding: var(--space-3xl) var(--space-2xl);
-  border: 1px solid var(--border);
-  border-radius: calc(var(--radius) * 1.4);
-  background:
-    radial-gradient(90% 130% at 88% -15%, rgba(200, 16, 46, 0.14), transparent 60%),
-    radial-gradient(80% 130% at 0% 115%, rgba(56, 189, 248, 0.08), transparent 55%),
-    linear-gradient(165deg, color-mix(in srgb, var(--text) 4%, var(--card)), var(--card));
-  box-shadow: var(--shadow);
+.garage { display: block; }
+
+/* ---- Hero --------------------------------------------------------------- */
+.g-hero {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 40px 0;
 }
 
-html[data-theme='dark'] .cm-hero {
-  background:
-    radial-gradient(90% 130% at 88% -15%, rgba(216, 28, 58, 0.28), transparent 60%),
-    radial-gradient(80% 130% at 0% 115%, rgba(56, 189, 248, 0.12), transparent 55%),
-    linear-gradient(165deg, #1a2540, #0e1729);
-}
-
-/* Showroom stage for the car photo */
-.cm-stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.cm-stage::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 36%;
-  width: 80%;
-  height: 30%;
-  transform: translateX(-50%);
-  background: radial-gradient(closest-side, rgba(200, 16, 46, 0.18), transparent 74%);
-  filter: blur(14px);
-  z-index: 0;
-}
-
-html[data-theme='dark'] .cm-stage::before {
-  background: radial-gradient(closest-side, rgba(224, 30, 60, 0.5), transparent 72%);
-}
-
-.cm-stage__car {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 34rem);
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 22px 18px rgba(8, 12, 24, 0.45));
-}
-
-html[data-theme='dark'] .cm-stage__car {
-  filter: drop-shadow(0 26px 22px rgba(0, 0, 0, 0.6));
-}
-
-.cm-stage__reflection {
-  width: min(100%, 34rem);
-  height: auto;
-  display: block;
-  margin-top: -1px;
-  opacity: 0.15;
-  pointer-events: none;
-}
-
-html[data-theme='dark'] .cm-stage__reflection {
-  opacity: 0.22;
-}
-
-.cm-hero__eyebrow {
-  display: inline-block;
-  text-transform: uppercase;
+.g-hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
   letter-spacing: 0.16em;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #c8102e;
-  padding: 4px 11px;
-  border-radius: 999px;
-  background: color-mix(in srgb, #c8102e 12%, transparent);
+  text-transform: uppercase;
+  color: var(--garage);
+  margin: 0;
 }
 
-html[data-theme='dark'] .cm-hero__eyebrow {
-  color: #ff6472;
-  background: color-mix(in srgb, #ff6472 15%, transparent);
+.g-hero__name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(34px, 6vw, 60px);
+  line-height: 1.04;
+  margin: 10px 0 8px;
+  color: var(--ink);
 }
 
-.cm-hero__name {
-  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-  margin-top: var(--space-md);
-  letter-spacing: -0.01em;
-}
-
-.cm-hero__sub {
+.g-hero__sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2.4vw, 22px);
   color: var(--muted);
-  margin-top: var(--space-xs);
+  margin: 0;
+}
+
+.g-hero__stage {
+  position: relative;
+  margin: 34px 0 6px;
+}
+
+.g-hero__stage img {
+  width: min(760px, 100%);
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 26px 30px rgba(42, 38, 32, 0.28));
+}
+
+.g-hero__cols {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 52px;
+  align-items: start;
+  margin-top: 30px;
+}
+
+.g-hero__story {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.66;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Odometer */
+.g-odo { margin-top: 34px; }
+
+.g-odo__display {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
   font-weight: 500;
 }
 
-.cm-specs {
-  list-style: none;
-  padding: 0;
-  margin: var(--space-xl) 0 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-  gap: var(--space-sm);
-}
-
-.cm-spec {
-  display: grid;
-  gap: 2px;
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg);
-}
-
-.cm-spec__label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.cm-spec__value {
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.cm-swatch {
-  width: 0.85em;
-  height: 0.85em;
-  border-radius: 50%;
-  background: #c41226;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-}
-
-/* Status overview */
-.cm-overview {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xl);
-  margin-top: var(--space-2xl);
-  padding: var(--space-xl);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow);
-}
-
-.cm-donut {
-  position: relative;
-  width: 124px;
-  height: 124px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.cm-donut__hole {
-  position: absolute;
-  inset: 15px;
-  border-radius: 50%;
-  background: var(--card);
-  display: grid;
-  place-items: center;
-  text-align: center;
-  box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.14);
-}
-
-.cm-donut__hole strong {
-  font-size: 1.7rem;
-  line-height: 1;
-}
-
-.cm-donut__hole span {
-  font-size: 0.7rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.cm-kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
-  gap: var(--space-md);
-  flex: 1;
-  min-width: 14rem;
-}
-
-.cm-kpi {
-  padding: var(--space-md) var(--space-lg);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--status, var(--border));
-  border-radius: var(--radius);
-  background: var(--bg);
-  display: grid;
-  gap: 2px;
-}
-
-.cm-kpi strong {
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--status, var(--text));
-}
-
-.cm-kpi span {
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-/* Control panel */
-.cm-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--space-xl);
-  margin-top: var(--space-xl);
-}
-
-.cm-odo,
-.cm-next {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-xl);
-  background: var(--card);
-  box-shadow: var(--shadow);
-}
-
-.cm-odo__label {
-  display: block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.cm-odo__field {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-sm);
-  margin-top: var(--space-sm);
-}
-
-.cm-odo__number {
-  width: 100%;
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
-  font-weight: 700;
-  color: var(--text);
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid var(--border);
-  padding: var(--space-xs) 0;
-}
-
-.cm-odo__number:focus-visible {
-  outline: none;
-  border-bottom-color: var(--accent-strong);
-}
-
-.cm-odo__unit {
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.cm-odo__range {
-  width: 100%;
-  margin-top: var(--space-lg);
-  accent-color: var(--accent-strong);
-}
-
-.cm-odo__scale {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin-top: var(--space-xs);
-}
-
-.cm-odo__hint {
-  margin-top: var(--space-md);
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Most urgent service highlight */
-.cm-next {
-  display: grid;
-  align-content: start;
-  gap: var(--space-md);
-  border-left: 4px solid var(--status);
-}
-
-.cm-next__tag {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 700;
-  color: var(--status);
-}
-
-.cm-next__head {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.cm-next__icon {
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
-.cm-next__name {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.cm-next__sub {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.cm-next__status {
-  justify-self: start;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--status);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--status) 16%, transparent);
-}
-
-/* Progress bar (shared) */
-.cm-bar {
-  height: 8px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--text) 10%, transparent);
-  overflow: hidden;
-}
-
-.cm-bar__fill {
-  display: block;
-  height: 100%;
-  border-radius: 999px;
-  background: var(--status);
-  transition: width var(--transition);
-}
-
-/* Section title */
-.cm-section-title {
-  font-size: 1.4rem;
-  margin: var(--space-3xl) 0 var(--space-md);
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.cm-section-title::before {
-  content: '';
-  width: 4px;
-  height: 1.05em;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #e23a44, #9e0f20);
-}
-
-/* Filter chips */
-.cm-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xl);
-}
-
-.cm-chip {
-  padding: var(--space-xs) var(--space-lg);
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--muted);
-  font-size: 0.88rem;
-  font-weight: 600;
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
-}
-
-.cm-chip:hover,
-.cm-chip:focus-visible {
-  color: var(--text);
-  border-color: var(--cat, var(--accent-strong));
-}
-
-.cm-chip--active {
-  color: var(--text);
-  border-color: var(--cat, var(--accent-strong));
-  background: color-mix(in srgb, var(--cat, var(--accent-strong)) 16%, transparent);
-}
-
-/* Maintenance grid */
-.cm-grid {
-  display: grid;
-  gap: var(--space-xl);
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-}
-
-.cm-card {
-  position: relative;
-  display: grid;
-  align-content: start;
-  gap: var(--space-md);
-  padding: var(--space-xl);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.cm-card::before {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  background: var(--cat);
-}
-
-.cm-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--cat) 45%, var(--border));
-  box-shadow: 0 26px 44px -30px rgba(15, 23, 42, 0.6), 0 0 0 1px color-mix(in srgb, var(--cat) 32%, transparent);
-}
-
-.cm-card__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.cm-card__icon {
+.g-odo__digit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 12px;
-  font-size: 1.35rem;
-  background: color-mix(in srgb, var(--cat) 16%, transparent);
+  width: 32px;
+  height: 46px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  font-size: 27px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.28);
 }
 
-.cm-card__cat {
-  font-size: 0.72rem;
-  font-weight: 700;
+.g-odo__sep {
+  color: var(--muted);
+  font-size: 27px;
+  padding: 0 1px;
+}
+
+.g-odo__unit {
+  margin-left: 9px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.g-odo__hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  margin: 12px 0 0;
+}
+
+/* Specs */
+.g-specs__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--cat);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--cat) 12%, transparent);
-}
-
-.cm-card__title {
-  font-size: 1.2rem;
-}
-
-.cm-card__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.cm-pill {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.cm-card__note {
   color: var(--muted);
-  font-size: 0.92rem;
+  margin: 0 0 6px;
 }
 
-.cm-card__foot {
-  display: grid;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
-}
-
-.cm-last {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.cm-last strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.cm-progress {
+.g-spec {
   display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.cm-progress .cm-bar {
-  flex: 1;
-}
-
-.cm-progress__pct {
-  font-size: 0.78rem;
-  font-weight: 700;
-  min-width: 2.6rem;
-  text-align: right;
-  color: var(--status);
-}
-
-.cm-card__meta {
-  display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  font-size: 0.82rem;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 11px 0;
+}
+
+.g-spec__l {
+  font-family: var(--font-mono);
+  font-size: 12px;
   color: var(--muted);
 }
 
-.cm-card__meta--info {
-  padding-top: var(--space-xs);
-}
-
-.cm-status {
+.g-spec__v {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  font-weight: 600;
-  color: var(--status);
+  gap: 8px;
 }
 
-.cm-dot {
-  width: 8px;
-  height: 8px;
+.g-spec__swatch {
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  background: var(--status);
+  background: var(--garage);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
-.cm-due {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  font-size: 0.74rem;
+/* ---- Schedule ----------------------------------------------------------- */
+.g-schedule {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 60px 40px 0;
+}
+
+.g-h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 34px);
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.g-schedule__summary {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
   color: var(--muted);
+  margin: 0;
 }
 
-.cm-due span {
-  padding: 2px var(--space-sm);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--bg);
+.g-schedule__list { margin-top: 18px; }
+
+.g-item {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
 }
 
-.cm-unlogged {
-  font-size: 0.85rem;
+.g-item.is-dim { opacity: 0.62; }
+
+.g-item__name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 21px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.g-item__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
   color: var(--muted);
-  font-style: italic;
+  margin: 5px 0 0;
 }
 
-.cm-unlogged code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-style: normal;
-  font-size: 0.85em;
-  padding: 1px 5px;
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--text) 8%, transparent);
-}
+.g-item__last { color: var(--faint); }
 
-.cm-footnote {
-  margin-top: var(--space-2xl);
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--border);
+.g-item__note {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  line-height: 1.5;
   color: var(--muted);
-  font-size: 0.82rem;
-  max-width: 72ch;
+  margin: 9px 0 0;
+  max-width: 52ch;
 }
 
-.cm-footnote code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.85em;
-  padding: 1px 5px;
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--text) 8%, transparent);
+.g-item__status { padding-top: 3px; }
+
+.g-item__label {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.g-bar {
+  margin-top: 11px;
+  height: 5px;
+  background: var(--shade);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.g-bar__fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.g-footnote {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--faint);
+  margin: 22px 0 0;
+  max-width: 64ch;
+}
+
+/* ---- Logbook ------------------------------------------------------------ */
+.g-logbook {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 60px 40px 84px;
+}
+
+.g-logbook__sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 26px;
+}
+
+.g-log {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 22px;
+}
+
+.g-log__when {
+  text-align: right;
+  padding-top: 1px;
+}
+
+.g-log__date {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+.g-log__km {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.g-log__body {
+  position: relative;
+  border-left: 1px solid var(--line);
+  padding: 0 0 26px 26px;
+}
+
+.g-log__dot {
+  position: absolute;
+  left: -5px;
+  top: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--paper);
+}
+
+.g-log__title {
+  font-family: var(--font-serif);
+  font-size: 18.5px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.g-log__type {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-top: 5px;
 }
 
 @media (max-width: 760px) {
-  .cm-hero,
-  .cm-panel {
-    grid-template-columns: 1fr;
-  }
+  .g-hero { padding: 30px 22px 0; }
+  .g-hero__cols { grid-template-columns: 1fr; gap: 34px; }
+  .g-schedule { padding: 48px 22px 0; }
+  .g-item { grid-template-columns: 1fr; gap: 12px; }
+  .g-item__label { text-align: left; }
+  .g-logbook { padding: 48px 22px 64px; }
+}
 
-  .cm-hero {
-    padding: var(--space-xl);
-  }
+@media (max-width: 420px) {
+  .g-odo__digit { width: 26px; height: 38px; font-size: 22px; }
+  .g-odo__sep { font-size: 22px; }
 }
 </style>

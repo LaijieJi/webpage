@@ -42,7 +42,9 @@ const formatDate = (value) =>
 }
 
 .svh__heading {
-  font-size: 1.4rem;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.7rem;
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -53,7 +55,7 @@ const formatDate = (value) =>
   width: 4px;
   height: 1.05em;
   border-radius: 999px;
-  background: linear-gradient(180deg, #e23a44, #9e0f20);
+  background: linear-gradient(180deg, #b25533, #a4161a);
 }
 
 .svh__sub {

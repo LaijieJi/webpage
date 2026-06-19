@@ -5,25 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Laijie Ji — Computer Science student & software developer</title>
     <meta name="description" content="Portafolio y blog de Laijie Ji, Computer Science student & software developer." />
-    <script>
-      (function () {
-        const storageKey = 'lj-theme';
-        try {
-          const stored = localStorage.getItem(storageKey);
-          if (stored) {
-            document.documentElement.dataset.theme = stored;
-            return;
-          }
-        } catch (error) {
-          /* ignore */
-        }
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.dataset.theme = 'dark';
-        } else {
-          document.documentElement.dataset.theme = 'light';
-        }
-      })();
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spline+Sans+Mono:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Pre-paint background to avoid a white flash before the stylesheet loads. */
+      html { background: #e3e4db; }
+    </style>
   </head>
   <body>
     <div id="app"></div>
