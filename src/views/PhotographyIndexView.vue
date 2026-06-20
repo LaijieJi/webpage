@@ -5,7 +5,11 @@
       <p class="cover__kicker">A field notebook of frames</p>
       <h1 class="cover__title">Mostly Outdoors</h1>
       <p class="cover__hand">all shot on foot, slowly</p>
-      <div class="cover__rule"></div>
+      <div class="cover__ornament" aria-hidden="true">
+        <span class="cover__ornament-rule"></span>
+        <span class="cover__ornament-dot"></span>
+        <span class="cover__ornament-rule"></span>
+      </div>
       <p class="cover__plates">Plates · 2025—2026</p>
       <p class="cover__scroll">↓ scroll to open</p>
     </section>
@@ -29,6 +33,7 @@
                 sizes="(max-width: 980px) 92vw, 900px"
               />
             </div>
+            <span class="plate__corners" aria-hidden="true"></span>
           </div>
           <div class="plate__cap">
             <span class="plate__name">Plate {{ String(i + 1).padStart(2, '0') }} · {{ entry.frontmatter.title }}</span>
@@ -75,7 +80,16 @@ function frameStyle(i) {
   justify-content: center;
   text-align: center;
   padding: 40px;
-  background: var(--shade);
+  background: url('../assets/media/ridges.svg') bottom center / 100% 42% no-repeat,
+    var(--shade);
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 22px;
+  border: 1px solid var(--line);
+  pointer-events: none;
 }
 
 .cover__kicker {
@@ -104,11 +118,25 @@ function frameStyle(i) {
   white-space: nowrap;
 }
 
-.cover__rule {
-  width: 54px;
+.cover__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 0 14px;
+}
+
+.cover__ornament-rule {
+  width: 46px;
   height: 1px;
   background: var(--line);
-  margin: 0 auto 12px;
+}
+
+.cover__ornament-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent2);
+  transform: rotate(45deg);
 }
 
 .cover__plates {
@@ -151,9 +179,10 @@ function frameStyle(i) {
 }
 
 .plate__frame {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 18px;
+  padding: 18px 18px 26px;
   box-shadow: 0 34px 64px -50px rgba(42, 38, 32, 0.55);
   transform: rotate(var(--tilt, -1deg));
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.5s ease;
@@ -167,6 +196,23 @@ function frameStyle(i) {
 
 .plate__photo {
   overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(42, 38, 32, 0.16);
+}
+
+/* Mounting corners, like a photo tipped into an album page. */
+.plate__corners {
+  position: absolute;
+  inset: 18px;
+  bottom: 26px;
+  pointer-events: none;
+  background-image:
+    linear-gradient(135deg, rgba(38, 31, 22, 0.72) 0 47%, transparent 48%),
+    linear-gradient(225deg, rgba(38, 31, 22, 0.72) 0 47%, transparent 48%),
+    linear-gradient(45deg, rgba(38, 31, 22, 0.72) 0 47%, transparent 48%),
+    linear-gradient(315deg, rgba(38, 31, 22, 0.72) 0 47%, transparent 48%);
+  background-position: top left, top right, bottom left, bottom right;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
 }
 
 .plate__photo img {

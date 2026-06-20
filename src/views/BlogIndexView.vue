@@ -5,6 +5,11 @@
       <p class="cover__vol">Vol. one</p>
       <h1 class="cover__title">The Journal</h1>
       <p class="cover__hand">pull up a chair —</p>
+      <div class="cover__ornament" aria-hidden="true">
+        <span class="cover__ornament-rule"></span>
+        <span class="cover__ornament-dot"></span>
+        <span class="cover__ornament-rule"></span>
+      </div>
       <div class="cover__frame">
         <div class="cover__photo">
           <ResponsiveImg :src="lamyImg.src" :webp="lamyImg.webp" alt="My Lamy Safari resting on a notebook" fill cover eager />
@@ -96,7 +101,23 @@ function dateShort(value) {
   justify-content: center;
   text-align: center;
   padding: 40px;
-  background: var(--shade);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 33px,
+      rgba(60, 58, 50, 0.06) 33px,
+      rgba(60, 58, 50, 0.06) 34px
+    ),
+    var(--shade);
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 22px;
+  border: 1px solid var(--line);
+  pointer-events: none;
 }
 
 .cover__vol {
@@ -125,6 +146,27 @@ function dateShort(value) {
   transform: rotate(-2.5deg);
   margin: 26px 0 0;
   white-space: nowrap;
+}
+
+.cover__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 26px 0 2px;
+}
+
+.cover__ornament-rule {
+  width: 46px;
+  height: 1px;
+  background: var(--line);
+}
+
+.cover__ornament-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  transform: rotate(45deg);
 }
 
 .cover__frame {
@@ -178,9 +220,25 @@ function dateShort(value) {
   position: relative;
   max-width: 860px;
   margin: 0 auto;
-  background: var(--surface);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      rgba(60, 58, 50, 0.09) 31px,
+      rgba(60, 58, 50, 0.09) 32px
+    ),
+    var(--surface);
   border: 1px solid var(--line);
-  box-shadow: 0 36px 72px -52px rgba(42, 38, 32, 0.5);
+  /* Stacked page-edges peeking out, so it reads as a bound journal. */
+  box-shadow:
+    8px 10px 0 -1px var(--surface),
+    8px 10px 0 0 var(--line),
+    16px 20px 0 -1px var(--surface),
+    16px 20px 0 0 var(--line),
+    24px 30px 0 -1px var(--surface),
+    24px 30px 0 0 var(--line),
+    0 46px 76px -46px rgba(42, 38, 32, 0.5);
   padding: 50px 56px 36px 96px;
   transform: rotate(-0.5deg);
 }
