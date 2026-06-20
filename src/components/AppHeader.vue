@@ -2,7 +2,7 @@
   <header class="site-header">
     <div class="site-header__inner">
       <router-link class="site-brand" to="/">Laijie Ji</router-link>
-      <nav class="site-nav" aria-label="Principal">
+      <nav class="site-nav" aria-label="Primary">
         <router-link
           v-for="item in links"
           :key="item.to"

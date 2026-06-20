@@ -14,7 +14,7 @@
         <div>
           <p class="g-hero__story">{{ car.story }}</p>
           <div class="g-odo">
-            <div class="g-odo__display">
+            <div class="g-odo__display" role="img" :aria-label="`${car.currentKm.toLocaleString('en-US')} kilometres on the odometer`">
               <template v-for="(c, i) in odoChars" :key="i">
                 <span v-if="c.digit" class="g-odo__digit">{{ c.ch }}</span>
                 <span v-else class="g-odo__sep">{{ c.ch }}</span>

@@ -29,7 +29,7 @@
         <div class="journal__head">
           <p class="journal__kicker">The Journal</p>
         </div>
-        <h1 class="journal__title">Notes from a slow reader.</h1>
+        <h2 class="journal__title">Notes from a slow reader.</h2>
         <p class="journal__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
 
         <router-link

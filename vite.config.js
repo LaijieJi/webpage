@@ -29,7 +29,7 @@ function readFrontmatter(file) {
 function allRoutes() {
   const post = (s) => {
     const fm = readFrontmatter(path.resolve('src/posts', `${s}.md`));
-    return { path: `/blog/${s}`, title: fm.title || s, desc: fm.excerpt || '' };
+    return { path: `/blog/${s}`, title: fm.title || s, desc: fm.excerpt || '', date: fm.date || '', type: 'post' };
   };
   const photo = (s) => {
     const fm = readFrontmatter(path.resolve('src/photography', `${s}.md`));
@@ -83,6 +83,23 @@ function prerenderOG() {
     html = setMeta(html, 'property', 'og:url', url);
     html = setMeta(html, 'name', 'twitter:title', fullTitle);
     html = setMeta(html, 'name', 'twitter:description', route.desc);
+
+    if (route.type === 'post') {
+      const ld = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: route.title,
+        description: route.desc,
+        datePublished: route.date,
+        url,
+        mainEntityOfPage: url,
+        image: OG_IMAGE,
+        author: { '@type': 'Person', name: 'Laijie Ji', url: `${SITE_URL}/` },
+        publisher: { '@type': 'Person', name: 'Laijie Ji' }
+      };
+      const script = `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
+      html = html.replace('</head>', `    ${script}\n  </head>`);
+    }
     return html;
   }
 
