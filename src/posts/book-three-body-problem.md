@@ -27,6 +27,8 @@ The first one had all the powers on the world, yet, the first thing he did was t
 
 The second one, after being given the role of Swordholder, faced the situation in which she could either reveal the position of the enemies even if it involved revealing the location of the Earth too to provoke the extintion of both worlds, or refuse to do so and risk it all, allowing the Trisolarans to subdue human civilization, with the hope that in a future they could manage to survive all these events. Thus, the question is: Given the case that you could die under the attack of someone(or something), would you prefer that you both were exterminated, or would you accept your fate and simply die?
 
+> Would you rather you both were exterminated, or accept your fate and simply die?
+
 ## An image of the society
 
 Throughout the Trilogy, human civilization faces events that lead to the best and the worst of it. From a civilized world where peace was onmipresent and everyone enjoyed the best of conditions, to a civilization that was forced to relocate to a single continent and fight against each other for their own survival, the humans went through many events where they couldn't see a bright future, but still, they decided to be comfident about it, and never lost the hope, even in the last of their days.

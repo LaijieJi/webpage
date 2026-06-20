@@ -20,6 +20,7 @@
                 stroke="currentColor"
                 stroke-width="1.8"
                 stroke-linecap="round"
+                pathLength="1"
               />
             </svg>
           </span>
@@ -106,6 +107,11 @@ const isCurrent = (path) => {
 
 .site-nav__squiggle svg {
   display: block;
+}
+
+.site-nav__squiggle path {
+  stroke-dasharray: 1;
+  animation: lj-draw 0.45s ease both;
 }
 
 @media (max-width: 640px) {

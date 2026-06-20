@@ -42,6 +42,8 @@ function apply(next) {
   const el = document.documentElement;
   if (next === 'warm') el.dataset.palette = 'warm';
   else delete el.dataset.palette;
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) themeColor.setAttribute('content', next === 'warm' ? '#50653c' : '#4c6b4a');
   try {
     localStorage.setItem(STORAGE_KEY, next);
   } catch (e) {

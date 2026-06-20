@@ -217,12 +217,20 @@ function dateLong(value) {
   margin-top: 6px;
 }
 
+/* Pull-quote: a `> line` in a review is lifted out as an editorial quote. */
 .post__body :deep(blockquote) {
-  margin: 24px 0 0;
-  padding-left: 18px;
-  border-left: 2px solid var(--accent2);
-  color: var(--muted);
+  margin: 36px 0;
+  padding: 2px 0 2px 24px;
+  border-left: 3px solid var(--accent2);
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 25px;
+  line-height: 1.34;
+  color: var(--accent);
+}
+
+.post__body :deep(blockquote p) {
+  margin: 0;
 }
 
 .post__foot {

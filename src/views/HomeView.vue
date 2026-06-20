@@ -17,7 +17,7 @@
           <em>outside</em>
           <span class="hero__underline" aria-hidden="true">
             <svg viewBox="0 0 120 13" preserveAspectRatio="none">
-              <path d="M2 8 Q 18 2 34 8 T 66 8 T 98 8 T 118 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+              <path d="M2 8 Q 18 2 34 8 T 66 8 T 98 8 T 118 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" pathLength="1" />
             </svg>
           </span></span>.
       </h1>
@@ -251,6 +251,11 @@ function formatDate(value) {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.hero__underline path {
+  stroke-dasharray: 1;
+  animation: lj-draw 0.7s ease 0.2s both;
 }
 
 .hero__note {

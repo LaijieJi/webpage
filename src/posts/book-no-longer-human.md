@@ -17,6 +17,8 @@ The first thing that surprised me was how easy it was to read. Dazai does not hi
 
 The story is told through the notebooks of Ōba Yōzō, a man who confesses his life without any filter. Because the language is so direct, there is nothing standing between you and his thoughts, and before you even realise it, you are no longer reading a novel, you are reading the private diary of someone who decided to tell you everything. I think that is the biggest achievement of the book: it manages to feel enormous while saying it all in the most modest way possible.
 
+> You are no longer reading a novel, you are reading someone's most private thoughts.
+
 ## When the author and the character are the same person
 
 What makes *No Longer Human* hit even harder is knowing that it is, almost entirely, an autobiography. Yōzō's life mirrors Dazai's own, his alienation, his addictions, his repeated attempts to end his life, and Dazai himself drowned only a short time after finishing this book. Reading it, you are not watching a character fall apart from a safe distance, you are watching a man write down his own goodbye.

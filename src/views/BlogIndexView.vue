@@ -203,6 +203,12 @@ function dateShort(value) {
   border: 7px solid rgba(120, 82, 40, 0.07);
   transform: rotate(-8deg);
   pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
+}
+
+.journal__sheet:hover .journal__stamp {
+  transform: rotate(-3deg) scale(1.08);
+  border-color: rgba(120, 82, 40, 0.16);
 }
 
 .journal__scribble {
