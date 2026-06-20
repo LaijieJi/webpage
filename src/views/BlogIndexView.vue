@@ -49,12 +49,25 @@
 
         <div class="journal__foot"><span>~ one ~</span></div>
       </div>
+
+      <section class="shelf" v-reveal>
+        <p class="shelf__eyebrow">On the shelf</p>
+        <p class="shelf__sub">What I want to read next.</p>
+        <ul class="shelf__list">
+          <li v-for="book in readingList" :key="book.title" class="shelf__item">
+            <span class="shelf__title">{{ book.title }}</span>
+            <span class="shelf__author">{{ book.author }}</span>
+          </li>
+        </ul>
+        <p class="shelf__note">can't wait for these →</p>
+      </section>
     </div>
   </div>
 </template>
 
 <script setup>
 import posts from '../data/posts.js';
+import { readingList } from '../data/books.js';
 import { lamyImg } from '../data/media.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 
@@ -320,6 +333,67 @@ function dateShort(value) {
   font-size: 11px;
   letter-spacing: 0.2em;
   color: var(--faint);
+}
+
+/* On the shelf — reading list below the journal. */
+.shelf {
+  max-width: 860px;
+  margin: 56px auto 0;
+}
+
+.shelf__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.shelf__sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.shelf__list {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+}
+
+.shelf__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+
+.shelf__title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  color: var(--ink);
+}
+
+.shelf__author {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.shelf__note {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: var(--accent2);
+  transform: rotate(-2deg);
+  margin: 20px 0 0;
+  text-align: right;
 }
 
 @media (max-width: 640px) {
