@@ -7,7 +7,7 @@ excerpt: They call the witchers monsters, but the cruelest ones here are only hu
 
 ## Back to the Path
 
-After spending so much time in the world of the Witcher, through the books, the games, and the late nights talking about them with friends, I did not think Sapkowski could still surprise me with Geralt. *Crossroads of Ravens* proved me wrong. Instead of the weary, sharp-tongued witcher I already knew, this book hands you a much younger Geralt, barely out of Kaer Morhen, still figuring out what kind of man, or monster, the world expects him to be.
+After spending so much time in the world of the Witcher, through the books, and the late nights playing the games, I did not think Sapkowski could still surprise me with Geralt. *Crossroads of Ravens* proved me wrong. Instead of the weary, sharp-tongued witcher I already knew, this book hands you a much younger Geralt, barely out of Kaer Morhen, still figuring out what kind of man, or monster, the world expects him to be.
 
 It is a story about beginnings, and that is exactly what makes it so interesting.
 
