@@ -83,17 +83,21 @@ function dateLong(value) {
 }
 
 .post__card {
+  --tilt: 0.4deg;
   position: relative;
   margin-top: 20px;
   background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: 0 36px 72px -52px rgba(42, 38, 32, 0.5);
-  transform: rotate(0.4deg);
+  transform: rotate(var(--tilt));
 }
 
 .post__grid {
   display: grid;
   grid-template-columns: 140px 1fr;
+  /* Keep the paper's tilt, but print the words level so the article reads
+     straight. Cancels .post__card's rotation exactly (shared centre). */
+  transform: rotate(calc(-1 * var(--tilt)));
 }
 
 .post__aside {

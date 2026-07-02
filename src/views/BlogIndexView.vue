@@ -31,28 +31,30 @@
         <span class="journal__stamp" aria-hidden="true"></span>
         <span class="journal__scribble" aria-hidden="true">newest first ↓</span>
 
-        <div class="journal__head">
-          <p class="journal__kicker">The Journal</p>
-        </div>
-        <h2 class="journal__title">Notes from a slow reader.</h2>
-        <p class="journal__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
-
-        <router-link
-          v-for="post in posts"
-          :key="post.slug"
-          class="entry"
-          v-reveal
-          :to="`/blog/${post.slug}`"
-        >
-          <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
-          <div>
-            <div class="entry__tags"><template v-if="post.frontmatter.tags?.length">{{ post.frontmatter.tags.join(' · ') }} · </template>{{ post.readingTime }} min</div>
-            <h2 class="entry__title">{{ post.frontmatter.title }}</h2>
-            <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
+        <div class="journal__body">
+          <div class="journal__head">
+            <p class="journal__kicker">The Journal</p>
           </div>
-        </router-link>
+          <h2 class="journal__title">Notes from a slow reader.</h2>
+          <p class="journal__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
 
-        <div class="journal__foot"><span>~ one ~</span></div>
+          <router-link
+            v-for="post in posts"
+            :key="post.slug"
+            class="entry"
+            v-reveal
+            :to="`/blog/${post.slug}`"
+          >
+            <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
+            <div>
+              <div class="entry__tags"><template v-if="post.frontmatter.tags?.length">{{ post.frontmatter.tags.join(' · ') }} · </template>{{ post.readingTime }} min</div>
+              <h2 class="entry__title">{{ post.frontmatter.title }}</h2>
+              <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
+            </div>
+          </router-link>
+
+          <div class="journal__foot"><span>~ one ~</span></div>
+        </div>
       </div>
 
       <section class="shelf" v-reveal>
@@ -240,7 +242,14 @@ function dateShort(value) {
     24px 30px 0 0 var(--line),
     0 46px 76px -46px rgba(42, 38, 32, 0.5);
   padding: 50px 56px 36px 96px;
-  transform: rotate(-0.5deg);
+  --tilt: -0.5deg;
+  transform: rotate(var(--tilt));
+}
+
+/* The sheet (and its printed margin, river, stamp & scribble) keep the tilt;
+   the written content is levelled back so entries read straight. */
+.journal__body {
+  transform: rotate(calc(-1 * var(--tilt)));
 }
 
 .journal__margin {
