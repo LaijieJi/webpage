@@ -225,8 +225,6 @@ function unlockTurn() {
 <style scoped>
 .journal {
   position: relative;
-  /* Ribbon tabs poke past the sheet edge; never let them cause sideways scroll. */
-  overflow-x: clip;
 }
 
 /* ---- Sticky cover ------------------------------------------------------- */
@@ -354,6 +352,9 @@ function unlockTurn() {
   background: var(--paper);
   padding: 72px 40px 84px;
   box-shadow: 0 -24px 50px -28px rgba(42, 38, 32, 0.45);
+  /* Keep turning pages from causing sideways scroll. Lives here — NOT on
+     .journal — because an overflow ancestor breaks the sticky cover in Safari. */
+  overflow-x: clip;
 }
 
 /* The stack holds the current leaf, the incoming/outgoing leaf mid-turn,
@@ -830,7 +831,7 @@ function unlockTurn() {
 }
 
 @media (max-width: 640px) {
-  .journal__wrap { padding: 48px 18px 64px; }
+  .journal__wrap { padding: 48px 18px 92px; } /* room for the hanging bookmarks */
   .journal__sheet { padding: 40px 24px 30px 56px; min-height: 0; }
   .journal__margin { left: 18px; }
   .journal__river { left: 40px; }

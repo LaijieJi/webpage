@@ -15,7 +15,7 @@ import bavaria1280 from '../assets/media/bavaria-1280.webp';
 import lamyJpg from '../assets/media/lamy-notebook.jpeg';
 import lamy1000 from '../assets/media/lamy-1000.webp';
 
-export const munichImg = { src: munichJpg, webp: `${munich640} 640w, ${munich1024} 1024w` };
-export const leafImg = { src: leafJpg, webp: `${leaf640} 640w, ${leaf1024} 1024w` };
-export const bavariaImg = { src: bavariaJpg, webp: `${bavaria640} 640w, ${bavaria1280} 1280w` };
+export const munichImg = { src: munichJpg, webp: `${munich640} 640w, ${munich1024} 1024w`, ratio: '1024 / 768' };
+export const leafImg = { src: leafJpg, webp: `${leaf640} 640w, ${leaf1024} 1024w`, ratio: '1024 / 768' };
+export const bavariaImg = { src: bavariaJpg, webp: `${bavaria640} 640w, ${bavaria1280} 1280w`, ratio: '1280 / 853' };
 export const lamyImg = { src: lamyJpg, webp: lamy1000 };
