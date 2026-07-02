@@ -5,6 +5,10 @@ tags: [books, classics]
 excerpt: Sometimes the hardest thing of all is simply to live as a human being
 ---
 
+## The story
+
+Told through three notebooks left behind by a man named Ōba Yōzō, the novel traces a life lived at a strange distance from everyone else. From childhood, Yōzō feels he cannot understand other people, and hides his fear behind the mask of a clown, drifting through art, women, drink and despair. Osamu Dazai finished it not long before his own death, and it reads like a confession.
+
 ## A book that had been waiting for me
 
 For a while I had wanted to step away from the desolate, post-apocalyptic worlds I usually get lost into, and read something more human, more grounded. *No Longer Human*, by Osamu Dazai, is a title that kept appearing every time I looked into the classics of Japanese literature, always surrounded by the same kind of comments: that it was sad, honest, and impossible to forget. With that reputation, and the curiosity to understand a culture I deeply admire, I finally decided to give it a go.

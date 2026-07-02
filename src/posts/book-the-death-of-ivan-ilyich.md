@@ -5,6 +5,10 @@ tags: [books, classics]
 excerpt: He lived exactly as he was supposed to, which is the very reason he never truly lived
 ---
 
+## The story
+
+Ivan Ilyich is a successful high-court judge who has always done things exactly the way they are meant to be done: the proper career, the proper marriage, the proper house, the proper friends. Then a trivial injury becomes an illness that will not pass, and the life he built so carefully begins to look very different from the inside. Tolstoy tells the whole of it in barely a hundred pages.
+
 ## A short book before a big day
 
 I picked up *The Death of Ivan Ilyich* for a simple reason: I wanted something short. My thesis defence is only a couple of weeks away, and before the days fill up with rehearsals and nerves, I wanted to close one more book, something I could actually finish in a sitting or two. Tolstoy's novella was the obvious choice, barely a hundred pages, and it had been waiting on my shelf for a while.

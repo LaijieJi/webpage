@@ -5,6 +5,10 @@ tags: [books, fantasy]
 excerpt: They call the witchers monsters, but the cruelest ones here are only human
 ---
 
+## The story
+
+This is Geralt of Rivia long before the legend: barely out of the witcher keep of Kaer Morhen, young, sharp, and far from sure of himself, setting out on the Path for the very first time. Andrzej Sapkowski's novel follows those early contracts and harder lessons, as a newly made monster-hunter starts to learn how little the world he bleeds for thinks of his kind. It is the earliest chapter yet written in the Witcher saga.
+
 ## Back to the Path
 
 After spending so much time in the world of the Witcher, through the books, and the late nights playing the games, I did not think Sapkowski could still surprise me with Geralt. *Crossroads of Ravens* proved me wrong. Instead of the weary, sharp-tongued witcher I already knew, this book hands you a much younger Geralt, barely out of Kaer Morhen, still figuring out what kind of man, or monster, the world expects him to be.

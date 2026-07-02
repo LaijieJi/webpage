@@ -5,6 +5,10 @@ tags: [books, sci-fi]
 excerpt: They had spent so long in the dark that the light became the thing they feared most
 ---
 
+## The story
+
+A generation after the bombs fell, the survivors of Moscow live crammed into the tunnels of the metro, each station its own small, wary nation. Artyom cannot accept that this is all that remains of the world, and keeps climbing to the poisoned surface with a radio, hunting for any signal that other people are still alive out there. *Metro 2035* is the final book of Dmitry Glukhovsky's trilogy.
+
 ## The end of the line
 
 *Metro 2035* was the last stop in a journey that started years ago, when I picked up some of the first science fiction I ever read. The Metro books, along with everything in that same Russian, post-apocalyptic, STALKER kind of mood, were the stories that pulled me into the genre in the first place. So coming to the final novel of Glukhovsky's saga felt like saying goodbye to something that had quietly shaped the way I read. And to my surprise, it might just be the best of them all.
