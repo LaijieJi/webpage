@@ -40,7 +40,6 @@ function allRoutes() {
     { path: '/projects', title: 'Projects', desc: "Selected things I've built — mostly to learn something, or to scratch an itch." },
     { path: '/blog', title: 'The Journal', desc: 'Notes from a slow reader — book reviews and the occasional rabbit hole.' },
     { path: '/photography', title: 'Photography', desc: 'Mostly Outdoors — frames from slow walks and travels.' },
-    { path: '/car-maintenance', title: 'The Garage', desc: 'A 2015 Mazda MX-5 in Soul Red, and its service logbook.' },
     ...slugsIn(path.resolve('src/posts')).map(post),
     ...slugsIn(path.resolve('src/photography')).map(photo)
   ];

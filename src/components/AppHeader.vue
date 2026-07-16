@@ -38,8 +38,7 @@ const links = [
   { label: 'home', to: '/', color: 'var(--accent)' },
   { label: 'projects', to: '/projects', color: 'var(--accent)' },
   { label: 'blog', to: '/blog', color: 'var(--accent)' },
-  { label: 'photography', to: '/photography', color: 'var(--accent2)' },
-  { label: 'garage', to: '/car-maintenance', color: 'var(--garage)' }
+  { label: 'photography', to: '/photography', color: 'var(--accent2)' }
 ];
 
 const isCurrent = (path) => {

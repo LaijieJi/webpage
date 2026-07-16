@@ -12,23 +12,22 @@
         </transition><span class="hero__hello-comma">,</span>
       </p>
       <h1 class="hero__title">
-        I write software. The rest of the time, I'm
+        Mostly, I'm
         <span class="hero__accent">
-          <em>outside</em>
+          <em>curious</em>
           <span class="hero__underline" aria-hidden="true">
             <svg viewBox="0 0 120 13" preserveAspectRatio="none">
               <path d="M2 8 Q 18 2 34 8 T 66 8 T 98 8 T 118 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" pathLength="1" />
             </svg>
-          </span></span>.
+          </span></span> about how things work, and doing them properly.
       </h1>
-      <p class="hero__note">— still figuring it out, slowly</p>
     </section>
 
     <!-- intro + snapshot -->
     <section class="intro" v-reveal>
       <div class="intro__prose">
-        <p class="intro__lead">I read more than I probably should, still write letters by hand, and happily lose an afternoon to a long trail or a quiet lake.</p>
-        <p class="intro__lead intro__lead--muted">I'd rather make one thing properly than rush through ten, and I like understanding how things actually work.</p>
+        <p class="intro__lead">That curiosity is behind most of what I do, from the code I build to the books I read.</p>
+        <p class="intro__lead intro__lead--muted">I'd rather make one thing well than rush through ten, and I care more about understanding something than finishing it fast.</p>
       </div>
       <aside class="card">
         <span class="card__tape" aria-hidden="true"></span>

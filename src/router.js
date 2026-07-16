@@ -5,7 +5,6 @@ import BlogIndexView from './views/BlogIndexView.vue';
 import BlogPostView from './views/BlogPostView.vue';
 import PhotographyIndexView from './views/PhotographyIndexView.vue';
 import PhotographyPostView from './views/PhotographyPostView.vue';
-import CarMaintenanceView from './views/CarMaintenanceView.vue';
 import NotFoundView from './views/NotFoundView.vue';
 
 const routes = [
@@ -15,7 +14,6 @@ const routes = [
   { path: '/blog/:slug', name: 'blog-post', component: BlogPostView, props: true, meta: { title: 'Blog Entry' } },
   { path: '/photography', name: 'photography', component: PhotographyIndexView, meta: { title: 'Photography' } },
   { path: '/photography/:slug', name: 'photography-post', component: PhotographyPostView, props: true, meta: { title: 'Photography' } },
-  { path: '/car-maintenance', name: 'car-maintenance', component: CarMaintenanceView, meta: { title: 'Car Maintenance' } },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',

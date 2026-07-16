@@ -1,6 +1,6 @@
 <template>
   <div class="post-page">
-    <article class="post" v-if="post">
+    <article class="post" :class="{ 'post--garage': post.frontmatter.variant === 'garage' }" v-if="post">
     <router-link class="post__back" to="/blog">← the journal</router-link>
     <div class="post__card">
       <div class="post__grid">
@@ -335,5 +335,86 @@ function dateLong(value) {
   .post__main { padding: 32px 26px; }
   .post__nav { grid-template-columns: 1fr; }
   .post__nav-link--next { text-align: left; }
+}
+
+/* ---- Garage variant — the car entry wears Soul Red + a plate masthead ---- */
+.post--garage {
+  --accent: var(--garage);
+  --accent2: #7d1417;
+}
+
+.post__body :deep(.plate) {
+  margin: 0 0 38px;
+  padding: 0 0 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.post__body :deep(.plate__eyebrow) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--garage);
+  margin-bottom: 18px;
+}
+
+.post__body :deep(.plate__odo) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.post__body :deep(.plate__digit) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 46px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  font-size: 27px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.28);
+}
+
+.post__body :deep(.plate__sep) {
+  color: var(--muted);
+  font-size: 27px;
+  padding: 0 1px;
+}
+
+.post__body :deep(.plate__unit) {
+  margin-left: 9px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.post__body :deep(.plate__specs) {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-top: 18px;
+}
+
+.post__body :deep(.plate__swatch) {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--garage);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  vertical-align: middle;
+  margin: 0 5px 2px 0;
+}
+
+@media (max-width: 420px) {
+  .post__body :deep(.plate__digit) { width: 26px; height: 38px; font-size: 22px; }
+  .post__body :deep(.plate__sep) { font-size: 22px; }
 }
 </style>

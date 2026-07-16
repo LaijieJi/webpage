@@ -70,7 +70,7 @@
                 >
                   <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
                   <div>
-                    <div class="entry__tags"><template v-if="post.frontmatter.tags?.length">{{ post.frontmatter.tags.join(' · ') }} · </template>{{ post.readingTime }} min</div>
+                    <div class="entry__tags"><template v-for="tag in post.frontmatter.tags" :key="tag"><span :style="tagColor(tag) ? { color: tagColor(tag) } : null">{{ tag }}</span> · </template>{{ post.readingTime }} min</div>
                     <h2 class="entry__title">{{ post.frontmatter.title }}</h2>
                     <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
                   </div>
@@ -110,7 +110,7 @@
                 <div v-for="post in pageSlice(n - 1)" :key="post.slug" class="entry">
                   <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
                   <div>
-                    <div class="entry__tags"><template v-if="post.frontmatter.tags?.length">{{ post.frontmatter.tags.join(' · ') }} · </template>{{ post.readingTime }} min</div>
+                    <div class="entry__tags"><template v-for="tag in post.frontmatter.tags" :key="tag"><span :style="tagColor(tag) ? { color: tagColor(tag) } : null">{{ tag }}</span> · </template>{{ post.readingTime }} min</div>
                     <p class="entry__title">{{ post.frontmatter.title }}</p>
                     <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
                   </div>
@@ -130,7 +130,7 @@
 
       <section class="shelf" v-reveal>
         <p class="shelf__eyebrow">On the shelf</p>
-        <p class="shelf__sub">What I want to read next.</p>
+        <p class="shelf__sub">The ones I'll be reading next.</p>
         <ul class="shelf__list">
           <li v-for="book in readingList" :key="book.title" class="shelf__item">
             <span class="shelf__title">{{ book.title }}</span>
@@ -156,6 +156,12 @@ const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', '
 function dateShort(value) {
   const d = value ? new Date(value) : new Date();
   return `${d.getDate()} ${MONTHS[d.getMonth()]}\n${d.getFullYear()}`;
+}
+
+// Special tag colours; every other tag inherits the muted default.
+const TAG_COLORS = { cars: 'var(--garage)' };
+function tagColor(tag) {
+  return TAG_COLORS[tag] || null;
 }
 
 /* ---- Pagination: the journal turns like a bound notebook ---------------- */
