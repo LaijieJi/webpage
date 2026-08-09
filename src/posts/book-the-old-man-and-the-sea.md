@@ -1,6 +1,6 @@
 ---
 title: Book Review - The Old Man and the Sea
-date: 2026-07-11
+date: 2026-08-02
 tags: [books, classics]
 excerpt: One old man against one great fish, and the hardest battles are the ones nobody sees
 ---
