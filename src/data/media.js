@@ -15,7 +15,17 @@ import bavaria1280 from '../assets/media/bavaria-1280.webp';
 import lamyJpg from '../assets/media/lamy-notebook.jpeg';
 import lamy1000 from '../assets/media/lamy-1000.webp';
 
+import triesteJpg from '../assets/media/trieste-1600.jpeg';
+import trieste640 from '../assets/media/trieste-640.webp';
+import trieste1280 from '../assets/media/trieste-1280.webp';
+
+import pragueJpg from '../assets/media/prague-1600.jpeg';
+import prague640 from '../assets/media/prague-640.webp';
+import prague1280 from '../assets/media/prague-1280.webp';
+
 export const munichImg = { src: munichJpg, webp: `${munich640} 640w, ${munich1024} 1024w`, ratio: '1024 / 768' };
 export const leafImg = { src: leafJpg, webp: `${leaf640} 640w, ${leaf1024} 1024w`, ratio: '1024 / 768' };
 export const bavariaImg = { src: bavariaJpg, webp: `${bavaria640} 640w, ${bavaria1280} 1280w`, ratio: '1280 / 853' };
 export const lamyImg = { src: lamyJpg, webp: lamy1000 };
+export const triesteImg = { src: triesteJpg, webp: `${trieste640} 640w, ${trieste1280} 1280w`, ratio: '1280 / 1024' };
+export const pragueImg = { src: pragueJpg, webp: `${prague640} 640w, ${prague1280} 1280w`, ratio: '1280 / 769' };
