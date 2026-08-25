@@ -23,7 +23,7 @@ Seeing the origin of so many things I had taken for granted in the later stories
 
 ## Evil, and the refusal to choose
 
-The part that stayed with me the most was watching the seed of Geralt's philosophy being planted. Faced again and again with situations where there is no clean answer, where every path leads to someone getting hurt, he begins to wrestle with the idea of the lesser evil. People want him to pick a side, to decide which evil is more acceptable, and he simply refuses.
+The part I keep returning to is watching the seed of Geralt's philosophy being planted. Faced again and again with situations where there is no clean answer, where every path leads to someone getting hurt, he begins to wrestle with the idea of the lesser evil. People want him to pick a side, to decide which evil is more acceptable, and he simply refuses.
 
 > If I have to choose between one evil and another, I would rather not choose at all.
 
@@ -37,4 +37,4 @@ And yet, again and again, the book quietly shows you who the real monsters are. 
 
 ## Final thoughts
 
-*Crossroads of Ravens* is not a grand, world-shaking adventure, and I think that is the point. It is a quiet, sharp look at how a legend begins, and at the small moral choices that slowly turn a young man into the witcher we know. If you already love this world, it adds a layer you did not know you were missing. And if monsters, the human kind especially, are something you like to think about, give it a chance. You will not look at Geralt the same way again.
+*Crossroads of Ravens* is not a grand, world-shaking adventure, and I think that is the point. It is a quiet, sharp look at how a legend begins, and at the small moral choices that slowly turn a young man into the witcher we know. If you already love this world, it adds a layer you did not know you were missing. And if monsters, the human kind especially, are something you like to think about, this one is for you. You will not look at Geralt the same way again.

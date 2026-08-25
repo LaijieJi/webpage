@@ -7,7 +7,7 @@ excerpt: He lived colourblind to the world, and only at the end saw the colour h
 
 ## The story
 
-"Mother died today. Or maybe yesterday, I don't know." From its very first line, the novel tells you exactly who Meursault is: a man so detached from his own life that even his mother's death reaches him as a fact without weight. He is a quiet clerk in French Algiers who drifts through his days feeling almost nothing, until a senseless act on a sun-blank beach drags him into a trial where he is judged less for what he did than for the way he failed to grieve. Camus wrote it as the story of a man condemned for refusing to play along.
+"Maman died today. Or yesterday maybe, I don't know." From its very first line, the novel tells you exactly who Meursault is: a man so detached from his own life that even his mother's death reaches him as a fact without weight. He is an unremarkable clerk in French Algiers who drifts through his days feeling almost nothing, until a senseless act on a sun-blank beach drags him into a trial where he is judged less for what he did than for the way he failed to grieve. Camus wrote it as the story of a man condemned for refusing to play along.
 
 ## A life in greyscale
 
@@ -19,7 +19,7 @@ That is why his mother's death lands the way it does. When the news reaches him,
 
 What Camus does so well is turn this into a trial, and then quietly change what is on trial. On paper, Meursault is judged for what happens on that beach. In truth, he is condemned for something else entirely: for not weeping at his mother's funeral, for not behaving the way a grieving son is supposed to behave, for refusing to fake the feelings everyone expects of him.
 
-It is a sharp and uncomfortable point. Society, the book suggests, can forgive almost anything sooner than it can forgive someone who will not play the part. Meursault's real offence is his honesty, his refusal to pretend, and it is that, far more than the act itself, that quietly seals his fate.
+It is a sharp and uncomfortable point. Society, the book suggests, can forgive almost anything sooner than it can forgive someone who will not play the part. Meursault's real offence is his honesty, his refusal to pretend, and it is that, far more than the act itself, that seals his fate.
 
 ## The colour he had refused
 
@@ -33,4 +33,4 @@ For the first time he seems to sense that every moment might have been worth liv
 
 *The Stranger* is a short book that stayed with me far longer than its length suggests. It is easy to read Meursault as simply empty, but I think that misses him. He is what a person becomes when they decide, knowingly or not, that nothing means anything, and Camus follows that decision all the way to its end, and then, right at the edge, cracks it open.
 
-What I took from it was not despair, but a strange push in the other direction. If a man can discover, in his final days, that the world had been quietly full of colour the whole time, then perhaps the real tragedy is not death, but waiting until the end to notice life. I would hand this book to anyone who has felt the grey creeping in, not to deepen it, but because somewhere in these pages is a quiet argument for looking again, while there is still time.
+What I took from it was not despair, but a strange push in the other direction. If a man can discover, in his final days, that the world had been full of colour the whole time, then perhaps the real tragedy is not death, but waiting until the end to notice life. I would hand this book to anyone who has felt the grey creeping in, not to deepen it, but because somewhere in these pages is a quiet argument for looking again, while there is still time.

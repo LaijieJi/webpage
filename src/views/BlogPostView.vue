@@ -182,6 +182,16 @@ function dateLong(value) {
   color: var(--accent);
 }
 
+/* Blockquote paragraphs are also "first of type" among their own siblings —
+   keep the drop cap off the pull-quotes. */
+.post__body :deep(blockquote p)::first-letter {
+  float: none;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  color: inherit;
+}
+
 .post__body :deep(h2),
 .post__body :deep(h3) {
   font-family: var(--font-serif);

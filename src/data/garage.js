@@ -4,16 +4,16 @@
 
 export const car = {
   name: 'Mazda MX-5',
-  sub: 'ND · 2015 · 2.0 Skyactiv-G',
+  sub: 'ND · 2015 · 1.5 Skyactiv-G',
   currentKm: 209000,
   asOf: 'as of June 2026',
   story:
     'A recent find — I bought it in June 2026, already past 209,000 kilometres and freshly repainted in its original Soul Red. The plan is simple: keep it on a steady service rhythm and put many more slow, unhurried kilometres on the clock.',
   specs: [
-    { l: 'Engine', v: '2.0 Skyactiv-G' },
+    { l: 'Engine', v: '1.5 Skyactiv-G' },
     { l: 'Paint', v: 'Soul Red', swatch: true },
     { l: 'Oil grade', v: '0W-20' },
-    { l: 'Oil capacity', v: '≈ 4.2 L' },
+    { l: 'Oil capacity', v: '≈ 4.0 L' },
     { l: 'Coolant', v: 'Mazda FL22' },
     { l: 'Gearbox', v: '6-speed manual' },
     { l: 'Brake fluid', v: 'DOT 3 / 4' }

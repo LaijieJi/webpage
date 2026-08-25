@@ -2,12 +2,12 @@
 title: Book Review - She and Her Cat
 date: 2026-08-25
 tags: [books, slice-of-life]
-excerpt: No one convinces her to open the door. The cat does.
+excerpt: No one convinces her to open the door — the cat does
 ---
 
 ## The story
 
-A young woman named Miyu lives alone in the city, and her cat, Chobi, tells us about her days: the commute, the quiet flat, the small weather of an ordinary life. From that little seed the book grows four linked stories, four women and four cats, each chapter alternating between the human voice and the feline one. There is Reina, who cannot work up the courage to sit her fine-arts entrance exams; there is Aoi, who has shut herself away after the death of her best friend, and Cookie, the cat who ends up in her hands; and there is Shino, an elderly woman in the quietest season of her life, with her old black cat Kuro. The lives brush against one another as the seasons turn, mostly without their owners ever knowing, and the cats are the ones carrying the connections.
+A young woman named Miyu lives alone in the city, and her cat, Chobi, tells us about her days: the commute, the empty flat, the small weather of an ordinary life. From that little seed the book grows four linked stories, four women and four cats, each chapter alternating between the human voice and the feline one. There is Reina, who cannot work up the courage to sit her fine-arts entrance exams; there is Aoi, who has shut herself away after the death of her best friend, and Cookie, the cat who ends up in her hands; and there is Shino, an elderly woman in the quietest season of her life, with her old black cat Kuro. The lives brush against one another as the seasons turn, mostly without their owners ever knowing, and the cats are the ones carrying the connections.
 
 ## The scene at the door
 
@@ -25,7 +25,7 @@ So Nagakawa's problem was not artistic but arithmetic: how do you turn five minu
 
 If you know *5 Centimeters per Second* or *The Garden of Words*, you know Shinkai's method: the character never says what they feel. The framing says it, the light says it, a passing train says it. He has spent over twenty years making films about people who cannot put themselves into words.
 
-Prose has no camera, and the quiet discovery of this novel is what it puts in the camera's place: the cat. The cat sees what the woman cannot say and says it for her, plainly, without analysis, and without any character having to deliver the explanatory speech that would ruin the scene. That is exactly why the page at Aoi's door works. Nobody explains to Aoi what is happening to her; it is shown to her by an animal that does not even know it is showing anything. This is narrative economy of the first order, and it is what quietly lifts the book above the shelf of comforting Japanese fiction where it usually sits.
+Prose has no camera, and the real discovery of this novel is what it puts in the camera's place: the cat. The cat sees what the woman cannot say and says it for her, plainly, without analysis, and without any character having to deliver the explanatory speech that would ruin the scene. That is exactly why the page at Aoi's door works. Nobody explains to Aoi what is happening to her; it is shown to her by an animal that does not even know it is showing anything. This is narrative economy of the first order, and it is what quietly lifts the book above the shelf of comforting Japanese fiction where it usually sits.
 
 ## Fifty pages per wound
 

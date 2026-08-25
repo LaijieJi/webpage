@@ -7,11 +7,11 @@ excerpt: One old man against one great fish, and the hardest battles are the one
 
 ## The story
 
-Santiago is an old Cuban fisherman who has gone eighty-four days without catching a thing, long enough that the others treat him as unlucky and the boy who used to sail with him has been sent to work a luckier boat. On the eighty-fifth day he rows out further than anyone else, alone on the open water, and hooks a marlin so big it could pull his little skiff wherever it pleased. What follows is a slow, exhausting contest of will between one old man and one enormous fish, far out where nobody can see it. Hemingway tells the whole thing in barely more than a hundred pages.
+Santiago is an old Cuban fisherman who has gone eighty-four days without catching a thing, long enough that the others treat him as unlucky and the boy who used to sail with him has been sent to work a luckier boat. On the eighty-fifth day he rows out further than anyone else, alone on the open water, and hooks a marlin so big it could pull his little skiff wherever it pleased. What follows is a slow, exhausting contest of will between one old man and one enormous fish, far out where nobody can see it.
 
-## A short book for the road
+## Packed for Prague
 
-I picked this one up for a trip to Prague with friends last week, for a very practical reason: I did not want to drag a doorstop I would never finish across a holiday. *The Old Man and the Sea* was perfect for that, short enough to read in the gaps of a trip. It just turned out to be far more than a convenient size. Sometimes the smallest books leave the deepest mark.
+The trip decided this one for me. I was off to Prague with friends for a few days, I did not want to drag a doorstop across a holiday, and *The Old Man and the Sea* is small enough to live in a jacket pocket and be read in the gaps of a trip. It just turned out to be far more than a convenient size. Sometimes the smallest books leave the deepest mark.
 
 ## Santiago, master of his craft
 
@@ -23,7 +23,7 @@ More than his skill, though, it is his will that stays with you. Faced with a ch
 
 The heart of the book, for me, is the struggle itself, and the strange respect that grows inside it. Santiago does not hate the marlin. The longer the two of them are locked together, the more he admires it, even loves it, and calls it his brother. It is exactly what happens when you come up against a truly great opponent: instead of resenting their strength, you recognise how grand they are, and the contest becomes something almost noble.
 
-That is why the book never feels small, even though almost nothing "happens." It reads like watching two great beasts test each other to the very limit, and by the end you understand that there is no shame in a struggle like this, win or lose. The worth is in the fight, and the dignity holds even in defeat.
+That is why the book never feels small, even though almost nothing "happens". It reads like watching two great beasts test each other to the very limit, and by the end you understand that there is no shame in a struggle like this, win or lose. The worth is in the fight, and the dignity holds even in defeat.
 
 ## When the sharks come
 
@@ -35,7 +35,7 @@ Hemingway hands you the grief and the meaning in the same breath. Santiago loses
 
 ## The boy on the shore
 
-For all that this is a story about one man alone at sea, it quietly turns on someone who is not there for the fight at all: Manolin, the boy. He does not sail out for the great battle, and yet his presence runs through the whole of it. The bond between them has already shaped how Santiago meets his challenge; out on the water he keeps wishing the boy were with him, and that wish alone seems to steady him, as though he carried the boy's faith along with his lines. It could so easily have tipped into a forced "power of friendship" note, but Hemingway keeps it smooth and true. It is just a boy who believes in an old man, and it matters more than it has any right to.
+For all that this is a story about one man alone at sea, it turns on someone who is not there for the fight at all: Manolin, the boy. He does not sail out for the great battle, and yet his presence runs through the whole of it. The bond between them has already shaped how Santiago meets his challenge; out on the water he keeps wishing the boy were with him, and that wish alone seems to steady him, as though he carried the boy's faith along with his lines. It could so easily have tipped into a forced "power of friendship" note, but Hemingway keeps it smooth and true. It is just a boy who believes in an old man, and it matters more than it has any right to.
 
 ## Simple, and all the stronger for it
 

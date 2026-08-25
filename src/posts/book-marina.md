@@ -7,7 +7,7 @@ excerpt: A gothic Barcelona, a love that was never going to last, and a book tha
 
 ## The story
 
-In a hazy, half-gothic Barcelona, Óscar, a boy boarding at an old school, takes to slipping away to wander the emptiest streets of the city. One afternoon he meets Marina and her father in a crumbling mansion, and the three of them begin to follow a mysterious veiled woman down into the buried secrets of the city. Carlos Ruiz Zafón wrote it for younger readers, though it rarely feels that way.
+In a hazy, half-gothic Barcelona, Óscar, a boy boarding at an old school, takes to slipping away to wander the emptiest streets of the city. One afternoon he meets Marina and her father in a crumbling mansion, and soon he and Marina are following a mysterious veiled woman down into the buried secrets of the city. Carlos Ruiz Zafón wrote it for younger readers, though it rarely feels that way.
 
 ## A book from another time
 

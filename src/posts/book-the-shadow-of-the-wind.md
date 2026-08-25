@@ -13,7 +13,7 @@ The Cemetery of Forgotten Books lives by a single rule: the first time you are l
 
 Of everything Carlos Ruiz Zafón wrote, *The Shadow of the Wind* is, for me, the finest. *Marina* was the book that first introduced me to him, but this was the one that pulled me into the great, connected universe he built around the Cemetery of Forgotten Books, and it is the one I would press into someone's hands before any other.
 
-Why the best? It is hard to put into words, but it comes down to how personal it feels. This is a story that sticks to you, that changes you a little, and that leaves you so quietly content when you close it that you want to walk straight into the next book. A great deal of that comes down to the Semperes: Daniel and his gentle, grieving father, and the little bookshop they keep. From the very first pages, that family and that shop settle into you, warm and lived-in and quietly sad, and they simply refuse to leave. You finish the book and they stay on, the way real memories do.
+Why the best? It is hard to put into words, but it comes down to how personal it feels. This is a story that sticks to you, that changes you a little, and that leaves you so content when you close it that you want to walk straight into the next book. A great deal of that comes down to the Semperes: Daniel and his gentle, grieving father, and the little bookshop they keep. From the very first pages, that family and that shop settle into you, warm and lived-in and quietly sad, and they simply refuse to leave. You finish the book and they stay on, the way real memories do.
 
 ## A grey and gothic Barcelona
 
@@ -29,7 +29,7 @@ At the heart of it all is that first, strange idea: that in the Cemetery of Forg
 
 > Every book, every volume you see here, has a soul, the soul of the person who wrote it, and of those who read it and lived and dreamed with it.
 
-And then something wonderful and unsettling begins to happen. The deeper Daniel reads into Carax's life, the more the world of that novel seems to seep into his own. Figures who belong to the book start appearing around him, the past begins to rhyme with the present, and you slowly realise that Daniel is not only investigating a story, he is starting to live it. Watching the line between the book and his life quietly dissolve is one of the most magical things I have ever read.
+And then something wonderful and unsettling begins to happen. The deeper Daniel reads into Carax's life, the more the world of that novel seems to seep into his own. Figures who belong to the book start appearing around him, the past begins to rhyme with the present, and you slowly realise that Daniel is not only investigating a story, he is starting to live it. Watching the line between the book and his life dissolve is one of the most magical things I have ever read.
 
 ## Love, the thing that moves everything
 

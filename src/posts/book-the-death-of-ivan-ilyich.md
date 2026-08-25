@@ -7,7 +7,7 @@ excerpt: He lived exactly as he was supposed to, which is the very reason he nev
 
 ## The story
 
-Ivan Ilyich is a successful high-court judge who has always done things exactly the way they are meant to be done: the proper career, the proper marriage, the proper house, the proper friends. Then a trivial injury becomes an illness that will not pass, and the life he built so carefully begins to look very different from the inside. Tolstoy tells the whole of it in barely a hundred pages.
+Ivan Ilyich is a successful high-court judge who has always done things exactly the way they are meant to be done: the proper career, the proper marriage, the proper house, the proper friends. Then a trivial injury becomes an illness that will not pass, and the life he built so carefully begins to look very different from the inside.
 
 ## A short book before a big day
 
@@ -51,6 +51,6 @@ It reminded me, oddly, of *War and Peace*. For all its length, that book never f
 
 *The Death of Ivan Ilyich* is a small book that asks an enormous question: are you living the life you actually want, or the one you were taught to want? Tolstoy does not let you watch from a safe distance. He sits you down with a man who got every external thing right and the one internal thing that mattered wrong, and dares you not to see a little of yourself in him.
 
-It kept bringing to mind, of all things, *The Nights* by Avicii, *live a life you will remember*. That is the whole warning of the book turned into a chorus. Ivan arrives at the end with nothing he would want to remember, precisely because he was so busy living the way he was supposed to.
+It kept bringing to mind, of all things, "The Nights" by Avicii: *live a life you will remember*. That is the whole warning of the book turned into a chorus. Ivan arrives at the end with nothing he would want to remember, precisely because he was so busy living the way he was supposed to.
 
-I would hand this one to anyone who has felt, even quietly, that they are not quite happy with where their life is heading, that they might be drifting down a path laid out by everyone except themselves. It is not a comfortable read in that light. But it is a short, sharp reminder to check, while there is still time, that the life you are building is actually yours, and not just one that looks correct from the outside.
+If you have ever suspected that you are not quite happy with where your life is heading, that you might be drifting down a path laid out by everyone except yourself, this book was written for you. It is not a comfortable read in that light. But it is a short, sharp prompt to check, before the answer is fixed for good, that the life you are building is actually yours, and not just one that looks correct from the outside.
