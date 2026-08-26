@@ -1,6 +1,8 @@
 ---
 title: Book Review - She and Her Cat
 date: 2026-08-25
+book: She and Her Cat
+bookAuthor: Makoto Shinkai, Naruki Nagakawa
 tags: [books, slice-of-life]
 excerpt: No one convinces her to open the door — the cat does
 ---

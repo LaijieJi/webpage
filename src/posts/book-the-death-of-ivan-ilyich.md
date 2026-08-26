@@ -1,6 +1,8 @@
 ---
 title: Book Review - The Death of Ivan Ilyich
 date: 2026-06-30
+book: The Death of Ivan Ilyich
+bookAuthor: Leo Tolstoy
 tags: [books, classics]
 excerpt: He lived exactly as he was supposed to, which is the very reason he never truly lived
 ---

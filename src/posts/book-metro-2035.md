@@ -1,6 +1,8 @@
 ---
 title: Book Review - Metro 2035
 date: 2024-06-15
+book: Metro 2035
+bookAuthor: Dmitry Glukhovsky
 tags: [books, sci-fi]
 excerpt: They had spent so long in the dark that the light became the thing they feared most
 ---

@@ -1,6 +1,8 @@
 ---
 title: Book Review - Notes from the Underground
 date: 2025-04-13
+book: Notes from the Underground
+bookAuthor: Fyodor Dostoevsky
 tags: [books, classics]
 excerpt: He believed reason would save him, then let it argue him out of his one chance at redemption
 ---

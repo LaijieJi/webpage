@@ -134,6 +134,36 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { leafImg, bavariaImg } from '../data/media.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import posts from '../data/posts.js';
+import { useSeo, SITE_URL, OG_IMAGE } from '../composables/useSeo.js';
+
+useSeo({
+  title: 'Laijie Ji - Full-Stack Developer',
+  ogTitle: "Laijie Ji - I write software. The rest of the time, I'm outside.",
+  description:
+    'Laijie Ji — full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5.',
+  ogDescription:
+    'Full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5.',
+  path: '/',
+  ld: [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Laijie Ji',
+      url: `${SITE_URL}/`,
+      image: OG_IMAGE,
+      jobTitle: 'Full-Stack Developer',
+      worksFor: { '@type': 'Organization', name: 'Wegrant' },
+      address: { '@type': 'PostalAddress', addressLocality: 'Valencia', addressCountry: 'ES' },
+      knowsLanguage: ['es', 'ca', 'en', 'zh', 'de'],
+      sameAs: [
+        'https://github.com/LaijieJi',
+        'https://linkedin.com/in/laijie-ji',
+        'https://www.instagram.com/laijie.jpg/'
+      ]
+    },
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Laijie Ji', url: `${SITE_URL}/` }
+  ]
+});
 
 // Posts are sorted newest-first, so the first one tagged "books" is the latest read.
 const latestBook = posts.find((post) => (post.frontmatter.tags || []).includes('books'));

@@ -127,6 +127,13 @@ import { useRoute, useRouter } from 'vue-router';
 import entries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
+import { useSeo } from '../composables/useSeo.js';
+
+useSeo({
+  title: 'Photography - Laijie Ji',
+  description: 'Mostly Outdoors — frames from slow walks and travels.',
+  path: '/photography'
+});
 
 const tilts = ['-1.1deg', '0.8deg', '-0.6deg', '1deg'];
 function frameStyle(i) {

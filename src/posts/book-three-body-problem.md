@@ -1,6 +1,8 @@
 ---
 title: Book Review - Three Body Problem
 date: 2026-04-25
+book: The Three-Body Problem
+bookAuthor: Cixin Liu
 tags: [books, sci-fi]
 excerpt: Space is incredibly vast, and no one really knows what is out there
 ---

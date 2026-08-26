@@ -45,7 +45,9 @@ const posts = Object.entries(modules)
         date: mod.date || '',
         tags: normalizeTags(mod.tags),
         excerpt: mod.excerpt || '',
-        variant: mod.variant || ''
+        variant: mod.variant || '',
+        book: mod.book || '',
+        bookAuthor: mod.bookAuthor || ''
       }
     };
   })

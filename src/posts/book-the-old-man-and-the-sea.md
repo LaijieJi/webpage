@@ -1,6 +1,8 @@
 ---
 title: Book Review - The Old Man and the Sea
 date: 2026-08-02
+book: The Old Man and the Sea
+bookAuthor: Ernest Hemingway
 tags: [books, classics]
 excerpt: One old man against one great fish, and the hardest battles are the ones nobody sees
 ---

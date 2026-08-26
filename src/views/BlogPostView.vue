@@ -43,9 +43,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { getPostBySlug, getAdjacentPosts } from '../data/posts.js';
+import { useSeo, SITE_URL, OG_IMAGE } from '../composables/useSeo.js';
 
 const route = useRoute();
 const post = computed(() => getPostBySlug(route.params.slug));
@@ -53,9 +54,55 @@ const adjacent = computed(() => getAdjacentPosts(route.params.slug));
 const newer = computed(() => adjacent.value.newer);
 const older = computed(() => adjacent.value.older);
 
-onMounted(() => {
-  if (post.value) document.title = `${post.value.frontmatter.title} — Laijie Ji`;
-});
+// The view is keyed by route.path in App.vue, so setup re-runs per slug.
+if (post.value) {
+  const fm = post.value.frontmatter;
+  const path = `/blog/${route.params.slug}`;
+  const url = `${SITE_URL}${path}`;
+  // YAML parses unquoted dates into Date objects; normalize to yyyy-mm-dd.
+  const published = fm.date ? new Date(fm.date).toISOString().slice(0, 10) : undefined;
+  const laijie = { '@type': 'Person', name: 'Laijie Ji', url: `${SITE_URL}/` };
+
+  const ld = fm.book
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Review',
+        name: fm.title,
+        itemReviewed: {
+          '@type': 'Book',
+          name: fm.book,
+          author: fm.bookAuthor.split(',').map((name) => ({ '@type': 'Person', name: name.trim() }))
+        },
+        reviewBody: fm.excerpt,
+        datePublished: published,
+        url,
+        mainEntityOfPage: url,
+        image: OG_IMAGE,
+        author: laijie,
+        publisher: laijie
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: fm.title,
+        description: fm.excerpt,
+        datePublished: published,
+        url,
+        mainEntityOfPage: url,
+        image: OG_IMAGE,
+        author: laijie,
+        publisher: laijie
+      };
+
+  useSeo({
+    // "<Book> review" front-loads what people actually search for.
+    title: fm.book ? `${fm.book} review - Laijie Ji` : `${fm.title} - Laijie Ji`,
+    description: fm.excerpt,
+    path,
+    type: 'article',
+    ld: [ld]
+  });
+}
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 function dateLong(value) {

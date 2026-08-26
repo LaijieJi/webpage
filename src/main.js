@@ -1,18 +1,15 @@
-import { createApp } from 'vue';
-import router from './router.js';
+import { ViteSSG } from 'vite-ssg';
+import { routes, scrollBehavior } from './router.js';
 import App from './App.vue';
 import './styles/main.css';
 
-const app = createApp(App);
-
 // v-reveal: fade/rise an element in once it scrolls into view.
-const prefersReducedMotion =
-  typeof window !== 'undefined' &&
-  window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-app.directive('reveal', {
+const revealDirective = {
+  // No server-rendered attributes; the effect is purely client-side.
+  getSSRProps: () => ({}),
   mounted(el) {
+    const prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
       return; // leave the element in its natural, fully-visible state
     }
@@ -34,6 +31,8 @@ app.directive('reveal', {
   unmounted(el) {
     if (el._revealObserver) el._revealObserver.disconnect();
   }
-});
+};
 
-app.use(router).mount('#app');
+export const createApp = ViteSSG(App, { routes, scrollBehavior }, ({ app }) => {
+  app.directive('reveal', revealDirective);
+});

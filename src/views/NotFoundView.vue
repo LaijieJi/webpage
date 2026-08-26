@@ -12,11 +12,9 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { useHead } from '@unhead/vue';
 
-onMounted(() => {
-  document.title = 'Lost — Laijie Ji';
-});
+useHead({ title: 'Lost - Laijie Ji' });
 </script>
 
 <style scoped>

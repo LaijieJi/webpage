@@ -1,6 +1,8 @@
 ---
 title: Book Review - The City and Its Uncertain Walls
 date: 2026-08-24
+book: The City and Its Uncertain Walls
+bookAuthor: Haruki Murakami
 tags: [books, magical-realism]
 excerpt: He went looking for a lost love, and walked out finally free of her
 ---

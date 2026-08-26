@@ -5,43 +5,22 @@ import vue from '@vitejs/plugin-vue';
 import Markdown from 'unplugin-vue-markdown/vite';
 
 const SITE_URL = 'https://laijie.dev';
-const OG_IMAGE = `${SITE_URL}/og.jpg`;
 
 const slugsIn = (dir) =>
   fs.existsSync(dir)
     ? fs.readdirSync(dir).filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''))
     : [];
 
-// Minimal frontmatter reader (title / excerpt only).
-function readFrontmatter(file) {
-  const fm = {};
-  if (!fs.existsSync(file)) return fm;
-  const m = fs.readFileSync(file, 'utf8').match(/^---\n([\s\S]*?)\n---/);
-  if (m) {
-    for (const line of m[1].split('\n')) {
-      const i = line.indexOf(':');
-      if (i > 0) fm[line.slice(0, i).trim()] = line.slice(i + 1).trim().replace(/^["']|["']$/g, '');
-    }
-  }
-  return fm;
-}
-
-function allRoutes() {
-  const post = (s) => {
-    const fm = readFrontmatter(path.resolve('src/posts', `${s}.md`));
-    return { path: `/blog/${s}`, title: fm.title || s, desc: fm.excerpt || '', date: fm.date || '', type: 'post' };
-  };
-  const photo = (s) => {
-    const fm = readFrontmatter(path.resolve('src/photography', `${s}.md`));
-    return { path: `/photography/${s}`, title: fm.title || s, desc: fm.excerpt || '' };
-  };
+// Every prerenderable route. Feeds both the sitemap and vite-ssg's route list;
+// per-route meta/OG/JSON-LD now live in the app itself (src/composables/useSeo.js).
+function allRoutePaths() {
   return [
-    { path: '/', title: '', desc: '' },
-    { path: '/projects', title: 'Projects', desc: "Selected things I've built — mostly to learn something, or to scratch an itch." },
-    { path: '/blog', title: 'The Journal', desc: 'Notes from a slow reader — book reviews and the occasional rabbit hole.' },
-    { path: '/photography', title: 'Photography', desc: 'Mostly Outdoors — frames from slow walks and travels.' },
-    ...slugsIn(path.resolve('src/posts')).map(post),
-    ...slugsIn(path.resolve('src/photography')).map(photo)
+    '/',
+    '/projects',
+    '/blog',
+    '/photography',
+    ...slugsIn(path.resolve('src/posts')).map((s) => `/blog/${s}`),
+    ...slugsIn(path.resolve('src/photography')).map((s) => `/photography/${s}`)
   ];
 }
 
@@ -51,71 +30,14 @@ function sitemap() {
     name: 'lj-sitemap',
     apply: 'build',
     generateBundle() {
-      const body = allRoutes()
-        .map((r) => `  <url><loc>${SITE_URL}${r.path}</loc></url>`)
+      const body = allRoutePaths()
+        .map((p) => `  <url><loc>${SITE_URL}${p}</loc></url>`)
         .join('\n');
       this.emitFile({
         type: 'asset',
         fileName: 'sitemap.xml',
         source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
       });
-    }
-  };
-}
-
-// Writes a per-route index.html with route-specific title / description / OG /
-// canonical, so link scrapers (which don't run JS) get a card per page.
-function prerenderOG() {
-  const esc = (s) =>
-    String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  const setMeta = (html, attr, name, value) =>
-    html.replace(new RegExp(`(<meta ${attr}="${name}" content=")[^"]*(")`), `$1${esc(value)}$2`);
-
-  function inject(html, route) {
-    const fullTitle = `${route.title} — Laijie Ji`;
-    const url = `${SITE_URL}${route.path}`;
-    html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(fullTitle)}</title>`);
-    html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`);
-    html = setMeta(html, 'name', 'description', route.desc);
-    html = setMeta(html, 'property', 'og:title', fullTitle);
-    html = setMeta(html, 'property', 'og:description', route.desc);
-    html = setMeta(html, 'property', 'og:url', url);
-    html = setMeta(html, 'name', 'twitter:title', fullTitle);
-    html = setMeta(html, 'name', 'twitter:description', route.desc);
-
-    if (route.type === 'post') {
-      const ld = {
-        '@context': 'https://schema.org',
-        '@type': 'BlogPosting',
-        headline: route.title,
-        description: route.desc,
-        datePublished: route.date,
-        url,
-        mainEntityOfPage: url,
-        image: OG_IMAGE,
-        author: { '@type': 'Person', name: 'Laijie Ji', url: `${SITE_URL}/` },
-        publisher: { '@type': 'Person', name: 'Laijie Ji' }
-      };
-      const script = `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
-      html = html.replace('</head>', `    ${script}\n  </head>`);
-    }
-    return html;
-  }
-
-  return {
-    name: 'lj-prerender-og',
-    apply: 'build',
-    closeBundle() {
-      const outDir = path.resolve('dist');
-      const indexPath = path.join(outDir, 'index.html');
-      if (!fs.existsSync(indexPath)) return;
-      const template = fs.readFileSync(indexPath, 'utf8');
-      for (const route of allRoutes()) {
-        if (route.path === '/') continue; // index.html already carries the home defaults
-        const dir = path.join(outDir, route.path);
-        fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(path.join(dir, 'index.html'), inject(template, route));
-      }
     }
   };
 }
@@ -132,12 +54,16 @@ export default defineConfig({
         linkify: true,
         typographer: true
       },
-      frontmatter: true,
-      excerpt: true
+      // NOTE: `excerpt: true` would overwrite the frontmatter `excerpt:` field
+      // with the body-extracted excerpt (empty — no <!-- more --> markers).
+      frontmatter: true
     }),
-    sitemap(),
-    prerenderOG()
+    sitemap()
   ],
+  ssgOptions: {
+    dirStyle: 'nested',
+    includedRoutes: () => allRoutePaths()
+  },
   server: {
     port: 5173,
     open: true

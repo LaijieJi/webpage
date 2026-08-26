@@ -150,6 +150,13 @@ import posts from '../data/posts.js';
 import { readingList } from '../data/books.js';
 import { lamyImg } from '../data/media.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
+import { useSeo } from '../composables/useSeo.js';
+
+useSeo({
+  title: 'The Journal - Laijie Ji',
+  description: 'Notes from a slow reader — book reviews and the occasional rabbit hole.',
+  path: '/blog'
+});
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 

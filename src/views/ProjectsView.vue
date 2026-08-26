@@ -29,6 +29,13 @@
 
 <script setup>
 import projects from '../data/projects.json';
+import { useSeo } from '../composables/useSeo.js';
+
+useSeo({
+  title: 'Projects - Laijie Ji',
+  description: "Selected things I've built — mostly to learn something, or to scratch an itch.",
+  path: '/projects'
+});
 </script>
 
 <style scoped>

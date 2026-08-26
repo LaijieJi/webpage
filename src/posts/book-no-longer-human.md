@@ -1,6 +1,8 @@
 ---
 title: Book Review - No Longer Human
 date: 2026-05-22
+book: No Longer Human
+bookAuthor: Osamu Dazai
 tags: [books, classics]
 excerpt: Sometimes the hardest thing of all is simply to live as a human being
 ---

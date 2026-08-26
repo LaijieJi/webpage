@@ -51,19 +51,24 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { getPhotoEntryBySlug } from '../data/photography.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import { mediaFor } from '../data/photoMedia.js';
+import { useSeo } from '../composables/useSeo.js';
 
 const route = useRoute();
 const entry = computed(() => getPhotoEntryBySlug(route.params.slug));
 const media = computed(() => mediaFor(route.params.slug));
 
-onMounted(() => {
-  if (entry.value) document.title = `${entry.value.frontmatter.title} — Laijie Ji`;
-});
+if (entry.value) {
+  useSeo({
+    title: `${entry.value.frontmatter.title} - Laijie Ji`,
+    description: entry.value.frontmatter.excerpt || '',
+    path: `/photography/${route.params.slug}`
+  });
+}
 const igHref = computed(() => {
   const id = entry.value?.frontmatter?.instagramPostId;
   return id ? `https://www.instagram.com/p/${id}/` : null;
