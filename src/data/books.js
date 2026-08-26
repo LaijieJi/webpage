@@ -3,6 +3,5 @@
 export const readingList = [
   { title: 'The Master and Margarita', author: 'Mikhail Bulgakov' },
   { title: 'The Idiot', author: 'Fyodor Dostoevsky' },
-  { title: 'Tress of the Emerald Sea', author: 'Brandon Sanderson' },
-  { title: 'The Sorrows of Young Werther', author: 'Johann Wolfgang von Goethe' }
+  { title: 'Tress of the Emerald Sea', author: 'Brandon Sanderson' }
 ];
