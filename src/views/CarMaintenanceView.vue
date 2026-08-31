@@ -4,7 +4,7 @@
     <section class="g-hero">
       <p class="g-hero__eyebrow">The garage</p>
       <h1 class="g-hero__name">{{ car.name }}</h1>
-      <p class="g-hero__sub">{{ car.sub }} — Soul Red.</p>
+      <p class="g-hero__sub">{{ car.sub }} - Soul Red.</p>
 
       <div class="g-hero__stage">
         <img :src="mx5Photo" alt="Mazda MX-5 ND in Soul Red, soft top up" />
@@ -70,7 +70,7 @@
         </div>
       </div>
       <p class="g-footnote">
-        Intervals are manufacturer guidelines for normal driving — halve the oil interval for short trips or
+        Intervals are manufacturer guidelines for normal driving - halve the oil interval for short trips or
         spirited drives. Status is figured against the odometer and the last logged service.
       </p>
     </section>
@@ -98,7 +98,7 @@
         </div>
       </div>
       <h2 class="g-h2">The logbook</h2>
-      <p class="g-logbook__sub">Every visit since 2017 — newest first.</p>
+      <p class="g-logbook__sub">Every visit since 2017 - newest first.</p>
       <div v-for="(e, i) in history" :key="i" class="g-log">
         <div class="g-log__when">
           <div class="g-log__date">{{ e.dateLabel }}</div>

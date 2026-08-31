@@ -21,7 +21,7 @@ export const routes = [
 ];
 
 export function scrollBehavior(to, from) {
-  // Same page, only the query changed (e.g. journal pagination) — stay put.
+  // Same page, only the query changed (e.g. journal pagination) - stay put.
   if (to.path === from.path) return false;
   return { top: 0, left: 0, behavior: 'smooth' };
 }

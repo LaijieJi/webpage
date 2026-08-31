@@ -8,7 +8,7 @@ export const car = {
   currentKm: 209000,
   asOf: 'as of June 2026',
   story:
-    'A recent find — I bought it in June 2026, already past 209,000 kilometres and freshly repainted in its original Soul Red. The plan is simple: keep it on a steady service rhythm and put many more slow, unhurried kilometres on the clock.',
+    'A recent find - I bought it in June 2026, already past 209,000 kilometres and freshly repainted in its original Soul Red. The plan is simple: keep it on a steady service rhythm and put many more slow, unhurried kilometres on the clock.',
   specs: [
     { l: 'Engine', v: '1.5 Skyactiv-G' },
     { l: 'Paint', v: 'Soul Red', swatch: true },
@@ -24,17 +24,17 @@ const items = [
   { id: 'oil', name: 'Engine oil & filter', km: 12000, months: 12, note: '0W-20 full synthetic. Halve it for track days, short hops or dusty roads.' },
   { id: 'tyre-rotation', name: 'Tyre rotation', km: 10000, months: null, note: 'Front-to-rear swap to even out wear; check cold pressures with the wheels off.' },
   { id: 'cabin-filter', name: 'Cabin / pollen filter', km: 20000, months: 12, note: 'Swap yearly for clean airflow and a fog-free windscreen.' },
-  { id: 'brake-pads', name: 'Brake pads & discs', km: 20000, months: null, note: 'Inspect every 20,000 km — then replace by wear, not by the calendar.' },
+  { id: 'brake-pads', name: 'Brake pads & discs', km: 20000, months: null, note: 'Inspect every 20,000 km - then replace by wear, not by the calendar.' },
   { id: 'air-filter', name: 'Engine air filter', km: 60000, months: 48, note: 'Inspect every 20,000 km; replace sooner in dusty climates.' },
   { id: 'spark-plugs', name: 'Spark plugs', km: 60000, months: 72, note: 'Iridium plugs. Inspect earlier if the idle feels rough or economy drops.' },
   { id: 'transmission-oil', name: 'Manual transmission oil', km: 90000, months: null, note: 'Not on the strict schedule, but a fresh fill keeps the shift crisp.' },
   { id: 'differential-oil', name: 'Differential oil', km: 90000, months: null, note: 'LSD-friendly gear oil; refresh it alongside the gearbox oil.' },
   { id: 'drive-belt', name: 'Accessory drive belt', km: 100000, months: 96, note: 'Inspect every 60,000 km for cracks; plan a change around 100,000 km.' },
   { id: 'coolant', name: 'Engine coolant', km: 200000, months: 120, note: 'Long-life FL22: first change near 200,000 km, then every 100,000 km.' },
-  { id: 'brake-fluid', name: 'Brake fluid', km: null, months: 24, note: 'Hygroscopic — replace every 2 years regardless of distance.' },
+  { id: 'brake-fluid', name: 'Brake fluid', km: null, months: 24, note: 'Hygroscopic - replace every 2 years regardless of distance.' },
   { id: 'wipers', name: 'Wiper blades', km: null, months: 12, note: 'Replace yearly, or whenever they start to streak the glass.' },
   { id: 'battery', name: '12V battery', km: null, months: 48, note: 'Test annually; a convertible that sits loses charge fast.' },
-  { id: 'timing-chain', name: 'Timing chain', km: null, months: null, note: 'The Skyactiv-G runs a chain — no scheduled replacement.' }
+  { id: 'timing-chain', name: 'Timing chain', km: null, months: null, note: 'The Skyactiv-G runs a chain - no scheduled replacement.' }
 ];
 
 const log = {
@@ -54,7 +54,7 @@ function buildSchedule(list, logbook, curKm) {
     const parts = [];
     if (it.km) parts.push(fmtKm(it.km) + ' km');
     if (it.months) parts.push(it.months + ' mo');
-    const intervalLabel = 'every ' + (parts.join(' · ') || '—');
+    const intervalLabel = 'every ' + (parts.join(' · ') || '-');
     const rec = logbook[it.id];
     let status, statusLabel, pct = 0, lastLabel;
     if (it.km == null && it.months == null) {
@@ -108,19 +108,19 @@ const dot = { milestone: 'var(--ink)', cosmetic: 'var(--accent2)', service: 'var
 const hist = [
   { date: '2026-06-05', km: 209000, type: 'milestone', title: 'Bought from the previous owner', place: 'Valencia' },
   { date: '2026-05-01', km: 209000, type: 'cosmetic', title: 'Bodywork & full repaint', place: 'Maza Motor' },
-  { date: '2026-04-19', km: null, type: 'part', title: 'Battery replaced — Norauto 45Ah', place: 'Norauto' },
-  { date: '2025-11-14', km: 207000, type: 'inspection', title: 'ITV roadworthiness — passed', place: '' },
+  { date: '2026-04-19', km: null, type: 'part', title: 'Battery replaced - Norauto 45Ah', place: 'Norauto' },
+  { date: '2025-11-14', km: 207000, type: 'inspection', title: 'ITV roadworthiness - passed', place: '' },
   { date: '2025-07-22', km: 204980, type: 'service', title: 'Oil, oil filter & air filter', place: 'Talleres Barbado' },
-  { date: '2025-01-20', km: 184000, type: 'service', title: 'Service — oils & filters', place: '' },
+  { date: '2025-01-20', km: 184000, type: 'service', title: 'Service - oils & filters', place: '' },
   { date: '2024-04-19', km: 163000, type: 'service', title: 'Oil & filters, brakes', place: 'Talleres Barbado' },
-  { date: '2023-10-01', km: 148000, type: 'inspection', title: 'ITV roadworthiness — passed', place: '' },
+  { date: '2023-10-01', km: 148000, type: 'inspection', title: 'ITV roadworthiness - passed', place: '' },
   { date: '2023-01-20', km: 135000, type: 'service', title: 'Oil, oil & air filter, spark plugs', place: 'Talleres Barbado' },
   { date: '2022-06-20', km: 127000, type: 'cosmetic', title: 'Paint', place: '' },
-  { date: '2021-11-15', km: 112000, type: 'service', title: 'Service — tyres & brakes', place: '' },
-  { date: '2021-09-30', km: 108000, type: 'inspection', title: 'ITV roadworthiness — passed', place: '' },
-  { date: '2020-06-18', km: 81000, type: 'service', title: 'Service — tyres & wheel alignment', place: '' },
+  { date: '2021-11-15', km: 112000, type: 'service', title: 'Service - tyres & brakes', place: '' },
+  { date: '2021-09-30', km: 108000, type: 'inspection', title: 'ITV roadworthiness - passed', place: '' },
+  { date: '2020-06-18', km: 81000, type: 'service', title: 'Service - tyres & wheel alignment', place: '' },
   { date: '2019-11-12', km: 68000, type: 'service', title: 'Mazda service', place: '' },
-  { date: '2019-09-03', km: 65000, type: 'inspection', title: 'ITV roadworthiness — passed', place: '' },
+  { date: '2019-09-03', km: 65000, type: 'inspection', title: 'ITV roadworthiness - passed', place: '' },
   { date: '2019-01-22', km: 49000, type: 'service', title: 'Oil & filters, spark plugs, brakes', place: '' },
   { date: '2017-10-30', km: 16000, type: 'service', title: 'First scheduled Mazda service', place: '' },
   { date: '2017-03-29', km: null, type: 'milestone', title: 'Bought from a Mazda dealer', place: '' }
@@ -130,7 +130,7 @@ export const history = hist.map((e) => {
   const d = new Date(e.date);
   return {
     dateLabel: d.toLocaleString('en-US', { month: 'short', year: 'numeric' }),
-    kmLabel: e.km != null ? `${fmtKm(e.km)} km` : '—',
+    kmLabel: e.km != null ? `${fmtKm(e.km)} km` : '-',
     title: e.title,
     typeLabel: types[e.type].toUpperCase(),
     place: e.place,

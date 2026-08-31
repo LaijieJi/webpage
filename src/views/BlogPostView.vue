@@ -8,7 +8,7 @@
           <div class="post__date">{{ dateLong(post.frontmatter.date) }}</div>
           <div v-if="post.frontmatter.tags?.length" class="post__tags">{{ post.frontmatter.tags.join(' · ') }}</div>
           <div class="post__read">{{ post.readingTime }} min read</div>
-          <p class="post__hand">a good one —</p>
+          <p class="post__hand">a good one -</p>
         </div>
         <div class="post__main">
           <h1 class="post__title">{{ post.frontmatter.title }}</h1>
@@ -229,7 +229,7 @@ function dateLong(value) {
   color: var(--accent);
 }
 
-/* Blockquote paragraphs are also "first of type" among their own siblings —
+/* Blockquote paragraphs are also "first of type" among their own siblings -
    keep the drop cap off the pull-quotes. */
 .post__body :deep(blockquote p)::first-letter {
   float: none;
@@ -394,7 +394,7 @@ function dateLong(value) {
   .post__nav-link--next { text-align: left; }
 }
 
-/* ---- Garage variant — the car entry wears Soul Red + a plate masthead ---- */
+/* ---- Garage variant - the car entry wears Soul Red + a plate masthead ---- */
 .post--garage {
   --accent: var(--garage);
   --accent2: #7d1417;

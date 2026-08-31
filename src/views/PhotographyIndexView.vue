@@ -10,7 +10,7 @@
         <span class="cover__ornament-dot"></span>
         <span class="cover__ornament-rule"></span>
       </div>
-      <p class="cover__plates">Plates · 2025—2026</p>
+      <p class="cover__plates">Plates · 2025-2026</p>
       <p class="cover__scroll">↓ scroll to open</p>
     </section>
 
@@ -48,7 +48,7 @@
 
         <!-- Invisible ghosts of every sheet keep the print box sized to its
              tallest print, so a riffle never moves the strip or the foot.
-             Photo boxes are aspect-ratio placeholders — no images loaded. -->
+             Photo boxes are aspect-ratio placeholders - no images loaded. -->
         <template v-if="pageCount > 1">
           <section
             v-for="n in pageCount"
@@ -131,7 +131,7 @@ import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
   title: 'Photography - Laijie Ji',
-  description: 'Mostly Outdoors — frames from slow walks and travels.',
+  description: 'Mostly Outdoors - frames from slow walks and travels.',
   path: '/photography'
 });
 
@@ -307,7 +307,7 @@ onMounted(() => preloadAdjacent(page.value));
   z-index: 1;
   background: var(--gallery);
   box-shadow: 0 -24px 50px -28px rgba(42, 38, 32, 0.4);
-  /* Contain the print sliding off-frame. Lives here — NOT on .gallery —
+  /* Contain the print sliding off-frame. Lives here - NOT on .gallery -
      because an overflow ancestor breaks the sticky cover in Safari. */
   overflow-x: clip;
 }
@@ -467,7 +467,7 @@ onMounted(() => preloadAdjacent(page.value));
 }
 
 /* ---- Film strip ----------------------------------------------------------
-   Plate selector drawn as a strip of 35mm film lying on the table — dark
+   Plate selector drawn as a strip of 35mm film lying on the table - dark
    base, sprocket holes, orange edge numbers. Fixed colours on purpose:
    film looks like film in either palette. */
 .filmstrip {

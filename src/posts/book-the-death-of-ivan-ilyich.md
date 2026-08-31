@@ -19,7 +19,7 @@ What I did not expect was how a book that short would follow me around for the r
 
 ## A life lived comme il faut
 
-It does not take long to understand what kind of man Ivan Ilyich is. Tolstoy keeps returning to the same French phrase, *comme il faut*, as it should be, proper, correct. Everything in Ivan's life is *comme il faut*. His career, his marriage, his furniture, his friendships, all of it chosen not because he wanted it, but because it was the done thing, the respectable thing, the path a man of his standing was expected to walk.
+It does not take long to understand what kind of man Ivan Ilyich is. Tolstoy reaches twice for the same French phrase, *comme il faut*, as it should be, proper, correct, and when he is not using the French he is using its plainer cousins, "decorous" and "propriety", over and over. Everything in Ivan's life is *comme il faut*. His career, his marriage, his furniture, his friendships, all of it chosen not because he wanted it, but because it was the done thing, the respectable thing, the path a man of his standing was expected to walk.
 
 And he never strays from it. He never does anything that surprises anyone, never makes a choice that is truly his own. The closest he comes is when, worn down at home, he goes off to the capital to chase a better position, and even that is less rebellion than ambition, another rung on the same ladder everyone around him is climbing.
 
@@ -31,9 +31,9 @@ That single line holds the whole book. Reading it, I could not help turning the 
 
 For most of his life, Ivan Ilyich never really suffers. Things go wrong in small, manageable ways, and he rearranges himself around them and carries on. It is only when the pain arrives, real, undeniable, final, that he is forced to stop and look at what he has built.
 
-And what he finds is unbearable. In the one stretch of his life where he truly struggles, he realises that all of it, the career, the propriety, the comfortable correctness, may have been a lie, that he might have lived his whole life the wrong way. But the cruelty of it is that the realisation changes nothing. There is no time left to live differently. The knowledge arrives only to deepen the pain, and by the end he wants nothing more than for it to be over, to die as quickly as possible.
+And what he finds is unbearable. In the one stretch of his life where he truly struggles, he realises that all of it, the career, the propriety, the comfortable correctness, may have been a lie, that he might have lived his whole life the wrong way. And what is cruel is that the knowledge arrives with no time left to act on it. He screams for three days. Then, in the last two hours, his son takes his hand, and Ivan feels sorry for him, and for his wife, and the fear he had carried for months simply is not there any more. "In place of death there was light." The thing that ruined his life, that he could only ever do what was expected of him, is also what makes those two hours possible: it takes until the very end for a man like that to do one thing purely because he feels it.
 
-That, to me, is the real horror of the book. Not death itself, but reaching the end and understanding, with perfect clarity and no time to spare, that you were never really alive.
+That, to me, is the real horror of the book. Not death itself, but reaching the end and understanding, with almost no time to spare, what would have counted.
 
 ## Vanity over virtue
 
@@ -45,9 +45,9 @@ It is a world built on vanity instead of virtue, on looks instead of character, 
 
 ## Tolstoy without the weight
 
-A word on the reading itself, because it surprised me. I had braced for something dense, the kind of Russian classic you have to fight your way through, but Tolstoy's prose here is clean and direct. There are none of the long, spiralling descents into a character's mind that I associate with Dostoevsky; the writing is plain, almost matter-of-fact, and it moves.
+Tolstoy is easier to read than I thought he would be. I had braced for something dense, the kind of Russian classic you have to fight your way through, but Tolstoy's prose here is clean and direct. The sentences never spiral the way Dostoevsky's do; even when Tolstoy goes deep into Ivan's head, the writing stays plain and moves.
 
-It reminded me, oddly, of *War and Peace*. For all its length, that book never felt slow to me, the rhythm simply carries you along, and the same is true here, only pressed into a fraction of the pages. Easy to follow, easy to sink into, once you make peace with the old Russian habit of giving every character three different names.
+It reminded me of *War and Peace*. For all its length, that book never felt slow to me, the rhythm simply carries you along, and the same is true here, only pressed into a fraction of the pages. Easy to follow, easy to sink into.
 
 ## Final thoughts
 
@@ -55,4 +55,4 @@ It reminded me, oddly, of *War and Peace*. For all its length, that book never f
 
 It kept bringing to mind, of all things, "The Nights" by Avicii: *live a life you will remember*. That is the whole warning of the book turned into a chorus. Ivan arrives at the end with nothing he would want to remember, precisely because he was so busy living the way he was supposed to.
 
-If you have ever suspected that you are not quite happy with where your life is heading, that you might be drifting down a path laid out by everyone except yourself, this book was written for you. It is not a comfortable read in that light. But it is a short, sharp prompt to check, before the answer is fixed for good, that the life you are building is actually yours, and not just one that looks correct from the outside.
+Anyone who has suspected that they are not quite happy with where their life is heading, that they might be drifting down a path laid out by everyone except themselves, will not find this a comfortable read. But it is a short, sharp prompt to check, before the answer is fixed for good, that the life you are building is actually yours, and not just one that looks correct from the outside.

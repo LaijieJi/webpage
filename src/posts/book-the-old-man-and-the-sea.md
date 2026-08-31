@@ -13,23 +13,23 @@ Santiago is an old Cuban fisherman who has gone eighty-four days without catchin
 
 ## Packed for Prague
 
-The trip decided this one for me. I was off to Prague with friends for a few days, I did not want to drag a doorstop across a holiday, and *The Old Man and the Sea* is small enough to live in a jacket pocket and be read in the gaps of a trip. It just turned out to be far more than a convenient size. Sometimes the smallest books leave the deepest mark.
+The trip decided this one for me. I was off to Prague with friends for a few days, I did not want to drag a doorstop across a holiday, and *The Old Man and the Sea* is small enough to live in a jacket pocket and be read in the gaps of a trip. It just turned out to be far more than a convenient size.
 
 ## Santiago, master of his craft
 
 What struck me first was Santiago himself, and how completely he knows what he is doing. This is no beginner. His calm, the way he reads every small change in the water and answers it without panic, the quiet expertise in every movement, all of it tells you he has spent a lifetime at this. And it tells you something about Hemingway too: you cannot write a fisherman this convincing unless you understand the sea yourself.
 
-More than his skill, though, it is his will that stays with you. Faced with a challenge far larger than himself, Santiago is not afraid. He simply sets himself to it, patient and unshakeable, and in doing so he becomes a kind of proof of how much a single person can endure when they refuse to give up.
+More than his skill, though, it is his will that stays with you. Faced with a challenge far larger than himself, Santiago does not flinch from it. He simply sets himself to it, patient and unshakeable, and in doing so he becomes a kind of proof of how much a single person can endure when they refuse to give up.
 
 ## A worthy opponent
 
-The heart of the book, for me, is the struggle itself, and the strange respect that grows inside it. Santiago does not hate the marlin. The longer the two of them are locked together, the more he admires it, even loves it, and calls it his brother. It is exactly what happens when you come up against a truly great opponent: instead of resenting their strength, you recognise how grand they are, and the contest becomes something almost noble.
+The heart of the book, for me, is the struggle itself, and the strange respect that grows inside it. Santiago does not hate the marlin. The longer the two of them are locked together, the more he admires it, even loves it, and calls it his brother. That is how a truly great opponent works on you: instead of resenting their strength, you recognise how formidable they are, and the contest becomes something almost noble.
 
-That is why the book never feels small, even though almost nothing "happens". It reads like watching two great beasts test each other to the very limit, and by the end you understand that there is no shame in a struggle like this, win or lose. The worth is in the fight, and the dignity holds even in defeat.
+That is why the book never feels small, even though almost nothing "happens". It reads like watching two creatures matched almost exactly, testing each other to the limit, and by the end you understand that there is no shame in a struggle like this, win or lose. The worth is in the fight, and the dignity holds even in defeat.
 
 ## When the sharks come
 
-Then, on the long way home, the sharks come. I will not spell out every blow, but the moment they arrive is a wonderful, terrible one. You know exactly how many days Santiago has poured into this, how much it has cost him, and just as the prize is finally his, it is torn away from him piece by piece. It is not fair. But that, in the end, is the point: nature does not deal in fairness. It is unpredictable and indifferent, and it takes what it takes.
+Then, on the long way home, the sharks come. The moment they arrive is a wonderful, terrible one. You know what the eighty-four empty days before this cost him, and what the three days since have taken out of him, and just as the prize is finally his, it is torn away from him piece by piece. It is not fair. But that, in the end, is the point: nature does not deal in fairness. It is unpredictable and indifferent, and it takes what it takes.
 
 > A man can be destroyed but not defeated.
 
@@ -37,7 +37,7 @@ Hemingway hands you the grief and the meaning in the same breath. Santiago loses
 
 ## The boy on the shore
 
-For all that this is a story about one man alone at sea, it turns on someone who is not there for the fight at all: Manolin, the boy. He does not sail out for the great battle, and yet his presence runs through the whole of it. The bond between them has already shaped how Santiago meets his challenge; out on the water he keeps wishing the boy were with him, and that wish alone seems to steady him, as though he carried the boy's faith along with his lines. It could so easily have tipped into a forced "power of friendship" note, but Hemingway keeps it smooth and true. It is just a boy who believes in an old man, and it matters more than it has any right to.
+For all that this is a story about one man alone at sea, it turns on someone who is not there for the fight at all: Manolin, the boy. He does not sail out for the great battle, and yet his presence runs through the whole of it. The bond between them has already shaped how Santiago meets his challenge; out on the water he keeps wishing the boy were with him, and that wish alone seems to steady him, as though he carried the boy's faith along with his lines. It could so easily have tipped into a forced "power of friendship" note, but Hemingway keeps it restrained and true. It is just a boy who believes in an old man, and it matters more than it has any right to.
 
 ## Simple, and all the stronger for it
 
@@ -45,6 +45,6 @@ A word on how it reads, because it surprised me. The prose is astonishingly simp
 
 ## Final thoughts
 
-*The Old Man and the Sea* is a small book about patience, about practising something until it becomes mastery, and about the quiet truth that the greatest challenges tend to find the people who have spent their whole lives getting ready for them. But the thing I keep turning over is the very end, when others gather around the marlin's skeleton on the shore. They can see it was probably the biggest fish anyone there had ever laid eyes on, and still they have no idea what it cost him: the days, the pain, the loneliness, the battle not one of them witnessed.
+*The Old Man and the Sea* is a small book about patience, about practising something until it becomes mastery, and about the quiet truth that the greatest challenges tend to find the people who have spent their whole lives getting ready for them. But the thing I keep turning over is the morning after, when the skeleton is still lashed to the skiff. The other fishermen measure it at eighteen feet, the biggest thing anyone there has seen come out of the Gulf. The tourists up at the Terrace look at the same bones and take them for a shark's, and admire the tail. Nobody has any idea what it cost him: the days, the pain, the loneliness, the battle not one of them witnessed.
 
 That, to me, is the deepest thing in the book. Not every fight we win is seen, or celebrated, or even understood by the people around us. Some of the hardest things you will ever do, you will do alone, and no one will know. What Santiago leaves you with is a way to make peace with that: to enjoy the struggle for its own sake, and, when you win, to let that be enough on its own, without needing anyone's approval. In the end, the only person who has to know what you are capable of is you.

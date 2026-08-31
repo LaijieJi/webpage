@@ -1,7 +1,7 @@
 <template>
   <footer class="site-footer">
     <div class="site-footer__inner">
-      <span class="site-footer__note">Let's talk — or send a letter.</span>
+      <span class="site-footer__note">Let's talk - or send a letter.</span>
       <div class="site-footer__right">
         <div class="site-footer__links">
           <a href="mailto:contact@laijie.dev">email</a>

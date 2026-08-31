@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
 
-  /* Typefaces — serif for reading, mono for labels, sans as the neutral default. */
+  /* Typefaces - serif for reading, mono for labels, sans as the neutral default. */
   --font-sans: 'Hanken Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-mono: 'Spline Sans Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --font-hand: 'Caveat', 'Segoe Script', cursive;
 
-  /* Alpine palette — the variant the reference applies on mount.
+  /* Alpine palette - the variant the reference applies on mount.
      Cool grey-green paper, muted green accent, steel-blue secondary. */
   --paper: #e9eae2;
   --surface: #f4f4ec;
@@ -26,7 +26,7 @@
   --transition: 160ms ease;
 }
 
-/* Warm palette — the reference's other variant ("summer"). */
+/* Warm palette - the reference's other variant ("summer"). */
 :root[data-palette='warm'] {
   --paper: #f2ece0;
   --surface: #fbf7ef;
@@ -220,7 +220,7 @@ em { font-style: italic; }
   opacity: 0;
 }
 
-/* Scroll-reveal — the .reveal class is added by the v-reveal directive
+/* Scroll-reveal - the .reveal class is added by the v-reveal directive
    only when motion is allowed, so reduced-motion users see content as-is. */
 .reveal {
   opacity: 0;

@@ -52,7 +52,7 @@
 
     <!-- the journey -->
     <section class="journey">
-      <p class="journey__kicker">— a short walk through it</p>
+      <p class="journey__kicker">- a short walk through it</p>
       <div class="journey__track">
         <svg class="journey__river" width="68" viewBox="0 0 68 1000" preserveAspectRatio="none" aria-hidden="true">
           <path d="M34 0 C 62 110, 8 210, 34 320 C 60 430, 6 520, 34 640 C 58 740, 12 850, 34 1000" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" opacity="0.4" />
@@ -65,28 +65,28 @@
           <div class="work">
             <div class="work__item">
               <div class="work__head">
-                <span class="work__role">Wegrant — Full Stack Developer</span>
+                <span class="work__role">Wegrant - Full Stack Developer</span>
                 <span class="work__dates">Jun 2026 → now</span>
               </div>
               <p class="work__note">Frontend in Vue, backend in Django, cloud on Azure, and automations with n8n.</p>
             </div>
             <div class="work__item">
               <div class="work__head">
-                <span class="work__role">EBHealth3 — Software Developer</span>
+                <span class="work__role">EBHealth3 - Software Developer</span>
                 <span class="work__dates">Mar 2024 → May 2026</span>
               </div>
               <p class="work__note">Backend with Spring Boot, AWS and Docker. Mobile apps in Flutter.</p>
             </div>
             <div class="work__item">
               <div class="work__head">
-                <span class="work__role">T-Systems — Internship</span>
+                <span class="work__role">T-Systems - Internship</span>
                 <span class="work__dates">Feb → Aug 2025</span>
               </div>
               <p class="work__note">DevOps and support for internal teams.</p>
             </div>
             <div class="work__item">
               <div class="work__head">
-                <span class="work__role">EBHealth3 — Internship</span>
+                <span class="work__role">EBHealth3 - Internship</span>
                 <span class="work__dates">Sept 2023 → Mar 2024</span>
               </div>
             </div>
@@ -140,7 +140,7 @@ useSeo({
   title: 'Laijie Ji - Full-Stack Developer',
   ogTitle: "Laijie Ji - I write software. The rest of the time, I'm outside.",
   description:
-    'Laijie Ji — full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5.',
+    'Laijie Ji - full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5.',
   ogDescription:
     'Full-stack developer in Valencia. Projects, a reading journal, photography, and one well-kept Mazda MX-5.',
   path: '/',

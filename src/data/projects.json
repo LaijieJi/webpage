@@ -12,7 +12,7 @@
     "name": "Project Gaia",
     "dates": "2024",
     "tech": "Flutter · Supabase",
-    "summary": "An app for managing urban gardens — marketplace, chats, plot organisation, and plant details. Built during a codethon.",
+    "summary": "An app for managing urban gardens - marketplace, chats, plot organisation, and plant details. Built during a codethon.",
     "href": "https://github.com/Gaia-Artemis-Codethon/Gaia",
     "label": "Repo",
     "wip": false
@@ -21,7 +21,7 @@
     "name": "MercadonaChef",
     "dates": "2024",
     "tech": "Angular · FastAPI · ElasticSearch · ML",
-    "summary": "Scan a meal and get back the recipe and its ingredients — each one ready to buy at Mercadona.",
+    "summary": "Scan a meal and get back the recipe and its ingredients - each one ready to buy at Mercadona.",
     "href": "https://github.com/LaijieJi/mercadonaIT",
     "label": "Repo",
     "wip": false

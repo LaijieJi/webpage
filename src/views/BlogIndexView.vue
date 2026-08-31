@@ -4,7 +4,7 @@
     <section class="cover">
       <p class="cover__vol">Vol. one</p>
       <h1 class="cover__title">The Journal</h1>
-      <p class="cover__hand">pull up a chair —</p>
+      <p class="cover__hand">pull up a chair -</p>
       <div class="cover__ornament" aria-hidden="true">
         <span class="cover__ornament-rule"></span>
         <span class="cover__ornament-dot"></span>
@@ -15,7 +15,7 @@
           <ResponsiveImg :src="lamyImg.src" :webp="lamyImg.webp" alt="My Lamy Safari resting on a notebook" fill cover eager />
         </div>
       </div>
-      <p class="cover__cap">my Lamy Safari — where the words come from</p>
+      <p class="cover__cap">my Lamy Safari - where the words come from</p>
       <p class="cover__scroll">↓ scroll to open</p>
     </section>
 
@@ -154,7 +154,7 @@ import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
   title: 'The Journal - Laijie Ji',
-  description: 'Notes from a slow reader — book reviews and the occasional rabbit hole.',
+  description: 'Notes from a slow reader - book reviews and the occasional rabbit hole.',
   path: '/blog'
 });
 
@@ -365,8 +365,8 @@ function unlockTurn() {
   background: var(--paper);
   padding: 72px 40px 84px;
   box-shadow: 0 -24px 50px -28px rgba(42, 38, 32, 0.45);
-  /* Keep turning pages from causing sideways scroll. Lives here — NOT on
-     .journal — because an overflow ancestor breaks the sticky cover in Safari. */
+  /* Keep turning pages from causing sideways scroll. Lives here - NOT on
+     .journal - because an overflow ancestor breaks the sticky cover in Safari. */
   overflow-x: clip;
 }
 
@@ -402,7 +402,7 @@ function unlockTurn() {
   position: relative;
   width: 100%;
   height: 100%;
-  /* A notebook page has a fixed size — short pages keep it, leaving blank
+  /* A notebook page has a fixed size - short pages keep it, leaving blank
      ruled lines at the bottom. */
   min-height: 660px;
   background:
@@ -782,7 +782,7 @@ function unlockTurn() {
   transform: rotate(1.2deg) translateX(3px);
 }
 
-/* On the shelf — reading list below the journal. */
+/* On the shelf - reading list below the journal. */
 .shelf {
   max-width: 860px;
   margin: 84px auto 0; /* room for the bookmarks hanging off the journal */

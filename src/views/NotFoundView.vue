@@ -2,7 +2,7 @@
   <section class="nf">
     <p class="nf__eyebrow">Error 404</p>
     <h1 class="nf__title">This page wandered off the trail.</h1>
-    <p class="nf__note">— let's get you back</p>
+    <p class="nf__note">- let's get you back</p>
     <div class="nf__links">
       <router-link class="nf__link" to="/">← back home</router-link>
       <router-link class="nf__link" to="/blog">the journal</router-link>

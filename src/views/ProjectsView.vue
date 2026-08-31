@@ -20,7 +20,7 @@
           target="_blank"
           rel="noreferrer"
         >{{ project.label }} →</a>
-        <span v-else-if="project.wip" class="proj__wip">in progress —</span>
+        <span v-else-if="project.wip" class="proj__wip">in progress -</span>
       </article>
       <div class="proj__rule"></div>
     </section>
@@ -33,7 +33,7 @@ import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
   title: 'Projects - Laijie Ji',
-  description: "Selected things I've built — mostly to learn something, or to scratch an itch.",
+  description: "Selected things I've built - mostly to learn something, or to scratch an itch.",
   path: '/projects'
 });
 </script>
