@@ -41,7 +41,7 @@
         </div>
         <div class="card__row">
           <div class="card__label">Studying</div>
-          <div class="card__value">Computer Engineering · UPV</div>
+          <div class="card__value">AI &amp; Pattern Recognition · UPV</div>
         </div>
         <div class="card__row">
           <div class="card__label">Languages</div>
