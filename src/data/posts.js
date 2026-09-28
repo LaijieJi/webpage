@@ -1,25 +1,8 @@
+import readingTimes from 'virtual:reading-times';
+
 const modules = import.meta.glob('../posts/*.md', {
   eager: true
 });
-
-// Raw source of each post, used to estimate reading time.
-const rawModules = import.meta.glob('../posts/*.md', {
-  eager: true,
-  query: '?raw',
-  import: 'default'
-});
-
-function readingMinutes(raw) {
-  if (!raw) return 1;
-  const text = raw
-    .replace(/^---[\s\S]*?---/, '') // frontmatter
-    .replace(/```[\s\S]*?```/g, ' ') // code fences
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ') // images
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links -> text
-    .replace(/[#>*_`~]/g, ' ');
-  const words = text.trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
-}
 
 function normalizeTags(value) {
   if (Array.isArray(value)) return value;
@@ -39,7 +22,7 @@ const posts = Object.entries(modules)
     return {
       slug,
       component: mod.default,
-      readingTime: readingMinutes(rawModules[path]),
+      readingTime: readingTimes[slug] || 1,
       frontmatter: {
         title: mod.title || slug,
         date: mod.date || '',
