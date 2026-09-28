@@ -4,7 +4,7 @@
     <AppHeader />
     <main id="main-content" class="app-main" tabindex="-1">
       <RouterView v-slot="{ Component }">
-        <transition name="page" mode="out-in">
+        <transition name="page" mode="out-in" @after-leave="pageHasLeft">
           <component :is="Component" :key="route.path" />
         </transition>
       </RouterView>
@@ -15,6 +15,7 @@
 
 <script setup>
 import { RouterView, useRoute } from 'vue-router';
+import { pageHasLeft } from './router.js';
 import { useHead } from '@unhead/vue';
 import { OG_IMAGE } from './composables/useSeo.js';
 import AppHeader from './components/AppHeader.vue';

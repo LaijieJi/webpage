@@ -24,6 +24,55 @@ function allRoutePaths() {
   ];
 }
 
+// Reading time is computed here, at build time, so post bodies never need to be
+// shipped to the browser just to be counted.
+function readingTimes() {
+  const VIRTUAL_ID = 'virtual:reading-times';
+  const RESOLVED_ID = '\0' + VIRTUAL_ID;
+  const POSTS_DIR = path.resolve('src/posts');
+
+  function minutesFor(raw) {
+    const text = raw
+      .replace(/^---[\s\S]*?---/, '')        // frontmatter
+      .replace(/```[\s\S]*?```/g, ' ')       // code fences
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ') // images
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links -> text
+      .replace(/[#>*_`~]/g, ' ');
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words / 200));
+  }
+
+  function table() {
+    if (!fs.existsSync(POSTS_DIR)) return {};
+    const out = {};
+    for (const file of fs.readdirSync(POSTS_DIR)) {
+      if (!file.endsWith('.md')) continue;
+      const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
+      out[file.replace(/\.md$/, '')] = minutesFor(raw);
+    }
+    return out;
+  }
+
+  return {
+    name: 'lj-reading-times',
+    resolveId(id) {
+      if (id === VIRTUAL_ID) return RESOLVED_ID;
+    },
+    load(id) {
+      if (id === RESOLVED_ID) return `export default ${JSON.stringify(table())};`;
+    },
+    configureServer(server) {
+      server.watcher.add(POSTS_DIR);
+      server.watcher.on('all', (_event, file) => {
+        if (!String(file).endsWith('.md')) return;
+        const mod = server.moduleGraph.getModuleById(RESOLVED_ID);
+        if (mod) server.moduleGraph.invalidateModule(mod);
+        server.ws.send({ type: 'full-reload' });
+      });
+    }
+  };
+}
+
 // Emits sitemap.xml at build time from the static routes + post/photo slugs.
 function sitemap() {
   return {
@@ -38,6 +87,47 @@ function sitemap() {
         fileName: 'sitemap.xml',
         source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
       });
+    }
+  };
+}
+
+// three.js must only ever be reachable through the lazily-imported shelf. If it
+// is loaded eagerly, every visitor pays for it - fail the build instead.
+// "Eagerly" means the entry chunk and everything it statically imports, not the
+// entry alone: Rollup can hoist a shared module into a separate chunk that the
+// entry imports, and checking only the entry's own modules would miss it.
+function assertNoThreeInEntry() {
+  const isThree = (id) => /node_modules[/\\]three[/\\]/.test(id);
+  return {
+    name: 'lj-entry-guard',
+    apply: 'build',
+    generateBundle(_options, bundle) {
+      const chunks = new Map(
+        Object.values(bundle)
+          .filter((item) => item.type === 'chunk')
+          .map((chunk) => [chunk.fileName, chunk])
+      );
+      for (const entry of chunks.values()) {
+        if (!entry.isEntry) continue;
+        const eager = new Set();
+        const queue = [entry.fileName];
+        while (queue.length) {
+          const name = queue.pop();
+          if (eager.has(name) || !chunks.has(name)) continue;
+          eager.add(name);
+          queue.push(...chunks.get(name).imports);
+        }
+        for (const name of eager) {
+          const offenders = Object.keys(chunks.get(name).modules || {}).filter(isThree);
+          if (offenders.length) {
+            this.error(
+              `three.js is loaded eagerly: ${name} (reached from entry ${entry.fileName}). ` +
+                `The shelf must be loaded with defineAsyncComponent. Offending modules:\n  ` +
+                offenders.slice(0, 5).join('\n  ')
+            );
+          }
+        }
+      }
     }
   };
 }
@@ -58,7 +148,9 @@ export default defineConfig({
       // with the body-extracted excerpt (empty — no <!-- more --> markers).
       frontmatter: true
     }),
-    sitemap()
+    readingTimes(),
+    sitemap(),
+    assertNoThreeInEntry()
   ],
   ssgOptions: {
     dirStyle: 'nested',

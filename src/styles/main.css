@@ -145,6 +145,48 @@ em { font-style: italic; }
   color: var(--paper);
 }
 
+/* The 3D shelf's canvas is presentation; this list is its real interface.
+   Hidden until something inside it takes focus, like .skip-link above, so
+   keyboard users are never focusing links they cannot see. */
+.journal-shelf-index {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.journal-shelf-index:focus-within {
+  left: 40px;
+  top: 12px;
+  width: auto;
+  height: auto;
+  max-width: 420px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  z-index: 200;
+  overflow: visible;
+}
+
+.journal-shelf-index ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.9;
+}
+
+.journal-shelf-index a {
+  color: var(--ink);
+}
+
+.journal-shelf-index span {
+  color: var(--faint);
+}
+
 /* Reusable centred column. Sections override max-width as needed. */
 .wrap {
   max-width: 1040px;
