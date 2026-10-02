@@ -4,7 +4,9 @@
     <AppHeader />
     <main id="main-content" class="app-main" tabindex="-1">
       <RouterView v-slot="{ Component }">
-        <transition name="page" mode="out-in">
+        <!-- While a morph runs the browser animates the change, so the page
+             swaps with no transition of its own. -->
+        <transition name="page" mode="out-in" v-bind="morphing ? morphTransition : {}">
           <component :is="Component" :key="route.path" />
         </transition>
       </RouterView>
@@ -17,6 +19,7 @@
 import { RouterView, useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
 import { OG_IMAGE } from './composables/useSeo.js';
+import { morphing, morphTransition } from './composables/useMorph.js';
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
 

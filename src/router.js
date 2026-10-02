@@ -1,4 +1,5 @@
 import HomeView from './views/HomeView.vue';
+import { morphing } from './composables/useMorph.js';
 
 // Every other view loads on demand. HomeView stays eager: it is the entry route,
 // so splitting it would only add a round trip before the first paint.
@@ -26,5 +27,7 @@ export const routes = [
 export function scrollBehavior(to, from) {
   // Same page, only the query changed (e.g. journal pagination) - stay put.
   if (to.path === from.path) return false;
+  // A morph puts the new page at the top itself, inside the transition.
+  if (morphing.value) return false;
   return { top: 0, left: 0, behavior: 'smooth' };
 }

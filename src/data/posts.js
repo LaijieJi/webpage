@@ -52,6 +52,37 @@ export function getAdjacentPosts(slug) {
   };
 }
 
+/* ---- How an entry reads on its catalogue card (the journal's drawer and
+   the head of each post) ------------------------------------------------- */
+
+// Book reviews are filed under their author; anything else under its subject.
+export function cardByline(post) {
+  const fm = post.frontmatter;
+  return fm.bookAuthor || fm.tags[0] || '';
+}
+
+export function cardTitle(post) {
+  const fm = post.frontmatter;
+  return fm.book || fm.title.replace(/^Book Review - /, '');
+}
+
+// What else it is filed under, from its tags: ['books', 'historical-fiction']
+// -> 'historical fiction'. A non-book entry's first tag is already its byline.
+export function cardGenre(post) {
+  const fm = post.frontmatter;
+  return fm.tags
+    .filter((tag, i) => tag !== 'books' && (fm.bookAuthor || i > 0))
+    .map((tag) => tag.replace(/-/g, ' '))
+    .join(', ');
+}
+
+const STAMP_MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+// Set like a library date stamp.
+export function cardStamp(post) {
+  const d = new Date(post.frontmatter.date);
+  return `${d.getDate()} ${STAMP_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 function toTime(value) {
   const time = Date.parse(value || '');
   return Number.isNaN(time) ? 0 : time;

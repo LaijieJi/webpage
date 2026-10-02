@@ -25,6 +25,12 @@
 
   --transition: 160ms ease;
 
+  /* Catalogue cards (the journal and its posts). */
+  --card-paper: #fbfaf3;
+  --card-rule: rgba(164, 22, 26, 0.55);
+  --card-line: rgba(63, 110, 132, 0.18);
+  --brass: #a88a55;
+
   /* Motion. Things here move like paper being handled: lifted quickly,
      then set down so they settle with a little give. */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -130,18 +136,6 @@ p { margin: 0; }
 img { max-width: 100%; display: block; }
 em { font-style: italic; }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .skip-link {
   position: absolute;
   left: 40px;
@@ -163,13 +157,6 @@ em { font-style: italic; }
   color: var(--paper);
 }
 
-/* Reusable centred column. Sections override max-width as needed. */
-.wrap {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
 /* Shared eyebrow / kicker label. */
 .eyebrow {
   font-family: var(--font-mono);
@@ -181,43 +168,7 @@ em { font-style: italic; }
   margin: 0;
 }
 
-/* Generic section wrapper used by simple/fallback views. */
-.view-section {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 60px 40px 84px;
-}
-
-.view-heading {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(32px, 4.6vw, 52px);
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-}
-
-.view-text {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  line-height: 1.6;
-  color: var(--muted);
-  max-width: 60ch;
-}
-
-/* Reference-style link/button used by the 404 and a few CTAs. */
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-  padding-bottom: 2px;
-}
-
-.button:hover,
-.button:focus-visible {
+:focus-visible {
   color: var(--accent2);
   border-color: var(--accent2);
 }
@@ -244,6 +195,19 @@ em { font-style: italic; }
 .page-enter-from {
   opacity: 0;
   translate: 0 22px;
+}
+
+/* Morphs between pages (see composables/useMorph.js): the opened element
+   grows into its page while everything else cross-fades underneath. */
+::view-transition-group(journal-sheet),
+::view-transition-group(photo-hero) {
+  animation-duration: 680ms;
+  animation-timing-function: var(--ease-settle);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
 }
 
 /* Scroll-reveal - the .reveal class is added by the v-reveal directive
@@ -321,16 +285,6 @@ em { font-style: italic; }
   }
 }
 
-/* A gentle nudge, for "scroll down" cues. */
-@keyframes lj-bob {
-  0%, 60%, 100% {
-    translate: 0 0;
-  }
-  30% {
-    translate: 0 5px;
-  }
-}
-
 /* Pressed onto the page like a rubber stamp. */
 @keyframes lj-stamp {
   from {
@@ -343,14 +297,6 @@ em { font-style: italic; }
   to {
     opacity: 1;
     scale: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .wrap,
-  .view-section {
-    padding-left: 22px;
-    padding-right: 22px;
   }
 }
 

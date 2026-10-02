@@ -49,6 +49,7 @@ const isCurrent = (path) => {
 
 <style scoped>
 .site-header {
+  view-transition-name: site-header; /* holds still while a page morphs */
   position: sticky;
   top: 0;
   z-index: 50;

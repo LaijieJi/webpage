@@ -1,51 +1,61 @@
 <template>
   <div class="post-page">
     <article class="post" :class="{ 'post--garage': post.frontmatter.variant === 'garage' }" v-if="post">
-    <router-link class="post__back" to="/blog">← the journal</router-link>
-    <div class="post__card">
-      <div class="post__grid">
-        <div class="post__aside">
-          <div class="post__date">{{ dateLong(post.frontmatter.date) }}</div>
-          <div v-if="post.frontmatter.tags?.length" class="post__tags">{{ post.frontmatter.tags.join(' · ') }}</div>
-          <div class="post__read">{{ post.readingTime }} min read</div>
-          <p class="post__hand">a good one -</p>
-        </div>
-        <div class="post__main">
-          <h1 class="post__title">{{ post.frontmatter.title }}</h1>
-          <p v-if="post.frontmatter.excerpt" class="post__excerpt">{{ post.frontmatter.excerpt }}</p>
-          <component :is="post.component" class="post__body" />
-          <div class="post__foot">
-            <router-link class="post__more" to="/blog">← back to all entries</router-link>
-            <span class="post__mark">~ i ~</span>
-          </div>
-          <nav v-if="newer || older" class="post__nav">
-            <router-link v-if="older" class="post__nav-link" :to="`/blog/${older.slug}`">
-              <span class="post__nav-dir">← earlier</span>
-              <span class="post__nav-title">{{ older.frontmatter.title }}</span>
-            </router-link>
-            <span v-else aria-hidden="true"></span>
-            <router-link v-if="newer" class="post__nav-link post__nav-link--next" :to="`/blog/${newer.slug}`">
-              <span class="post__nav-dir">later →</span>
-              <span class="post__nav-title">{{ newer.frontmatter.title }}</span>
-            </router-link>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </article>
+      <router-link class="post__back" to="/blog">← the journal</router-link>
 
-  <article class="post post--missing" v-else>
-    <h1 class="post__title">We couldn't find that entry.</h1>
-    <p class="post__excerpt">Maybe browse the other notes instead.</p>
-    <router-link class="post__more" to="/blog">← back to the journal</router-link>
-  </article>
+      <!-- the catalogue card, pulled out of the drawer and laid on the page -->
+      <header class="post__card" data-morph="journal-sheet">
+        <div class="post__head">
+          <p class="post__by">{{ cardByline(post) }}</p>
+          <h1 class="post__title">{{ cardTitle(post) }}</h1>
+          <time class="post__stamp" :datetime="isoDate">{{ cardStamp(post) }}</time>
+        </div>
+        <div class="post__lined">
+          <p v-if="post.frontmatter.excerpt" class="post__excerpt">{{ post.frontmatter.excerpt }}</p>
+          <p class="post__meta">
+            <span v-if="genre">{{ genre }}</span>
+            <span>{{ post.readingTime }} min read</span>
+          </p>
+        </div>
+      </header>
+
+      <div class="post__sheet">
+        <component :is="post.component" class="post__body" />
+      </div>
+
+      <!-- the cards filed either side of this one -->
+      <nav v-if="newer || older" class="post__filed" aria-label="Neighbouring entries">
+        <RouterLink
+          v-for="side in neighbours"
+          :key="side.dir"
+          :to="`/blog/${side.post.slug}`"
+          custom
+          v-slot="{ href }"
+        >
+          <a class="filed" :class="`filed--${side.dir}`" :href="href" @click="open($event, side.post)">
+            <span class="filed__dir">{{ side.dir }}</span>
+            <span class="filed__by">{{ cardByline(side.post) }}</span>
+            <span class="filed__title">{{ cardTitle(side.post) }}</span>
+          </a>
+        </RouterLink>
+      </nav>
+
+      <router-link class="post__back post__back--end" to="/blog">Back to the journal</router-link>
+    </article>
+
+    <article class="post post--missing" v-else>
+      <h1 class="post__title">We couldn't find that entry.</h1>
+      <p class="post__excerpt">It may have been renamed. Every entry is in the journal.</p>
+      <router-link class="post__back" to="/blog">← the journal</router-link>
+    </article>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { getPostBySlug, getAdjacentPosts } from '../data/posts.js';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { getPostBySlug, getAdjacentPosts, cardByline, cardTitle, cardGenre, cardStamp } from '../data/posts.js';
+import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
 import { useSeo, SITE_URL, OG_IMAGE } from '../composables/useSeo.js';
 
 const route = useRoute();
@@ -53,6 +63,21 @@ const post = computed(() => getPostBySlug(route.params.slug));
 const adjacent = computed(() => getAdjacentPosts(route.params.slug));
 const newer = computed(() => adjacent.value.newer);
 const older = computed(() => adjacent.value.older);
+const neighbours = computed(() => [
+  older.value && { dir: 'earlier', post: older.value },
+  newer.value && { dir: 'later', post: newer.value }
+].filter(Boolean));
+
+const genre = computed(() => (post.value ? cardGenre(post.value) : ''));
+const isoDate = computed(() => post.value && new Date(post.value.frontmatter.date).toISOString().slice(0, 10));
+
+// A neighbour's card grows into its own page, as it does from the drawer.
+const router = useRouter();
+function open(event, target) {
+  if (!isPlainClick(event)) return;
+  event.preventDefault();
+  openWithMorph(router, `/blog/${target.slug}`, event.currentTarget, 'journal-sheet');
+}
 
 // The view is keyed by route.path in App.vue, so setup re-runs per slug.
 if (post.value) {
@@ -104,18 +129,13 @@ if (post.value) {
   });
 }
 
-const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-function dateLong(value) {
-  const d = value ? new Date(value) : new Date();
-  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-}
 </script>
 
 <style scoped>
 .post {
-  max-width: 880px;
+  max-width: 780px;
   margin: 0 auto;
-  padding: 40px 40px 84px;
+  padding: 40px 40px 96px;
 }
 
 .post__back {
@@ -129,88 +149,125 @@ function dateLong(value) {
   color: var(--accent);
 }
 
+/* ---- The card ------------------------------------------------------------
+   The same index card as in the journal's drawer, at full size: typed author,
+   title, date stamp, red rule, and the excerpt on its blue lines. It lies on
+   top of the page, slightly askew. */
 .post__card {
-  --tilt: 0.4deg;
+  view-transition-name: journal-sheet; /* the drawer's card grows into this */
   position: relative;
-  margin-top: 20px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: 0 36px 72px -52px rgba(42, 38, 32, 0.5);
-  transform: rotate(var(--tilt));
+  z-index: 1;
+  margin: 22px 26px 0;
+  padding: 26px 34px 0;
+  background: var(--card-paper);
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px var(--line), 0 22px 34px -24px rgba(30, 30, 25, 0.55);
+  rotate: -0.6deg;
 }
 
-.post__grid {
+/* the hole the drawer rod ran through */
+.post__card::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
+  border-radius: 50%;
+  background: var(--mat);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.post__head {
   display: grid;
-  grid-template-columns: 140px 1fr;
-  /* Keep the paper's tilt, but print the words level so the article reads
-     straight. Cancels .post__card's rotation exactly (shared centre). */
-  transform: rotate(calc(-1 * var(--tilt)));
+  grid-template-columns: 1fr auto;
+  column-gap: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--card-rule);
 }
 
-.post__aside {
-  border-right: 1px solid var(--accent2);
-  padding: 52px 22px;
-  text-align: right;
-}
-
-.post__date {
+.post__by {
+  grid-column: 1;
+  margin: 0;
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--accent2);
-  line-height: 1.6;
-}
-
-.post__tags {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
-  margin-top: 14px;
-}
-
-.post__read {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--faint);
-  margin-top: 8px;
-}
-
-.post__hand {
-  font-family: var(--font-hand);
-  font-size: 22px;
-  color: var(--accent);
-  transform: rotate(-4deg);
-  width: fit-content;
-  margin: 24px 0 0;
-  animation: lj-write 900ms cubic-bezier(0.45, 0.1, 0.35, 1) 0.6s both;
-}
-
-.post__main {
-  padding: 52px 56px 36px 48px;
-  max-width: 64ch;
 }
 
 .post__title {
+  grid-column: 1;
+  margin: 8px 0 0;
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(30px, 4vw, 46px);
-  line-height: 1.1;
-  margin: 0 0 10px;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* The librarian's stamp - pressed on just after the card lands. */
+.post__stamp {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  margin-top: 2px;
+  padding: 4px 9px 3px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--accent2);
+  opacity: 0.85;
+  rotate: -4deg;
+  animation: lj-stamp 560ms var(--ease-spring) 0.55s backwards;
+}
+
+/* Below the rule, the card is ruled in faint blue, one line per 30px. */
+.post__lined {
+  padding: 10px 0 54px;
+  background: repeating-linear-gradient(to bottom, transparent 0 29px, var(--card-line) 29px 30px) 0 10px / 100% calc(100% - 64px) no-repeat;
 }
 
 .post__excerpt {
+  margin: 0;
+  max-width: 52ch;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 20px;
+  font-size: 21px;
+  line-height: 30px;
   color: var(--muted);
-  margin: 0 0 30px;
 }
 
-/* Long-form markdown body */
+.post__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 30px;
+  color: var(--faint);
+}
+
+/* ---- The page the card lies on ------------------------------------------ */
+.post__sheet {
+  margin-top: -26px;
+  padding: 78px 72px 60px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 36px 72px -52px rgba(42, 38, 32, 0.5);
+}
+
+/* Long-form markdown body: plain and quiet, nothing behind the words. */
 .post__body {
   display: block;
+  max-width: 64ch;
   font-family: var(--font-serif);
   font-size: 18.5px;
-  line-height: 1.68;
+  line-height: 1.7;
   color: var(--ink);
 }
 
@@ -218,11 +275,16 @@ function dateLong(value) {
   margin: 20px 0 0;
 }
 
-.post__body :deep(p:first-of-type) {
+.post__body > :deep(p:first-of-type) {
   margin-top: 0;
 }
 
-.post__body :deep(p:first-of-type)::first-letter {
+.post__body :deep(h2 + p) {
+  margin-top: 12px;
+}
+
+/* Only the body's own first paragraph - never one inside a pull-quote. */
+.post__body > :deep(p:first-of-type)::first-letter {
   float: left;
   font-family: var(--font-serif);
   font-size: 76px;
@@ -231,26 +293,30 @@ function dateLong(value) {
   color: var(--accent);
 }
 
-/* Blockquote paragraphs are also "first of type" among their own siblings -
-   keep the drop cap off the pull-quotes. */
-.post__body :deep(blockquote p)::first-letter {
-  float: none;
-  font-size: inherit;
-  line-height: inherit;
-  padding: 0;
-  color: inherit;
-}
-
+/* Each section opens under a short length of the card's red rule. */
 .post__body :deep(h2),
 .post__body :deep(h3) {
   font-family: var(--font-serif);
   font-weight: 500;
   line-height: 1.2;
-  margin: 34px 0 0;
+  margin: 48px 0 0;
   color: var(--ink);
 }
 
-.post__body :deep(h2) { font-size: 24px; }
+.post__body :deep(h2)::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1.5px;
+  margin-bottom: 16px;
+  background: var(--card-rule);
+}
+
+.post__body :deep(h2:first-child) {
+  margin-top: 0;
+}
+
+.post__body :deep(h2) { font-size: 25px; }
 .post__body :deep(h3) { font-size: 20px; }
 
 .post__body :deep(em) { font-style: italic; }
@@ -280,120 +346,151 @@ function dateLong(value) {
   margin-top: 6px;
 }
 
-/* Pull-quote: a `> line` in a review is lifted out as an editorial quote. */
+/* Pull-quote: the line worth keeping, typed on a slip and clipped to the page. */
 .post__body :deep(blockquote) {
-  margin: 36px 0;
-  padding: 2px 0 2px 24px;
-  border-left: 3px solid var(--accent2);
+  position: relative;
+  margin: 46px -26px;
+  padding: 28px 32px 24px;
+  background: var(--card-paper);
+  box-shadow: 0 0 0 1px var(--line), 0 16px 26px -20px rgba(30, 30, 25, 0.55);
+  rotate: -0.8deg;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 25px;
-  line-height: 1.34;
-  color: var(--accent);
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* the paper clip */
+.post__body :deep(blockquote)::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 30px;
+  width: 12px;
+  height: 30px;
+  border: 2px solid color-mix(in srgb, var(--ink) 45%, transparent);
+  border-radius: 6px;
 }
 
 .post__body :deep(blockquote p) {
   margin: 0;
 }
 
-.post__foot {
-  margin: 40px 0 0;
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+/* The slip settles onto the page as it scrolls in - where the browser can tie
+   an animation to scrolling; elsewhere it is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .post__body :deep(blockquote) {
+      --reveal-rot: 2.5deg;
+      animation: lj-settle linear backwards;
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+    }
+  }
 }
 
-.post__more {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-  padding-bottom: 2px;
-}
-
-.post__more:hover,
-.post__more:focus-visible {
-  color: var(--accent2);
-  border-color: var(--accent2);
-}
-
-.post__mark {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--faint);
-}
-
-.post__nav {
+/* ---- The neighbours: the cards filed either side ------------------------- */
+.post__filed {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 22px;
+  gap: 22px;
+  margin: 44px 26px 0;
 }
 
-.post__nav-link {
+.filed {
   display: grid;
+  align-content: start;
   gap: 4px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
+  padding: 14px 20px 18px;
+  background:
+    linear-gradient(var(--card-rule), var(--card-rule)) 0 100% / 100% 1.5px no-repeat,
+    var(--card-paper);
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--line), 0 14px 22px -18px rgba(30, 30, 25, 0.5);
   color: var(--ink);
-  transition: border-color var(--transition);
+  rotate: -0.8deg;
+  transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring), box-shadow 300ms ease;
 }
 
-.post__nav-link:hover,
-.post__nav-link:focus-visible {
-  border-color: var(--accent);
-}
-
-.post__nav-link--next {
+.filed--later {
+  grid-column: 2;
+  rotate: 0.7deg;
   text-align: right;
 }
 
-.post__nav-dir {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.filed:hover,
+.filed:focus-visible {
+  rotate: 0deg;
+  translate: 0 -5px;
+  box-shadow: 0 0 0 1px var(--line), 0 20px 26px -18px rgba(30, 30, 25, 0.55);
+}
+
+.filed__dir {
+  font-family: var(--font-hand);
+  font-size: 20px;
+  line-height: 1;
   color: var(--accent2);
 }
 
-.post__nav-title {
+.filed__by {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.filed__title {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.2;
-  color: var(--ink);
+  transition: color var(--transition);
+}
+
+.filed:hover .filed__title,
+.filed:focus-visible .filed__title {
+  color: var(--accent);
+}
+
+.post__back--end {
+  display: table;
+  margin: 40px auto 0;
 }
 
 .post--missing {
   max-width: 60ch;
 }
 
-.post--missing .post__more {
-  display: inline-block;
-  margin-top: 16px;
+.post--missing .post__title {
+  margin-top: 0;
+}
+
+.post--missing .post__excerpt {
+  margin: 14px 0 24px;
 }
 
 @media (max-width: 680px) {
-  .post { padding: 30px 18px 64px; }
-  .post__grid { grid-template-columns: 1fr; }
-  .post__aside {
-    border-right: none;
-    border-bottom: 1px solid var(--accent2);
-    text-align: left;
-    padding: 28px 26px;
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    flex-wrap: wrap;
+  .post { padding: 28px 16px 64px; }
+  .post__card {
+    margin: 18px 6px 0;
+    padding: 20px 20px 0;
   }
-  .post__hand { margin: 0; }
-  .post__main { padding: 32px 26px; }
-  .post__nav { grid-template-columns: 1fr; }
-  .post__nav-link--next { text-align: left; }
+  .post__head { column-gap: 12px; }
+  .post__stamp { font-size: 10.5px; padding: 3px 6px 2px; }
+  .post__excerpt { font-size: 19px; }
+  .post__sheet { padding: 58px 22px 44px; }
+  .post__body :deep(blockquote) {
+    margin: 40px -6px;
+    padding: 24px 22px 20px;
+    font-size: 21px;
+  }
+  .post__filed {
+    grid-template-columns: 1fr;
+    margin: 36px 6px 0;
+  }
+  .filed--later {
+    grid-column: 1;
+  }
 }
 
 /* ---- Garage variant - the car entry wears Soul Red + a plate masthead ---- */

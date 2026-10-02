@@ -1,155 +1,61 @@
 <template>
   <div class="journal">
-    <!-- sticky cover -->
-    <section class="cover">
-      <p class="cover__vol">Vol. one</p>
-      <h1 class="cover__title">The Journal</h1>
-      <p class="cover__hand">pull up a chair -</p>
-      <div class="cover__ornament" aria-hidden="true">
-        <span class="cover__ornament-rule"></span>
-        <span class="cover__ornament-dot"></span>
-        <span class="cover__ornament-rule"></span>
+    <!-- the drawer front: a steel catalogue drawer with its label in a brass frame -->
+    <header class="front">
+      <div class="front__plate">
+        <h1 class="front__label">The Journal</h1>
       </div>
-      <div class="cover__frame" v-tilt="7">
-        <div class="cover__photo">
-          <ResponsiveImg :src="lamyImg.src" :webp="lamyImg.webp" alt="My Lamy Safari resting on a notebook" fill cover eager />
-        </div>
-      </div>
-      <p class="cover__cap">my Lamy Safari - where the words come from</p>
-      <p class="cover__scroll">↓ scroll to open</p>
-    </section>
+      <span class="front__pull" aria-hidden="true"></span>
+      <p class="front__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
+    </header>
 
-    <!-- the journal sheet -->
-    <div class="journal__wrap">
-      <div ref="stackEl" class="journal__stack">
-        <!-- ribbon bookmarks peeking out from between the stacked pages -->
-        <nav v-if="pageCount > 1" class="journal__tabs" aria-label="Journal pages">
-          <button
-            v-for="n in pageCount"
-            :key="n"
-            type="button"
-            class="journal__tab"
-            :class="{ 'journal__tab--active': n - 1 === page }"
-            :aria-current="n - 1 === page ? 'page' : undefined"
-            :aria-label="`Turn to page ${n}`"
-            @click="goToPage(n - 1)"
-          >
-            <span class="journal__tab-ribbon">{{ toRoman(n) }}</span>
-          </button>
-        </nav>
-
-        <transition :name="turnName" @after-leave="unlockTurn">
-          <div class="journal__leaf" :key="page">
-            <div class="journal__sheet">
-              <span class="journal__shade" aria-hidden="true"></span>
-              <span class="journal__margin" aria-hidden="true"></span>
-              <span class="journal__river" aria-hidden="true">
-                <svg width="12" height="100%" viewBox="0 0 12 1000" preserveAspectRatio="none">
-                  <path d="M6 0 C 9 120, 3 240, 6 360 C 9 480, 3 620, 6 740 C 8 860, 4 940, 6 1000" fill="none" stroke="var(--accent2)" stroke-width="1.4" stroke-linecap="round" opacity="0.45" />
-                </svg>
-              </span>
-              <span class="journal__stamp" aria-hidden="true"></span>
-              <span v-if="page === 0" class="journal__scribble" aria-hidden="true">newest first ↓</span>
-
-              <div class="journal__body">
-                <div class="journal__head">
-                  <p class="journal__kicker">The Journal</p>
-                  <p v-if="page > 0" class="journal__cont" aria-hidden="true">…continued</p>
-                </div>
-                <template v-if="page === 0">
-                  <h2 class="journal__title">Notes from a slow reader.</h2>
-                  <p class="journal__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
-                </template>
-
-                <router-link
-                  v-for="post in pagedPosts"
-                  :key="post.slug"
-                  class="entry"
-                  v-reveal
-                  :to="`/blog/${post.slug}`"
-                >
-                  <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
-                  <div>
-                    <div class="entry__tags"><template v-for="tag in post.frontmatter.tags" :key="tag"><span :style="tagColor(tag) ? { color: tagColor(tag) } : null">{{ tag }}</span> · </template>{{ post.readingTime }} min</div>
-                    <h2 class="entry__title">{{ post.frontmatter.title }}</h2>
-                    <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
-                  </div>
-                </router-link>
-
-                <div class="journal__foot">
-                  <button v-if="page > 0" type="button" class="journal__flip" @click="goToPage(page - 1)">← back a page</button>
-                  <span v-else aria-hidden="true"></span>
-                  <span class="journal__foot-mark">~ {{ pageWord }} ~</span>
-                  <button v-if="page < pageCount - 1" type="button" class="journal__flip journal__flip--next" @click="goToPage(page + 1)">turn the page →</button>
-                  <span v-else aria-hidden="true"></span>
-                </div>
-              </div>
-            </div>
+    <!-- the open drawer: one index card per entry, filed newest first,
+         with a guide card at the start of each year -->
+    <div ref="drawerEl" class="drawer">
+      <ol class="drawer__cards">
+        <li
+          v-for="(item, k) in items"
+          :key="item.key"
+          class="slot"
+          :class="`slot--${item.type}`"
+          :style="{ '--k': Math.min(k, 12) }"
+        >
+          <div v-if="item.type === 'guide'" class="guide" :style="{ '--tab': item.tab }">
+            <h2 class="guide__tab">{{ item.year }}</h2>
           </div>
-        </transition>
 
-        <!-- Invisible ghosts of every page keep the notebook sized to its
-             tallest page, so turning never makes the sheet twitch. -->
-        <template v-if="pageCount > 1">
-          <div
-            v-for="n in pageCount"
-            :key="`ghost-${n}`"
-            class="journal__leaf journal__leaf--ghost"
-            aria-hidden="true"
-          >
-            <div class="journal__sheet">
-              <div class="journal__body">
-                <div class="journal__head">
-                  <p class="journal__kicker">The Journal</p>
-                  <p v-if="n > 1" class="journal__cont">…continued</p>
-                </div>
-                <template v-if="n === 1">
-                  <p class="journal__title">Notes from a slow reader.</p>
-                  <p class="journal__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
-                </template>
-                <div v-for="post in pageSlice(n - 1)" :key="post.slug" class="entry">
-                  <div class="entry__date">{{ dateShort(post.frontmatter.date) }}</div>
-                  <div>
-                    <div class="entry__tags"><template v-for="tag in post.frontmatter.tags" :key="tag"><span :style="tagColor(tag) ? { color: tagColor(tag) } : null">{{ tag }}</span> · </template>{{ post.readingTime }} min</div>
-                    <p class="entry__title">{{ post.frontmatter.title }}</p>
-                    <p v-if="post.frontmatter.excerpt" class="entry__excerpt">{{ post.frontmatter.excerpt }}</p>
-                  </div>
-                </div>
-                <div class="journal__foot">
-                  <span class="journal__flip">← back a page</span>
-                  <span class="journal__foot-mark">~ one ~</span>
-                  <span class="journal__flip journal__flip--next">turn the page →</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </template>
-
-        <span class="visually-hidden" aria-live="polite">Page {{ page + 1 }} of {{ pageCount }}</span>
-      </div>
-
-      <section class="shelf" v-reveal>
-        <p class="shelf__eyebrow">On the shelf</p>
-        <p class="shelf__sub">The ones I'll be reading next.</p>
-        <ul class="shelf__list">
-          <li v-for="(book, n) in readingList" :key="book.title" class="shelf__item" :style="{ '--n': n }">
-            <span class="shelf__title">{{ book.title }}</span>
-            <span class="shelf__author">{{ book.author }}</span>
-          </li>
-        </ul>
-        <p class="shelf__note">can't wait for these →</p>
-      </section>
+          <RouterLink v-else :to="`/blog/${item.post.slug}`" custom v-slot="{ href }">
+            <a class="card" :href="href" @click="open($event, item.post)">
+              <span class="card__by">{{ cardByline(item.post) }}</span>
+              <h3 class="card__title">{{ cardTitle(item.post) }}</h3>
+              <span class="card__stamp">{{ cardStamp(item.post) }}</span>
+              <p v-if="item.post.frontmatter.excerpt" class="card__excerpt">{{ item.post.frontmatter.excerpt }}</p>
+              <span class="card__meta">{{ item.post.readingTime }} min read</span>
+            </a>
+          </RouterLink>
+        </li>
+      </ol>
     </div>
+
+    <!-- what's waiting: slips clipped to the drawer -->
+    <section class="next" v-reveal>
+      <h2 class="next__label">next up</h2>
+      <ul class="next__slips">
+        <li v-for="book in readingList" :key="book.title" class="slip">
+          <span class="slip__title">{{ book.title }}</span>
+          <span class="slip__author">{{ book.author }}</span>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import posts from '../data/posts.js';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
+import posts, { cardByline, cardTitle, cardStamp } from '../data/posts.js';
 import { readingList } from '../data/books.js';
-import { lamyImg } from '../data/media.js';
-import ResponsiveImg from '../components/ResponsiveImg.vue';
+import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
 import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
@@ -158,779 +64,450 @@ useSeo({
   path: '/blog'
 });
 
-const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-function dateShort(value) {
-  const d = value ? new Date(value) : new Date();
-  return `${d.getDate()} ${MONTHS[d.getMonth()]}\n${d.getFullYear()}`;
-}
-
-// Special tag colours; every other tag inherits the muted default.
-const TAG_COLORS = { cars: 'var(--garage)' };
-function tagColor(tag) {
-  return TAG_COLORS[tag] || null;
-}
-
-/* ---- Pagination: the journal turns like a bound notebook ---------------- */
-const PAGE_SIZE = 4;
-const pageCount = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
-
-const route = useRoute();
 const router = useRouter();
 
-// Restore the open page from ?page= so refresh/back return to the same leaf.
-const fromQuery = Math.floor(Number(route.query.page));
-const page = ref(
-  Number.isFinite(fromQuery) ? Math.min(Math.max(fromQuery - 1, 0), pageCount - 1) : 0
-);
+/* ---- Filing: newest first, a guide card wherever the year changes -------- */
+const TABS = ['4%', '28%', '52%', '76%'];
 
-function pageSlice(i) {
-  return posts.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE);
-}
-
-const pagedPosts = computed(() => pageSlice(page.value));
-
-const PAGE_WORDS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
-const pageWord = computed(() => PAGE_WORDS[page.value] || toRoman(page.value + 1));
-
-const ROMAN = [[10, 'x'], [9, 'ix'], [5, 'v'], [4, 'iv'], [1, 'i']];
-function toRoman(n) {
-  let out = '';
-  for (const [value, glyph] of ROMAN) {
-    while (n >= value) {
-      out += glyph;
-      n -= value;
+const items = computed(() => {
+  const out = [];
+  let year = null;
+  posts.forEach((post) => {
+    const y = new Date(post.frontmatter.date).getFullYear();
+    if (y !== year) {
+      year = y;
+      const n = out.filter((item) => item.type === 'guide').length;
+      out.push({ type: 'guide', key: `guide-${y}`, year: y, tab: TABS[n % TABS.length] });
     }
-  }
+    out.push({ type: 'card', key: post.slug, post });
+  });
   return out;
+});
+
+/* ---- Opening a card: it is pulled out and becomes the entry's sheet ----- */
+function open(event, post) {
+  if (!isPlainClick(event)) return;
+  event.preventDefault();
+  openWithMorph(router, `/blog/${post.slug}`, event.currentTarget, 'journal-sheet');
 }
 
-const turnName = ref('turn-fwd');
-const turning = ref(false);
-const stackEl = ref(null);
-let unlockTimer = 0;
+/* ---- Riffle: scrolling flicks the cards over a little, like a thumb
+   running along their tops. The tilt follows scroll speed and eases back. */
+const drawerEl = ref(null);
+const MAX_RIFFLE = 7; // degrees
+let lastY = 0;
+let lastT = 0;
+let target = 0;
+let tilt = 0;
+let raf = 0;
 
-function goToPage(next) {
-  if (turning.value || next === page.value || next < 0 || next > pageCount - 1) return;
-  turnName.value = next > page.value ? 'turn-fwd' : 'turn-back';
-  turning.value = true;
-  page.value = next;
-
-  const query = { ...route.query };
-  if (next > 0) query.page = String(next + 1);
-  else delete query.page;
-  router.replace({ query });
-
-  // If the reader is deep into the sheet, bring the fresh page's top back into view.
-  const el = stackEl.value;
-  if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: 'start' });
-
-  clearTimeout(unlockTimer);
-  unlockTimer = setTimeout(unlockTurn, 900); // safety net if animation events never fire
+function step() {
+  target *= 0.86; // the push fades...
+  tilt += (target - tilt) * 0.2; // ...and the cards follow it with some weight
+  drawerEl.value?.style.setProperty('--riffle', `${tilt.toFixed(2)}deg`);
+  raf = Math.abs(tilt) > 0.02 || Math.abs(target) > 0.02 ? requestAnimationFrame(step) : 0;
 }
 
-function unlockTurn() {
-  clearTimeout(unlockTimer);
-  turning.value = false;
+function onScroll() {
+  const now = performance.now();
+  const dt = Math.max(now - lastT, 8);
+  const velocity = (window.scrollY - lastY) / dt; // px per ms
+  lastY = window.scrollY;
+  lastT = now;
+  target = Math.max(-MAX_RIFFLE, Math.min(MAX_RIFFLE, velocity * 4));
+  if (!raf) raf = requestAnimationFrame(step);
 }
+
+onMounted(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  lastY = window.scrollY;
+  lastT = performance.now();
+  window.addEventListener('scroll', onScroll, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll);
+  cancelAnimationFrame(raf);
+});
 </script>
 
 <style scoped>
 .journal {
-  position: relative;
-}
+  --steel: color-mix(in srgb, var(--ink) 10%, var(--shade));
+  --steel-deep: color-mix(in srgb, var(--ink) 24%, var(--shade));
+  --pressboard: color-mix(in srgb, var(--accent) 26%, var(--surface));
 
-/* ---- Sticky cover ------------------------------------------------------- */
-.cover {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 33px,
-      rgba(60, 58, 50, 0.06) 33px,
-      rgba(60, 58, 50, 0.06) 34px
-    ),
-    var(--shade);
-}
+  /* The stack: every card is --card-h tall and shows --strip of itself above
+     the one filed in front of it. */
+  --card-h: 206px;
+  --strip: 74px;
+  --guide-strip: 26px;
+  --tab-h: 30px;
 
-.cover::before {
-  content: '';
-  position: absolute;
-  inset: 22px;
-  border: 1px solid var(--line);
-  pointer-events: none;
-}
-
-.cover__vol {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 22px;
-}
-
-.cover__title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(40px, 7.5vw, 88px);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.cover__hand {
-  font-family: var(--font-hand);
-  font-size: clamp(24px, 3vw, 32px);
-  color: var(--accent);
-  transform: rotate(-2.5deg);
-  margin: 26px 0 0;
-  white-space: nowrap;
-  animation: lj-write 1.1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.35s both;
-}
-
-.cover__ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin: 26px 0 2px;
-}
-
-/* The cover is laid out as you arrive: title set down, rules drawn out
-   from the centre, the dot pressed in, the note written. */
-.cover > :is(.cover__vol, .cover__kicker) {
-  animation: lj-settle 700ms var(--ease-settle) backwards;
-}
-
-.cover > .cover__title {
-  --reveal-rot: -1.5deg;
-  animation: lj-settle 900ms var(--ease-settle) 80ms backwards;
-}
-
-.cover__ornament-rule {
-  animation: lj-rule 800ms var(--ease-out) 0.45s backwards;
-}
-
-.cover__ornament-rule:first-child {
-  transform-origin: right center;
-}
-
-.cover__ornament-rule:last-child {
-  transform-origin: left center;
-}
-
-.cover__ornament-dot {
-  animation: lj-pop 700ms var(--ease-spring) 0.75s backwards;
-}
-
-.cover__ornament-rule {
-  width: 46px;
-  height: 1px;
-  background: var(--line);
-}
-
-.cover__ornament-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--accent);
-  transform: rotate(45deg);
-}
-
-.cover__frame {
-  margin-top: 42px;
-  background: #fffdf7;
-  padding: 9px;
-  box-shadow: 0 20px 36px -20px rgba(42, 38, 32, 0.5);
-  transform: perspective(800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) rotate(-2.5deg);
-  transition: transform 900ms var(--ease-spring), box-shadow 400ms ease;
-  /* set down on the desk as the page opens */
-  --reveal-rot: 7deg;
-  animation: lj-settle 1s var(--ease-settle) 0.2s backwards;
-}
-
-.cover__frame.is-tilting {
-  transition: transform 300ms var(--ease-out), box-shadow 400ms ease;
-  box-shadow: 0 30px 44px -22px rgba(42, 38, 32, 0.5);
-}
-
-.cover__photo {
-  overflow: hidden;
-  width: min(300px, 72vw);
-  height: 200px;
-}
-
-.cover__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.cover__cap {
-  font-family: var(--font-hand);
-  font-size: 20px;
-  color: var(--muted);
-  transform: rotate(-1.5deg);
-  margin: 20px 0 0;
-}
-
-.cover__scroll {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 46px 0 0;
-  animation: lj-bob 2.4s ease-in-out 1.5s infinite;
-}
-
-/* ---- Journal sheet ------------------------------------------------------ */
-.journal__wrap {
-  position: relative;
-  z-index: 1;
-  background: var(--paper);
-  padding: 72px 40px 84px;
-  box-shadow: 0 -24px 50px -28px rgba(42, 38, 32, 0.45);
-  /* Keep turning pages from causing sideways scroll. Lives here - NOT on
-     .journal - because an overflow ancestor breaks the sticky cover in Safari. */
-  overflow-x: clip;
-}
-
-/* The stack holds the current leaf, the incoming/outgoing leaf mid-turn,
-   and the ribbon bookmarks. Perspective makes the turn read as paper. */
-.journal__stack {
-  position: relative;
-  max-width: 860px;
+  max-width: 820px;
   margin: 0 auto;
+  padding: 56px 40px 96px;
+}
+
+/* ---- Drawer front ------------------------------------------------------- */
+.front {
+  position: relative;
   display: grid;
-  perspective: 2200px;
-  scroll-margin-top: 28px;
-}
-
-.journal__leaf {
-  grid-area: 1 / 1;
-  position: relative;
-  z-index: 1; /* above the ribbon tabs tucked behind the sheet */
-  min-width: 0;
-  transform-origin: left center; /* pages pivot on the spine */
-  backface-visibility: hidden;
-}
-
-/* Size-only ghosts: they occupy the same grid cell so the row is always as
-   tall as the tallest page, but never paint or catch the pointer. */
-.journal__leaf--ghost {
-  visibility: hidden;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.journal__sheet {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  /* A notebook page has a fixed size - short pages keep it, leaving blank
-     ruled lines at the bottom. */
-  min-height: 660px;
+  justify-items: center;
+  gap: 18px;
+  padding: 34px 32px 30px;
   background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 31px,
-      rgba(60, 58, 50, 0.09) 31px,
-      rgba(60, 58, 50, 0.09) 32px
-    ),
-    var(--surface);
-  border: 1px solid var(--line);
-  /* Stacked page-edges peeking out, so it reads as a bound journal. */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.28), transparent 40%),
+    var(--steel);
+  border-radius: 8px 8px 2px 2px;
   box-shadow:
-    8px 10px 0 -1px var(--surface),
-    8px 10px 0 0 var(--line),
-    16px 20px 0 -1px var(--surface),
-    16px 20px 0 0 var(--line),
-    24px 30px 0 -1px var(--surface),
-    24px 30px 0 0 var(--line),
-    0 46px 76px -46px rgba(42, 38, 32, 0.5);
-  padding: 50px 56px 36px 96px;
-  --tilt: -0.5deg;
-  transform: rotate(var(--tilt));
-  display: flex;
-  flex-direction: column;
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08),
+    0 24px 30px -26px rgba(30, 30, 25, 0.5);
+  animation: lj-settle 800ms var(--ease-settle) backwards;
+  --reveal-rot: 0deg;
 }
 
-/* The sheet (and its printed margin, river, stamp & scribble) keep the tilt;
-   the written content is levelled back so entries read straight. */
-.journal__body {
-  transform: rotate(calc(-1 * var(--tilt)));
-  /* Fill the fixed page so the foot can sit on its bottom edge. */
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.front__plate {
+  padding: 7px;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #cdb27a, var(--brass) 45%, #7d643a);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* Paper shading painted over a leaf while it lifts or lands. */
-.journal__shade {
-  position: absolute;
-  inset: -1px;
-  z-index: 6;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(to right, rgba(30, 32, 28, 0) 25%, rgba(30, 32, 28, 0.5));
-}
-
-/* ---- Page turn ----------------------------------------------------------
-   Forward: the current leaf lifts at its free edge and swings over the
-   spine, revealing the next page beneath. Back: a turned leaf swings back
-   in from the left and settles on the pile. */
-.turn-fwd-leave-active {
-  z-index: 3;
-  animation: lj-turn-out 700ms cubic-bezier(0.42, 0.05, 0.4, 1) both;
-  will-change: transform;
-}
-
-.turn-fwd-enter-active {
-  z-index: 1;
-  animation: lj-hold 700ms linear both;
-}
-
-.turn-back-enter-active {
-  z-index: 3;
-  animation: lj-turn-in 700ms cubic-bezier(0.22, 0.61, 0.3, 1) both;
-  will-change: transform;
-}
-
-.turn-back-leave-active {
-  z-index: 1;
-  animation: lj-hold 700ms linear both;
-}
-
-/* A leaf in flight carries one soft cast shadow; the constant pile of page
-   edges is painted by the leaf beneath it. */
-.turn-fwd-leave-active .journal__sheet,
-.turn-back-enter-active .journal__sheet {
-  box-shadow: 0 34px 54px -26px rgba(22, 24, 20, 0.45);
-}
-
-/* Underside shading: darkens as a leaf lifts, lifts off the page beneath. */
-.turn-fwd-leave-active .journal__shade {
-  animation: lj-underside 700ms ease-in both;
-}
-
-.turn-fwd-enter-active .journal__shade {
-  animation: lj-uncover 700ms ease both;
-}
-
-.turn-back-enter-active .journal__shade {
-  animation: lj-underside 700ms ease-out reverse both;
-}
-
-.turn-back-leave-active .journal__shade {
-  animation: lj-uncover 700ms ease reverse both;
-}
-
-@keyframes lj-turn-out {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(-97deg); }
-}
-
-@keyframes lj-turn-in {
-  from { transform: rotateY(-97deg); }
-  to { transform: rotateY(0deg); }
-}
-
-/* No-op hold so the resting leaf stays mounted for the full turn. */
-@keyframes lj-hold {
-  from { opacity: 1; }
-  to { opacity: 1; }
-}
-
-@keyframes lj-underside {
-  from { opacity: 0; }
-  to { opacity: 0.6; }
-}
-
-@keyframes lj-uncover {
-  from { opacity: 0.32; }
-  to { opacity: 0; }
-}
-
-/* ---- Ribbon bookmarks ---------------------------------------------------
-   Page markers hanging out of the bottom of the journal, roots tucked up
-   behind the sheet and its pile of page edges; the open page's ribbon is
-   pulled out a little further. */
-.journal__tabs {
-  position: absolute;
-  top: 100%;
-  right: 36px;
-  margin-top: -34px; /* underlap hides the ribbon roots behind the pile */
-  z-index: 0;
-  display: flex;
-  gap: 12px;
-}
-
-.journal__tab {
-  width: 34px;
-  height: 100px;
-  padding: 0;
-  filter: drop-shadow(0 3px 3px rgba(25, 26, 22, 0.22));
-  transition: transform var(--transition);
-}
-
-.journal__tab:hover,
-.journal__tab:focus-visible {
-  transform: translateY(5px); /* a little tug */
-}
-
-.journal__tab--active,
-.journal__tab--active:hover,
-.journal__tab--active:focus-visible {
-  transform: translateY(11px);
-}
-
-.journal__tab-ribbon {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-  padding-bottom: 15px;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 10px), 0 100%);
-  background: var(--shade);
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  transition: background var(--transition), color var(--transition);
-}
-
-.journal__tab:hover .journal__tab-ribbon,
-.journal__tab:focus-visible .journal__tab-ribbon {
-  color: var(--accent);
-}
-
-.journal__tab--active .journal__tab-ribbon {
-  background: var(--accent2);
-  color: var(--surface);
-}
-
-.journal__margin {
-  position: absolute;
-  left: 30px;
-  top: 34px;
-  bottom: 34px;
-  border-left: 2px dotted var(--line);
-}
-
-.journal__river {
-  position: absolute;
-  left: 66px;
-  top: 8px;
-  bottom: 8px;
-  width: 12px;
-}
-
-.journal__river svg {
-  display: block;
-  overflow: visible;
-}
-
-.journal__stamp {
-  position: absolute;
-  top: 26px;
-  right: 44px;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 7px solid rgba(120, 82, 40, 0.07);
-  transform: rotate(-8deg);
-  pointer-events: none;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
-}
-
-.journal__sheet:hover .journal__stamp {
-  transform: rotate(-3deg) scale(1.08);
-  border-color: rgba(120, 82, 40, 0.16);
-}
-
-.journal__scribble {
-  position: absolute;
-  top: 130px;
-  right: 40px;
-  font-family: var(--font-hand);
-  font-size: 21px;
-  color: var(--accent2);
-  transform: rotate(-5deg);
-  pointer-events: none;
-  --sway: 1.5deg;
-  animation:
-    lj-write 900ms cubic-bezier(0.45, 0.1, 0.35, 1) 0.6s both,
-    lj-sway 6.8s ease-in-out 1.5s infinite alternate;
-}
-
-.journal__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 16px;
-}
-
-.journal__kicker {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
+.front__label {
   margin: 0;
-}
-
-.journal__cont {
-  font-family: var(--font-hand);
-  font-size: 20px;
-  color: var(--muted);
-  transform: rotate(-2deg);
-  margin: 0;
-}
-
-.journal__title {
+  padding: 10px 34px 12px;
+  background: var(--card-paper);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.18);
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(30px, 4.4vw, 46px);
-  line-height: 1.08;
-  margin: 24px 0 0;
-}
-
-.journal__lede {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 18px;
-  color: var(--muted);
-  margin: 14px 0 6px;
-  max-width: 48ch;
-}
-
-.entry {
-  display: grid;
-  grid-template-columns: 84px 1fr;
-  gap: 22px;
-  text-align: left;
-  border-top: 1px solid var(--line);
-  padding: 26px 0 24px;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.01em;
   color: var(--ink);
 }
 
-/* On continued pages the head rule already separates; avoid a doubled line. */
-.journal__head + .entry {
+.front__pull {
+  width: 92px;
+  height: 22px;
+  border-radius: 0 0 46px 46px;
+  border: 5px solid var(--brass);
   border-top: none;
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.25);
 }
 
-/* Hovered, an entry leans toward you: the title slides in and takes the
-   accent, the handwritten date tips a little. */
-.entry__title,
-.entry__date {
-  transition: translate 500ms var(--ease-spring), rotate 500ms var(--ease-spring), color var(--transition);
-}
-
-.entry:hover .entry__title,
-.entry:focus-visible .entry__title {
-  translate: 6px 0;
-  color: var(--accent);
-}
-
-.entry:hover .entry__date,
-.entry:focus-visible .entry__date {
-  rotate: -4deg;
-}
-
-.entry__date {
-  font-family: var(--font-hand);
-  font-size: 22px;
-  color: var(--accent2);
-  line-height: 1.15;
-  white-space: pre-line;
-}
-
-.entry__tags {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-
-.entry__title {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: 26px;
-  line-height: 1.15;
-  margin: 0 0 8px;
-  color: var(--ink);
-}
-
-.entry__excerpt {
+.front__lede {
+  margin: 4px 0 0;
+  max-width: 44ch;
+  text-align: center;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 18px;
   line-height: 1.5;
   color: var(--muted);
-  margin: 0;
 }
 
-.journal__foot {
-  border-top: 1px solid var(--line);
-  padding-top: 22px;
-  /* Pin to the bottom of the page; short pages keep blank ruled lines above. */
-  margin-top: auto;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: baseline;
-  gap: 12px;
+/* ---- The drawer --------------------------------------------------------- */
+.drawer {
+  position: relative;
+  padding: calc(var(--tab-h) + 26px) 26px 30px;
+  background: var(--steel-deep);
+  border-radius: 2px 2px 8px 8px;
+  box-shadow:
+    inset 0 0 0 10px var(--steel),
+    inset 0 22px 26px -18px rgba(0, 0, 0, 0.45);
 }
 
-.journal__foot-mark {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--faint);
-  text-align: center;
-}
-
-/* Handwritten page-turn links, like notes at the foot of the page. */
-.journal__flip {
-  justify-self: start;
-  padding: 0;
-  font-family: var(--font-hand);
-  font-size: 21px;
-  line-height: 1.2;
-  color: var(--accent);
-  transform: rotate(-1.2deg);
-  transition: color var(--transition), transform var(--transition);
-}
-
-.journal__flip--next {
-  justify-self: end;
-  transform: rotate(1.2deg);
-}
-
-.journal__flip:hover,
-.journal__flip:focus-visible {
-  color: var(--accent2);
-  transform: rotate(-1.2deg) translateX(-3px);
-}
-
-.journal__flip--next:hover,
-.journal__flip--next:focus-visible {
-  color: var(--accent2);
-  transform: rotate(1.2deg) translateX(3px);
-}
-
-/* On the shelf - reading list below the journal. */
-.shelf {
-  max-width: 860px;
-  margin: 84px auto 0; /* room for the bookmarks hanging off the journal */
-}
-
-.shelf__eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0;
-}
-
-.shelf__sub {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 18px;
-  color: var(--muted);
-  margin: 8px 0 0;
-}
-
-.shelf__list {
+.drawer__cards {
   list-style: none;
-  margin: 22px 0 0;
+  margin: 0;
   padding: 0;
 }
 
-.shelf.reveal:not(.reveal--in) :is(.shelf__item, .shelf__note) {
-  opacity: 0;
+.slot {
+  position: relative;
+  /* pulled up into the drawer as the page opens, front to back */
+  animation: lj-file 700ms var(--ease-settle) calc(250ms + var(--k) * 45ms) backwards;
 }
 
-.shelf.reveal--in .shelf__item {
-  --reveal-rot: 0deg;
-  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--n, 0) * 90ms + 150ms) backwards;
+@keyframes lj-file {
+  from {
+    opacity: 0;
+    translate: 0 46px;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-.shelf.reveal--in .shelf__note {
-  animation: lj-write 1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.7s backwards;
+.slot + .slot {
+  margin-top: calc(var(--strip) - var(--card-h));
 }
 
-.shelf__item {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--line);
-  padding: 16px 0;
+.slot--guide + .slot {
+  margin-top: calc(var(--guide-strip) - var(--card-h));
 }
 
-.shelf__title {
+.slot + .slot--guide {
+  margin-top: calc(var(--strip) + var(--tab-h) - var(--card-h));
+}
+
+/* ---- Guide cards: one per year, with a tab standing up ------------------ */
+.guide {
+  position: relative;
+  height: var(--card-h);
+  background: var(--pressboard);
+  border-radius: 4px;
+  box-shadow: 0 -8px 16px -12px rgba(30, 30, 25, 0.4);
+}
+
+.guide__tab {
+  position: absolute;
+  bottom: 100%;
+  left: var(--tab);
+  height: var(--tab-h);
+  margin: 0;
+  padding: 5px 20px 0;
+  background: var(--pressboard);
+  border-radius: 7px 7px 0 0;
   font-family: var(--font-serif);
-  font-size: 21px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
   color: var(--ink);
 }
 
-.shelf__author {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  white-space: nowrap;
+/* ---- Index cards -------------------------------------------------------- */
+.card {
+  position: relative;
+  display: block;
+  height: var(--card-h);
+  padding: 14px 22px 0;
+  color: var(--ink);
+  border-radius: 4px;
+  background:
+    /* the hole the drawer rod runs through */
+    radial-gradient(circle at 50% calc(100% - 20px), var(--steel-deep) 6px, transparent 6.5px),
+    /* red header rule, then faint blue lines */
+    linear-gradient(var(--card-rule), var(--card-rule)) 0 70px / 100% 1.5px no-repeat,
+    repeating-linear-gradient(to bottom, transparent 0 23px, var(--card-line) 23px 24px) 0 74px / 100% 96px no-repeat,
+    var(--card-paper);
+  box-shadow: 0 -8px 16px -12px rgba(30, 30, 25, 0.4);
+  transform-origin: 50% 100%;
+  transform: perspective(1000px) rotateX(var(--riffle, 0deg));
+  translate: 0 0;
+  transition: translate 650ms var(--ease-spring), box-shadow 350ms ease;
 }
 
-.shelf__note {
-  font-family: var(--font-hand);
-  font-size: 22px;
+/* Lifted out of the drawer by its top edge: it rises over the cards behind,
+   far enough to read the whole card. The one in front dips out of the way. */
+.slot--card:hover .card,
+.card:focus-visible {
+  translate: 0 calc(var(--strip) + 8px - var(--card-h));
+  box-shadow: 0 -10px 22px -10px rgba(30, 30, 25, 0.45), 0 18px 24px -18px rgba(30, 30, 25, 0.5);
+}
+
+.slot--card:hover + .slot .card,
+.slot--card:has(.card:focus-visible) + .slot .card {
+  translate: 0 8px;
+}
+
+.card:focus-visible {
+  outline-offset: -4px;
+}
+
+.slot--card:hover .card__excerpt,
+.card:focus-visible .card__excerpt {
+  opacity: 1;
+  transition-delay: 120ms;
+}
+
+.card__by,
+.card__title {
+  max-width: calc(100% - 130px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card__by {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--muted);
+}
+
+.card__title {
+  margin: 6px 0 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 30px;
+  transition: color var(--transition);
+}
+
+.card:hover .card__title,
+.card:focus-visible .card__title {
+  color: var(--accent);
+}
+
+/* A library date stamp, inked slightly crooked. */
+.card__stamp {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 3px 7px 2px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
   color: var(--accent2);
-  transform: rotate(-2deg);
-  width: fit-content;
-  margin: 20px 0 0 auto;
+  opacity: 0.82;
+  rotate: -3deg;
+}
+
+.slot--card:nth-child(even) .card__stamp {
+  rotate: 2deg;
+}
+
+/* Written on the lines below the rule: only readable once the card is lifted. */
+.card__excerpt {
+  margin: 0;
+  padding-top: 9px;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 24px;
+  color: var(--muted);
+  max-width: 58ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card__meta {
+  position: absolute;
+  left: 22px;
+  bottom: 13px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--faint);
+}
+
+/* ---- Next up ------------------------------------------------------------ */
+.next {
+  margin-top: 46px;
+}
+
+.next__label {
+  margin: 0 0 14px;
+  font-family: var(--font-hand);
+  font-weight: 400;
+  font-size: 28px;
+  color: var(--accent2);
+  rotate: -2deg;
+}
+
+.next__slips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 20px;
+}
+
+.slip {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  min-width: 200px;
+  padding: 18px 18px 14px;
+  background: var(--card-paper);
+  box-shadow: 0 12px 20px -16px rgba(30, 30, 25, 0.55);
+  rotate: -1.4deg;
+  transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring);
+}
+
+.slip:nth-child(even) {
+  rotate: 1.2deg;
+}
+
+/* the paper clip */
+.slip::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 22px;
+  width: 11px;
+  height: 26px;
+  border: 2px solid color-mix(in srgb, var(--ink) 45%, transparent);
+  border-radius: 6px;
+}
+
+.slip:hover {
+  rotate: 0deg;
+  translate: 0 -3px;
+}
+
+.slip__title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  color: var(--ink);
+}
+
+.slip__author {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted);
 }
 
 @media (max-width: 640px) {
-  .journal__wrap { padding: 48px 18px 92px; } /* room for the hanging bookmarks */
-  .journal__sheet { padding: 40px 24px 30px 56px; min-height: 0; }
-  .journal__margin { left: 18px; }
-  .journal__river { left: 40px; }
-  .journal__stamp { display: none; }
-  .journal__scribble { display: none; }
-  .journal__tabs { right: 22px; gap: 10px; }
-  .entry { grid-template-columns: 64px 1fr; gap: 16px; }
-  .journal__foot {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
+  .journal {
+    --card-h: 200px;
+    --strip: 72px;
+    padding: 36px 16px 72px;
   }
-  .journal__foot-mark {
-    order: 3;
-    width: 100%;
-    margin-top: 10px;
+  .front {
+    padding: 26px 18px 24px;
   }
-  .journal__flip { font-size: 19px; }
-  .journal__flip--next { order: 2; }
+  .front__label {
+    padding: 9px 22px 10px;
+  }
+  .drawer {
+    padding-left: 12px;
+    padding-right: 12px;
+    box-shadow:
+      inset 0 0 0 6px var(--steel),
+      inset 0 22px 26px -18px rgba(0, 0, 0, 0.45);
+  }
+  .card {
+    padding: 13px 16px 0;
+  }
+  .card__by,
+  .card__title {
+    max-width: calc(100% - 112px);
+  }
+  .card__title {
+    font-size: 20px;
+  }
+  .card__stamp {
+    top: 14px;
+    right: 12px;
+    font-size: 10px;
+  }
+  .card__meta {
+    left: 16px;
+  }
+  .guide__tab {
+    font-size: 16px;
+    padding: 6px 14px 0;
+  }
 }
 </style>

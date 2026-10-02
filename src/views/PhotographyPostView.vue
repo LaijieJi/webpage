@@ -1,10 +1,10 @@
 <template>
   <div class="story-wrap">
     <article class="story" v-if="entry">
-      <router-link class="story__back" to="/photography">← all plates</router-link>
+      <router-link class="story__back" to="/photography">← all photographs</router-link>
 
       <div class="story__frame">
-        <div class="story__photo">
+        <div class="story__photo" data-morph="photo-hero">
           <ResponsiveImg
             :src="media.image"
             :webp="media.webp"
@@ -43,7 +43,7 @@
     </article>
 
     <article class="story story--missing" v-else>
-      <router-link class="story__back" to="/photography">← all plates</router-link>
+      <router-link class="story__back" to="/photography">← all photographs</router-link>
       <h1 class="story__title">That plate isn't here.</h1>
       <p class="story__excerpt">Browse the rest of the gallery instead.</p>
     </article>
@@ -114,6 +114,7 @@ function dateLong(value) {
 }
 
 .story__photo {
+  view-transition-name: photo-hero; /* a contact-sheet frame grows into this */
   overflow: hidden;
 }
 
