@@ -93,7 +93,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import entries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
-import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
+import { openWithMorph, isPlainClick, prefetchWhenIdle } from '../composables/useMorph.js';
 import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
@@ -142,6 +142,14 @@ function pick(entry) {
 
 /* ---- Loupe: magnifies the print under the cursor ------------------------ */
 const ZOOM = 3;
+// The loupe needs detail, not the original file: the largest WebP in the
+// photo's srcset (1280px) is plenty at 3x over a ~300px frame.
+function loupeSource(entry) {
+  const media = mediaFor(entry.slug);
+  const sizes = (media.webp || '').split(',').map((part) => part.trim().split(' ')[0]).filter(Boolean);
+  return sizes[sizes.length - 1] || media.image;
+}
+
 const RADIUS = 88;
 const sheetEl = ref(null);
 const loupeReady = ref(false);
@@ -157,7 +165,7 @@ function moveLoupe(event, entry) {
   loupe.style = {
     left: `${event.clientX - sheet.left - RADIUS}px`,
     top: `${event.clientY - sheet.top - RADIUS}px`,
-    backgroundImage: `url("${mediaFor(entry.slug).image}")`,
+    backgroundImage: `url("${loupeSource(entry)}")`,
     backgroundSize: `${frame.width * ZOOM}px ${frame.height * ZOOM}px`,
     backgroundPosition: `${RADIUS - x * ZOOM}px ${RADIUS - y * ZOOM}px`
   };
@@ -176,12 +184,13 @@ function open(event, entry) {
 }
 
 onMounted(() => {
+  prefetchWhenIdle(router, `/photography/${newest.slug}`);
   loupeReady.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (loupeReady.value) {
     // The loupe shows the full-size prints; fetch them before the first hover.
     frames.forEach((entry) => {
       const img = new Image();
-      img.src = mediaFor(entry.slug).image;
+      img.src = loupeSource(entry);
     });
   }
   // Once the frames have developed, the newest one gets circled.
@@ -205,6 +214,12 @@ onBeforeUnmount(() => clearTimeout(firstPick));
   max-width: 1100px;
   margin: 0 auto;
   padding: 64px 40px 96px;
+}
+
+/* At night the contact sheet is the same paper in a dim room. */
+:root[data-theme='dark'] .photos {
+  --sheet-paper: #34372f;
+  --grease: #e2454a;
 }
 
 /* ---- Heading ------------------------------------------------------------ */
@@ -237,7 +252,7 @@ onBeforeUnmount(() => clearTimeout(firstPick));
   position: relative;
   padding: 34px 32px 30px;
   background: var(--sheet-paper);
-  box-shadow: 0 30px 50px -40px rgba(30, 30, 25, 0.6), 0 0 0 1px var(--line);
+  box-shadow: 0 30px 50px -40px rgb(var(--shadow) / 0.6), 0 0 0 1px var(--line);
   rotate: -0.35deg;
   animation: lj-settle 900ms var(--ease-settle) 120ms backwards;
   --reveal-rot: 1.5deg;
@@ -350,7 +365,7 @@ onBeforeUnmount(() => clearTimeout(firstPick));
     inset 0 0 0 4px #2a2b27,
     inset 0 0 0 6px rgba(255, 255, 255, 0.35),
     inset 0 0 18px rgba(0, 0, 0, 0.35),
-    0 18px 30px -12px rgba(20, 20, 18, 0.55);
+    0 18px 30px -12px rgb(var(--shadow) / 0.55);
   pointer-events: none;
   opacity: 0;
   scale: 0.6;

@@ -41,15 +41,37 @@ export const morphTransition = {
   onLeave: (el, done) => queueMicrotask(done)
 };
 
-export function openWithMorph(router, to, el, name) {
+// Fetch the code of the page a link opens. Routes load on demand, and once a
+// morph has started the browser shows nothing new until the page is in - so
+// the download has to happen before, not during.
+export function prefetchRoute(router, to) {
+  const loads = router.resolve(to).matched.map((record) => {
+    const component = record.components && record.components.default;
+    return typeof component === 'function' ? component() : null;
+  });
+  return Promise.all(loads).catch(() => {});
+}
+
+// Index pages call this once they are idle, so the first click is instant.
+export function prefetchWhenIdle(router, to) {
+  if (typeof window === 'undefined') return;
+  const idle = window.requestIdleCallback || ((fn) => window.setTimeout(fn, 1200));
+  idle(() => prefetchRoute(router, to));
+}
+
+export async function openWithMorph(router, to, el, name) {
   if (!canMorph()) return router.push(to);
+  // One at a time: a second click would start a new transition, and the first
+  // one finishing would then switch the page fade back on mid-morph.
+  if (morphing.value) return;
+  morphing.value = true;
+  await prefetchRoute(router, to);
   // Names must be unique in a snapshot: anything on this page already wearing
   // the name (the open post's own card, when opening its neighbour) gives it up.
   document.querySelectorAll(`[data-morph="${name}"]`).forEach((holder) => {
     holder.style.viewTransitionName = 'none';
   });
   el.style.viewTransitionName = name;
-  morphing.value = true;
   const transition = document.startViewTransition(async () => {
     el.style.viewTransitionName = '';
     await router.push(to);

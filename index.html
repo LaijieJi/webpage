@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -22,12 +23,18 @@
       /* Pre-paint background to avoid a flash before the stylesheet loads. */
       html { background: #e3e4db; }
       html[data-palette='warm'] { background: #ece6da; }
+      html[data-theme='dark'] { background: #161917; color-scheme: dark; }
+      html[data-theme='dark'][data-palette='warm'] { background: #1a1714; }
     </style>
     <script>
       (function () {
         try {
           if (localStorage.getItem('lj-palette') === 'warm') {
             document.documentElement.dataset.palette = 'warm';
+          }
+          var theme = localStorage.getItem('lj-theme');
+          if (theme ? theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.dataset.theme = 'dark';
           }
         } catch (e) {
           /* ignore */

@@ -69,7 +69,10 @@ const neighbours = computed(() => [
 ].filter(Boolean));
 
 const genre = computed(() => (post.value ? cardGenre(post.value) : ''));
-const isoDate = computed(() => post.value && new Date(post.value.frontmatter.date).toISOString().slice(0, 10));
+const isoDate = computed(() => {
+  const time = post.value && Date.parse(post.value.frontmatter.date);
+  return time ? new Date(time).toISOString().slice(0, 10) : undefined;
+});
 
 // A neighbour's card grows into its own page, as it does from the drawer.
 const router = useRouter();
@@ -161,7 +164,7 @@ if (post.value) {
   padding: 26px 34px 0;
   background: var(--card-paper);
   border-radius: 5px;
-  box-shadow: 0 0 0 1px var(--line), 0 22px 34px -24px rgba(30, 30, 25, 0.55);
+  box-shadow: 0 0 0 1px var(--line), 0 22px 34px -24px rgb(var(--shadow) / 0.55);
   rotate: -0.6deg;
 }
 
@@ -258,7 +261,7 @@ if (post.value) {
   padding: 78px 72px 60px;
   background: var(--surface);
   border: 1px solid var(--line);
-  box-shadow: 0 36px 72px -52px rgba(42, 38, 32, 0.5);
+  box-shadow: 0 36px 72px -52px rgb(var(--shadow) / 0.5);
 }
 
 /* Long-form markdown body: plain and quiet, nothing behind the words. */
@@ -352,7 +355,7 @@ if (post.value) {
   margin: 46px -26px;
   padding: 28px 32px 24px;
   background: var(--card-paper);
-  box-shadow: 0 0 0 1px var(--line), 0 16px 26px -20px rgba(30, 30, 25, 0.55);
+  box-shadow: 0 0 0 1px var(--line), 0 16px 26px -20px rgb(var(--shadow) / 0.55);
   rotate: -0.8deg;
   font-family: var(--font-serif);
   font-style: italic;
@@ -407,7 +410,7 @@ if (post.value) {
     linear-gradient(var(--card-rule), var(--card-rule)) 0 100% / 100% 1.5px no-repeat,
     var(--card-paper);
   border-radius: 4px;
-  box-shadow: 0 0 0 1px var(--line), 0 14px 22px -18px rgba(30, 30, 25, 0.5);
+  box-shadow: 0 0 0 1px var(--line), 0 14px 22px -18px rgb(var(--shadow) / 0.5);
   color: var(--ink);
   rotate: -0.8deg;
   transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring), box-shadow 300ms ease;
@@ -423,7 +426,7 @@ if (post.value) {
 .filed:focus-visible {
   rotate: 0deg;
   translate: 0 -5px;
-  box-shadow: 0 0 0 1px var(--line), 0 20px 26px -18px rgba(30, 30, 25, 0.55);
+  box-shadow: 0 0 0 1px var(--line), 0 20px 26px -18px rgb(var(--shadow) / 0.55);
 }
 
 .filed__dir {
@@ -499,6 +502,13 @@ if (post.value) {
   --accent2: #7d1417;
 }
 
+/* A dark red disappears at night: lift both garage reds. */
+:root[data-theme='dark'] .post--garage {
+  --accent2: #c9474b;
+  --odo-tile: #0d0f0e; /* odometer digits stay white on black */
+  --odo-digit: var(--ink);
+}
+
 .post__body :deep(.plate) {
   margin: 0 0 38px;
   padding: 0 0 28px;
@@ -529,8 +539,8 @@ if (post.value) {
   justify-content: center;
   width: 32px;
   height: 46px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--odo-tile, var(--ink));
+  color: var(--odo-digit, var(--paper));
   border-radius: 3px;
   font-size: 27px;
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.28);

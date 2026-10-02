@@ -1,15 +1,30 @@
 {
   "name": "Laijie Ji",
   "short_name": "Laijie Ji",
-  "description": "Full-stack developer in Valencia — projects, a reading journal, photography, and one well-kept Mazda MX-5.",
+  "description": "Laijie Ji - software developer in Valencia, working through a master's in AI at the UPV. Book reviews and photographs.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#e9eae2",
   "theme_color": "#4c6b4a",
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }

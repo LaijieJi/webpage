@@ -25,7 +25,8 @@ export const routes = [
 ];
 
 export function scrollBehavior(to, from) {
-  // Same page, only the query changed (e.g. journal pagination) - stay put.
+  // Same page, only the query or #hash changed - stay put (in-page links scroll
+  // themselves).
   if (to.path === from.path) return false;
   // A morph puts the new page at the top itself, inside the transition.
   if (morphing.value) return false;

@@ -9,7 +9,10 @@
           <a href="https://linkedin.com/in/laijie-ji" target="_blank" rel="noreferrer">linkedin</a>
           <a class="is-alt" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">instagram</a>
         </div>
-        <PaletteToggle />
+        <div class="site-footer__switches">
+          <PaletteToggle />
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   </footer>
@@ -17,10 +20,13 @@
 
 <script setup>
 import PaletteToggle from './PaletteToggle.vue';
+import ThemeToggle from './ThemeToggle.vue';
 </script>
 
 <style scoped>
 .site-footer {
+  position: relative;
+  z-index: 1; /* above the landing page's desk light */
   border-top: 1px solid var(--line);
   background: var(--veil);
 }
@@ -48,6 +54,12 @@ import PaletteToggle from './PaletteToggle.vue';
   flex-direction: column;
   align-items: flex-end;
   gap: 14px;
+}
+
+.site-footer__switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
 }
 
 .site-footer__links {

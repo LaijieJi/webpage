@@ -1,7 +1,7 @@
 <template>
   <header class="site-header">
     <div class="site-header__inner">
-      <router-link class="site-brand" to="/">Laijie Ji</router-link>
+      <router-link class="site-brand" to="/" aria-label="Laijie Ji"><BrandMark /></router-link>
       <nav class="site-nav" aria-label="Primary">
         <router-link
           v-for="item in links"
@@ -32,10 +32,11 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
+import BrandMark from './BrandMark.vue';
 
 const route = useRoute();
 const links = [
-  { label: 'home', to: '/', color: 'var(--accent)' },
+  { label: 'me', to: '/', color: 'var(--accent)' },
   { label: 'projects', to: '/projects', color: 'var(--accent)' },
   { label: 'blog', to: '/blog', color: 'var(--accent)' },
   { label: 'photography', to: '/photography', color: 'var(--accent2)' }
@@ -69,11 +70,22 @@ const isCurrent = (path) => {
 }
 
 .site-brand {
-  font-family: var(--font-serif);
-  font-size: 25px;
+  display: block;
+  flex: none;
+  height: 46px;
+  margin: -9px 0 -11px; /* the mark is taller than the nav line; let it hang into the padding */
   color: var(--ink);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+  align-self: center;
+}
+
+/* The dot hops when the mark is pointed at. */
+.site-brand :deep(.brand-mark__dot) {
+  transition: translate 500ms var(--ease-spring);
+}
+
+.site-brand:hover :deep(.brand-mark__dot),
+.site-brand:focus-visible :deep(.brand-mark__dot) {
+  translate: 0 -10px; /* user units of the mark: about 4px on screen */
 }
 
 .site-nav {
@@ -130,16 +142,19 @@ const isCurrent = (path) => {
   animation: lj-draw 0.55s cubic-bezier(0.6, 0.1, 0.3, 1) 0.15s both;
 }
 
+/* Small screens: the mark is narrow enough to share a row with the links. */
 @media (max-width: 640px) {
   .site-header__inner {
-    flex-wrap: wrap;
-    gap: 14px;
-    padding: 14px 22px;
+    gap: 16px;
+    padding: 14px 18px;
+  }
+  .site-brand {
+    height: 40px;
+    margin: -8px 0 -9px;
   }
   .site-nav {
-    width: 100%;
-    gap: 18px;
-    justify-content: space-between;
+    gap: 16px;
+    justify-content: flex-end;
   }
 }
 </style>

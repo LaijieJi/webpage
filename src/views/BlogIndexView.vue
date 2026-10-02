@@ -55,7 +55,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import posts, { cardByline, cardTitle, cardStamp } from '../data/posts.js';
 import { readingList } from '../data/books.js';
-import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
+import { openWithMorph, isPlainClick, prefetchWhenIdle } from '../composables/useMorph.js';
 import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
@@ -119,6 +119,7 @@ function onScroll() {
 }
 
 onMounted(() => {
+  if (posts.length) prefetchWhenIdle(router, `/blog/${posts[0].slug}`);
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   lastY = window.scrollY;
   lastT = performance.now();
@@ -136,6 +137,7 @@ onBeforeUnmount(() => {
   --steel: color-mix(in srgb, var(--ink) 10%, var(--shade));
   --steel-deep: color-mix(in srgb, var(--ink) 24%, var(--shade));
   --pressboard: color-mix(in srgb, var(--accent) 26%, var(--surface));
+  --steel-sheen: rgba(255, 255, 255, 0.28);
 
   /* The stack: every card is --card-h tall and shows --strip of itself above
      the one filed in front of it. */
@@ -149,6 +151,15 @@ onBeforeUnmount(() => {
   padding: 56px 40px 96px;
 }
 
+/* At night the steel is mixed from black, not from the (now light) ink: the
+   front a dark gunmetal, the inside of the drawer darker still. */
+:root[data-theme='dark'] .journal {
+  --steel: color-mix(in srgb, #000 22%, var(--shade));
+  --steel-deep: color-mix(in srgb, #000 55%, var(--shade));
+  --pressboard: color-mix(in srgb, var(--accent) 22%, var(--shade));
+  --steel-sheen: rgba(255, 255, 255, 0.06);
+}
+
 /* ---- Drawer front ------------------------------------------------------- */
 .front {
   position: relative;
@@ -157,13 +168,13 @@ onBeforeUnmount(() => {
   gap: 18px;
   padding: 34px 32px 30px;
   background:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.28), transparent 40%),
+    linear-gradient(to bottom, var(--steel-sheen), transparent 40%),
     var(--steel);
   border-radius: 8px 8px 2px 2px;
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.06),
     inset 0 -3px 0 rgba(0, 0, 0, 0.08),
-    0 24px 30px -26px rgba(30, 30, 25, 0.5);
+    0 24px 30px -26px rgb(var(--shadow) / 0.5);
   animation: lj-settle 800ms var(--ease-settle) backwards;
   --reveal-rot: 0deg;
 }
@@ -259,7 +270,7 @@ onBeforeUnmount(() => {
   height: var(--card-h);
   background: var(--pressboard);
   border-radius: 4px;
-  box-shadow: 0 -8px 16px -12px rgba(30, 30, 25, 0.4);
+  box-shadow: 0 -8px 16px -12px rgb(var(--shadow) / 0.4);
 }
 
 .guide__tab {
@@ -293,7 +304,7 @@ onBeforeUnmount(() => {
     linear-gradient(var(--card-rule), var(--card-rule)) 0 70px / 100% 1.5px no-repeat,
     repeating-linear-gradient(to bottom, transparent 0 23px, var(--card-line) 23px 24px) 0 74px / 100% 96px no-repeat,
     var(--card-paper);
-  box-shadow: 0 -8px 16px -12px rgba(30, 30, 25, 0.4);
+  box-shadow: 0 -8px 16px -12px rgb(var(--shadow) / 0.4);
   transform-origin: 50% 100%;
   transform: perspective(1000px) rotateX(var(--riffle, 0deg));
   translate: 0 0;
@@ -302,25 +313,37 @@ onBeforeUnmount(() => {
 
 /* Lifted out of the drawer by its top edge: it rises over the cards behind,
    far enough to read the whole card. The one in front dips out of the way. */
-.slot--card:hover .card,
 .card:focus-visible {
   translate: 0 calc(var(--strip) + 8px - var(--card-h));
-  box-shadow: 0 -10px 22px -10px rgba(30, 30, 25, 0.45), 0 18px 24px -18px rgba(30, 30, 25, 0.5);
+  box-shadow: 0 -10px 22px -10px rgb(var(--shadow) / 0.45), 0 18px 24px -18px rgb(var(--shadow) / 0.5);
+  outline-offset: -4px;
 }
 
-.slot--card:hover + .slot .card,
 .slot--card:has(.card:focus-visible) + .slot .card {
   translate: 0 8px;
 }
 
-.card:focus-visible {
-  outline-offset: -4px;
-}
-
-.slot--card:hover .card__excerpt,
 .card:focus-visible .card__excerpt {
   opacity: 1;
   transition-delay: 120ms;
+}
+
+/* Only where there is a real pointer: on touch screens a tap leaves :hover
+   behind, and the card would still be lifted on the way back. */
+@media (hover: hover) {
+  .slot--card:hover .card {
+    translate: 0 calc(var(--strip) + 8px - var(--card-h));
+    box-shadow: 0 -10px 22px -10px rgb(var(--shadow) / 0.45), 0 18px 24px -18px rgb(var(--shadow) / 0.5);
+  }
+
+  .slot--card:hover + .slot .card {
+    translate: 0 8px;
+  }
+
+  .slot--card:hover .card__excerpt {
+    opacity: 1;
+    transition-delay: 120ms;
+  }
 }
 
 .card__by,
@@ -430,7 +453,7 @@ onBeforeUnmount(() => {
   min-width: 200px;
   padding: 18px 18px 14px;
   background: var(--card-paper);
-  box-shadow: 0 12px 20px -16px rgba(30, 30, 25, 0.55);
+  box-shadow: 0 12px 20px -16px rgb(var(--shadow) / 0.55);
   rotate: -1.4deg;
   transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring);
 }

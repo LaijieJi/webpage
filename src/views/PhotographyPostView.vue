@@ -109,7 +109,7 @@ function dateLong(value) {
   background: var(--surface);
   border: 1px solid var(--line);
   padding: 20px;
-  box-shadow: 0 34px 64px -50px rgba(42, 38, 32, 0.55);
+  box-shadow: 0 34px 64px -50px rgb(var(--shadow) / 0.55);
   transform: rotate(-0.7deg);
 }
 
