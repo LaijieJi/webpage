@@ -10,7 +10,7 @@
         <span class="cover__ornament-dot"></span>
         <span class="cover__ornament-rule"></span>
       </div>
-      <div class="cover__frame">
+      <div class="cover__frame" v-tilt="7">
         <div class="cover__photo">
           <ResponsiveImg :src="lamyImg.src" :webp="lamyImg.webp" alt="My Lamy Safari resting on a notebook" fill cover eager />
         </div>
@@ -132,7 +132,7 @@
         <p class="shelf__eyebrow">On the shelf</p>
         <p class="shelf__sub">The ones I'll be reading next.</p>
         <ul class="shelf__list">
-          <li v-for="book in readingList" :key="book.title" class="shelf__item">
+          <li v-for="(book, n) in readingList" :key="book.title" class="shelf__item" :style="{ '--n': n }">
             <span class="shelf__title">{{ book.title }}</span>
             <span class="shelf__author">{{ book.author }}</span>
           </li>
@@ -297,6 +297,7 @@ function unlockTurn() {
   transform: rotate(-2.5deg);
   margin: 26px 0 0;
   white-space: nowrap;
+  animation: lj-write 1.1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.35s both;
 }
 
 .cover__ornament {
@@ -305,6 +306,33 @@ function unlockTurn() {
   justify-content: center;
   gap: 14px;
   margin: 26px 0 2px;
+}
+
+/* The cover is laid out as you arrive: title set down, rules drawn out
+   from the centre, the dot pressed in, the note written. */
+.cover > :is(.cover__vol, .cover__kicker) {
+  animation: lj-settle 700ms var(--ease-settle) backwards;
+}
+
+.cover > .cover__title {
+  --reveal-rot: -1.5deg;
+  animation: lj-settle 900ms var(--ease-settle) 80ms backwards;
+}
+
+.cover__ornament-rule {
+  animation: lj-rule 800ms var(--ease-out) 0.45s backwards;
+}
+
+.cover__ornament-rule:first-child {
+  transform-origin: right center;
+}
+
+.cover__ornament-rule:last-child {
+  transform-origin: left center;
+}
+
+.cover__ornament-dot {
+  animation: lj-pop 700ms var(--ease-spring) 0.75s backwards;
 }
 
 .cover__ornament-rule {
@@ -325,7 +353,16 @@ function unlockTurn() {
   background: #fffdf7;
   padding: 9px;
   box-shadow: 0 20px 36px -20px rgba(42, 38, 32, 0.5);
-  transform: rotate(-2.5deg);
+  transform: perspective(800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) rotate(-2.5deg);
+  transition: transform 900ms var(--ease-spring), box-shadow 400ms ease;
+  /* set down on the desk as the page opens */
+  --reveal-rot: 7deg;
+  animation: lj-settle 1s var(--ease-settle) 0.2s backwards;
+}
+
+.cover__frame.is-tilting {
+  transition: transform 300ms var(--ease-out), box-shadow 400ms ease;
+  box-shadow: 0 30px 44px -22px rgba(42, 38, 32, 0.5);
 }
 
 .cover__photo {
@@ -356,6 +393,7 @@ function unlockTurn() {
   text-transform: uppercase;
   color: var(--faint);
   margin: 46px 0 0;
+  animation: lj-bob 2.4s ease-in-out 1.5s infinite;
 }
 
 /* ---- Journal sheet ------------------------------------------------------ */
@@ -633,6 +671,10 @@ function unlockTurn() {
   color: var(--accent2);
   transform: rotate(-5deg);
   pointer-events: none;
+  --sway: 1.5deg;
+  animation:
+    lj-write 900ms cubic-bezier(0.45, 0.1, 0.35, 1) 0.6s both,
+    lj-sway 6.8s ease-in-out 1.5s infinite alternate;
 }
 
 .journal__head {
@@ -686,7 +728,6 @@ function unlockTurn() {
   border-top: 1px solid var(--line);
   padding: 26px 0 24px;
   color: var(--ink);
-  transition: opacity var(--transition);
 }
 
 /* On continued pages the head rule already separates; avoid a doubled line. */
@@ -694,9 +735,22 @@ function unlockTurn() {
   border-top: none;
 }
 
-.entry:hover,
-.entry:focus-visible {
-  opacity: 0.72;
+/* Hovered, an entry leans toward you: the title slides in and takes the
+   accent, the handwritten date tips a little. */
+.entry__title,
+.entry__date {
+  transition: translate 500ms var(--ease-spring), rotate 500ms var(--ease-spring), color var(--transition);
+}
+
+.entry:hover .entry__title,
+.entry:focus-visible .entry__title {
+  translate: 6px 0;
+  color: var(--accent);
+}
+
+.entry:hover .entry__date,
+.entry:focus-visible .entry__date {
+  rotate: -4deg;
 }
 
 .entry__date {
@@ -811,6 +865,19 @@ function unlockTurn() {
   padding: 0;
 }
 
+.shelf.reveal:not(.reveal--in) :is(.shelf__item, .shelf__note) {
+  opacity: 0;
+}
+
+.shelf.reveal--in .shelf__item {
+  --reveal-rot: 0deg;
+  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--n, 0) * 90ms + 150ms) backwards;
+}
+
+.shelf.reveal--in .shelf__note {
+  animation: lj-write 1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.7s backwards;
+}
+
 .shelf__item {
   display: flex;
   justify-content: space-between;
@@ -839,8 +906,8 @@ function unlockTurn() {
   font-size: 22px;
   color: var(--accent2);
   transform: rotate(-2deg);
-  margin: 20px 0 0;
-  text-align: right;
+  width: fit-content;
+  margin: 20px 0 0 auto;
 }
 
 @media (max-width: 640px) {

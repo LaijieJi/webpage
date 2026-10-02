@@ -2,7 +2,7 @@
   <div class="home">
     <!-- hero -->
     <section class="hero">
-      <div class="hero__tag" aria-hidden="true">
+      <div class="hero__tag" aria-hidden="true" v-parallax="-0.1">
         <div class="hero__tag-main">VALENCIA · ESP</div>
         <div class="hero__tag-sub">39.47°N · 0.37°W</div>
       </div>
@@ -11,25 +11,24 @@
           <span :key="hello">{{ hello }}</span>
         </transition><span class="hero__hello-comma">,</span>
       </p>
-      <h1 class="hero__title">
-        Mostly, I'm
-        <span class="hero__accent">
+      <h1 class="hero__title" v-parallax="0.05">
+        <span class="w" style="--w: 0">Mostly,</span> <span class="w" style="--w: 1">I'm</span> <span class="hero__accent w" style="--w: 2">
           <em>curious</em>
           <span class="hero__underline" aria-hidden="true">
             <svg viewBox="0 0 120 13" preserveAspectRatio="none">
               <path d="M2 8 Q 18 2 34 8 T 66 8 T 98 8 T 118 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" pathLength="1" />
             </svg>
-          </span></span> about how things work, and doing them properly.
+          </span></span> <span class="w" style="--w: 3">about</span> <span class="w" style="--w: 4">how</span> <span class="w" style="--w: 5">things</span> <span class="w" style="--w: 6">work,</span> <span class="w" style="--w: 7">and</span> <span class="w" style="--w: 8">doing</span> <span class="w" style="--w: 9">them</span> <span class="w" style="--w: 10">properly.</span>
       </h1>
     </section>
 
     <!-- intro + snapshot -->
-    <section class="intro" v-reveal>
+    <section class="intro">
       <div class="intro__prose">
-        <p class="intro__lead">That curiosity is behind most of what I do, from the code I build to the books I read.</p>
-        <p class="intro__lead intro__lead--muted">I'd rather make one thing well than rush through ten, and I care more about understanding something than finishing it fast.</p>
+        <p class="intro__lead" v-reveal>That curiosity is behind most of what I do, from the code I build to the books I read.</p>
+        <p class="intro__lead intro__lead--muted" v-reveal>I'd rather make one thing well than rush through ten, and I care more about understanding something than finishing it fast.</p>
       </div>
-      <aside class="card">
+      <aside class="card" v-reveal v-tilt="5">
         <span class="card__tape" aria-hidden="true"></span>
         <div class="card__row">
           <div class="card__label">Currently</div>
@@ -53,9 +52,11 @@
     <!-- the journey -->
     <section class="journey">
       <p class="journey__kicker">- a short walk through it</p>
-      <div class="journey__track">
+      <div class="journey__track" v-scroll-progress>
         <svg class="journey__river" width="68" viewBox="0 0 68 1000" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M34 0 C 62 110, 8 210, 34 320 C 60 430, 6 520, 34 640 C 58 740, 12 850, 34 1000" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+          <!-- a faint trace of the whole route, inked in as you read down it -->
+          <path class="journey__river-trace" d="M34 0 C 62 110, 8 210, 34 320 C 60 430, 6 520, 34 640 C 58 740, 12 850, 34 1000" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 7" />
+          <path class="journey__river-ink" d="M34 0 C 62 110, 8 210, 34 320 C 60 430, 6 520, 34 640 C 58 740, 12 850, 34 1000" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" pathLength="1" />
         </svg>
 
         <!-- the work -->
@@ -111,12 +112,12 @@
           <p class="seeing__text">A camera I carry on slow walks. A few frames find their way back here.</p>
           <p class="seeing__note">a few favourites ↓</p>
           <div class="seeing__row">
-            <router-link class="polaroid polaroid--a" to="/photography/hiking-bavaria">
+            <router-link class="polaroid polaroid--a" to="/photography/hiking-bavaria" v-tilt="9" v-parallax="0.06">
               <span class="polaroid__tape" aria-hidden="true"></span>
               <ResponsiveImg :src="leafImg.src" :webp="leafImg.webp" alt="A single leaf on clear water" ratio="1 / 1" cover sizes="160px" />
               <span class="polaroid__caption">starnberg · '25</span>
             </router-link>
-            <router-link class="polaroid polaroid--b" to="/photography/hiking-bavaria">
+            <router-link class="polaroid polaroid--b" to="/photography/hiking-bavaria" v-tilt="9" v-parallax="-0.05">
               <span class="polaroid__tape" aria-hidden="true"></span>
               <ResponsiveImg :src="bavariaImg.src" :webp="bavariaImg.webp" alt="The Herzogstand summit in the Bavarian Alps" ratio="1 / 1" cover sizes="160px" />
               <span class="polaroid__caption">Herzogstand '26</span>
@@ -212,6 +213,10 @@ function formatDate(value) {
   padding: 9px 13px;
   text-align: center;
   line-height: 1.5;
+  --sway: 1.2deg;
+  animation:
+    lj-stamp 640ms var(--ease-spring) 1.15s both,
+    lj-sway 7s ease-in-out 1.8s infinite alternate;
 }
 
 .hero__tag-main {
@@ -237,14 +242,23 @@ function formatDate(value) {
   min-height: 1.1em;
 }
 
-.hello-enter-active,
-.hello-leave-active {
-  transition: opacity 550ms ease;
+/* Each greeting is written in, then lifts off the page as the next comes. */
+.hello-enter-active {
+  animation: lj-write 900ms cubic-bezier(0.45, 0.1, 0.35, 1) both;
 }
 
-.hello-enter-from,
+.hello-leave-active {
+  transition: opacity 380ms ease-in, translate 380ms var(--ease-lift), filter 380ms ease-in;
+}
+
 .hello-leave-to {
   opacity: 0;
+  translate: 0 -6px;
+  filter: blur(2px);
+}
+
+.hero__hello > span {
+  display: inline-block;
 }
 
 .hero__title {
@@ -255,6 +269,28 @@ function formatDate(value) {
   letter-spacing: -0.03em;
   margin: 0;
   max-width: 15ch;
+}
+
+/* The title sets itself word by word; --w is each word's place. */
+.hero__title .w {
+  display: inline-block;
+  animation: lj-word 900ms var(--ease-settle) calc(120ms + var(--w) * 55ms) both;
+}
+
+@keyframes lj-word {
+  from {
+    opacity: 0;
+    translate: 0 0.4em;
+    rotate: 3deg;
+  }
+  40% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+    rotate: none;
+  }
 }
 
 .hero__accent {
@@ -284,7 +320,7 @@ function formatDate(value) {
 
 .hero__underline path {
   stroke-dasharray: 1;
-  animation: lj-draw 0.7s ease 0.2s both;
+  animation: lj-draw 0.8s cubic-bezier(0.6, 0.1, 0.3, 1) 0.95s both;
 }
 
 .hero__note {
@@ -330,10 +366,17 @@ function formatDate(value) {
   background: var(--surface);
   border: 1px solid var(--line);
   padding: 28px 24px 24px;
-  transform: rotate(-1.3deg);
   box-shadow: 0 18px 34px -26px rgba(42, 38, 32, 0.55);
   display: grid;
   gap: 18px;
+  --reveal-rot: 4deg;
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) rotate(-1.3deg);
+  transition: transform 900ms var(--ease-settle), box-shadow 400ms ease;
+}
+
+.card.is-tilting {
+  transition: transform 300ms var(--ease-out), box-shadow 400ms ease;
+  box-shadow: 0 28px 44px -28px rgba(42, 38, 32, 0.6);
 }
 
 .card__tape {
@@ -345,6 +388,8 @@ function formatDate(value) {
   height: 22px;
   background: rgba(176, 85, 51, 0.12);
   border: 1px solid rgba(176, 85, 51, 0.16);
+  --sway: 1.5deg;
+  animation: lj-sway 6.2s ease-in-out infinite alternate;
 }
 
 .card__label {
@@ -399,6 +444,17 @@ function formatDate(value) {
   overflow: visible;
 }
 
+.journey__river-trace {
+  opacity: 0.22;
+}
+
+/* --progress comes from v-scroll-progress; without it the river is whole. */
+.journey__river-ink {
+  opacity: 0.55;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--progress, 1));
+}
+
 .milestone {
   position: relative;
   padding: 0 0 48px;
@@ -421,6 +477,26 @@ function formatDate(value) {
 .milestone__n--alt {
   color: var(--accent2);
 }
+
+/* As a milestone arrives, its number pops and its contents follow it in. */
+.milestone.reveal:not(.reveal--in) :is(.milestone__n, .work__item, .polaroid) {
+  opacity: 0;
+}
+
+.milestone.reveal--in .milestone__n {
+  animation: lj-pop 800ms var(--ease-spring) calc(var(--i, 0) * 90ms + 140ms) backwards;
+}
+
+.milestone.reveal--in :is(.work__item, .polaroid) {
+  --reveal-rot: 0deg;
+  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--d, 0) * 110ms + 200ms) backwards;
+}
+
+.work__item:nth-child(2) { --d: 1; }
+.work__item:nth-child(3) { --d: 2; }
+.work__item:nth-child(4) { --d: 3; }
+.polaroid--a { --d: 1; }
+.polaroid--b { --d: 2; }
 
 .milestone__label {
   font-family: var(--font-mono);
@@ -538,15 +614,25 @@ function formatDate(value) {
   box-shadow: 0 14px 26px -16px rgba(42, 38, 32, 0.55);
   width: 140px;
   display: block;
-  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  --rot: 0deg;
+  transform: perspective(600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) rotate(var(--rot)) scale(var(--lift, 1));
+  transition: transform 900ms var(--ease-spring), box-shadow 400ms ease;
 }
 
-.polaroid--a { transform: rotate(-3deg); }
-.polaroid--b { transform: rotate(2.4deg); margin-top: 16px; }
+.polaroid--a { --rot: -3deg; }
+.polaroid--b { --rot: 2.4deg; margin-top: 16px; }
 
+/* Picked up: straightened, lifted, its shadow falling further away. */
 .polaroid:hover,
 .polaroid:focus-visible {
-  transform: rotate(0deg) scale(1.04);
+  --rot: 0deg;
+  --lift: 1.07;
+  z-index: 1;
+  box-shadow: 0 26px 36px -18px rgba(42, 38, 32, 0.5);
+}
+
+.polaroid.is-tilting {
+  transition: transform 300ms var(--ease-out), box-shadow 400ms ease;
 }
 
 .polaroid__tape {
@@ -558,6 +644,13 @@ function formatDate(value) {
   height: 19px;
   background: rgba(245, 240, 225, 0.55);
   border: 1px solid rgba(42, 38, 32, 0.07);
+  --sway: 2deg;
+  animation: lj-sway 5.4s ease-in-out infinite alternate;
+}
+
+.polaroid--b .polaroid__tape {
+  animation-duration: 7.3s;
+  animation-delay: -2s;
 }
 
 .polaroid img {
@@ -591,7 +684,7 @@ function formatDate(value) {
   .hero__tag { position: static; transform: rotate(2deg); display: inline-block; margin-bottom: 22px; }
   .hero__note { margin-left: 0; text-align: left; }
   .intro { grid-template-columns: 1fr; gap: 30px; padding: 30px 22px 50px; }
-  .card { transform: none; }
+  .card { transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
   .journey { padding: 40px 22px 60px; }
   .journey__track { padding-left: 60px; }
   .milestone__n { left: -60px; font-size: 38px; }

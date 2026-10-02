@@ -12,7 +12,7 @@
           :aria-current="isCurrent(item.to) ? 'page' : undefined"
         >
           {{ item.label }}
-          <span v-if="isCurrent(item.to)" class="site-nav__squiggle" aria-hidden="true">
+          <span class="site-nav__squiggle" aria-hidden="true">
             <svg width="100%" height="7" viewBox="0 0 60 7" preserveAspectRatio="none">
               <path
                 d="M1 4 Q 8 1 15 4 T 29 4 T 43 4 T 59 4"
@@ -108,9 +108,25 @@ const isCurrent = (path) => {
   display: block;
 }
 
+/* Every link has a squiggle. Hovering sketches it in faintly and it is
+   rubbed out again on leave; the current page's is drawn in full. */
 .site-nav__squiggle path {
   stroke-dasharray: 1;
-  animation: lj-draw 0.45s ease both;
+  stroke-dashoffset: 1;
+  opacity: 0; /* the round cap would otherwise leave a dot behind */
+  transition: stroke-dashoffset 380ms var(--ease-out), opacity 380ms ease;
+}
+
+.site-nav__link:hover .site-nav__squiggle path,
+.site-nav__link:focus-visible .site-nav__squiggle path {
+  stroke-dashoffset: 0;
+  opacity: 0.45;
+}
+
+.site-nav__link[aria-current='page'] .site-nav__squiggle path {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  animation: lj-draw 0.55s cubic-bezier(0.6, 0.1, 0.3, 1) 0.15s both;
 }
 
 @media (max-width: 640px) {

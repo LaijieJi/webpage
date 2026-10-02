@@ -236,7 +236,9 @@ const nextUp = schedule.find((s) => s.hasBar) || null;
   font-size: 23px;
   color: var(--garage);
   transform: rotate(-3deg);
+  width: fit-content;
   margin: 20px 0 0 4px;
+  animation: lj-write 1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.5s both;
 }
 
 /* Specs */

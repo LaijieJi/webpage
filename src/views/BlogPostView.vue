@@ -179,7 +179,9 @@ function dateLong(value) {
   font-size: 22px;
   color: var(--accent);
   transform: rotate(-4deg);
+  width: fit-content;
   margin: 24px 0 0;
+  animation: lj-write 900ms cubic-bezier(0.45, 0.1, 0.35, 1) 0.6s both;
 }
 
 .post__main {

@@ -26,7 +26,7 @@
               v-reveal
               :to="`/photography/${entry.slug}`"
             >
-              <div class="plate__frame" :style="frameStyle(pageStart + i)">
+              <div class="plate__frame" :style="frameStyle(pageStart + i)" v-tilt="2.5">
                 <div class="plate__photo">
                   <ResponsiveImg
                     :src="mediaFor(entry.slug).image"
@@ -260,6 +260,7 @@ onMounted(() => preloadAdjacent(page.value));
   transform: rotate(-2deg);
   margin: 20px 0 32px;
   white-space: nowrap;
+  animation: lj-write 1.1s cubic-bezier(0.45, 0.1, 0.35, 1) 0.35s both;
 }
 
 .cover__ornament {
@@ -268,6 +269,33 @@ onMounted(() => preloadAdjacent(page.value));
   justify-content: center;
   gap: 14px;
   margin: 0 0 14px;
+}
+
+/* The cover is laid out as you arrive: title set down, rules drawn out
+   from the centre, the dot pressed in, the note written. */
+.cover > :is(.cover__vol, .cover__kicker) {
+  animation: lj-settle 700ms var(--ease-settle) backwards;
+}
+
+.cover > .cover__title {
+  --reveal-rot: -1.5deg;
+  animation: lj-settle 900ms var(--ease-settle) 80ms backwards;
+}
+
+.cover__ornament-rule {
+  animation: lj-rule 800ms var(--ease-out) 0.45s backwards;
+}
+
+.cover__ornament-rule:first-child {
+  transform-origin: right center;
+}
+
+.cover__ornament-rule:last-child {
+  transform-origin: left center;
+}
+
+.cover__ornament-dot {
+  animation: lj-pop 700ms var(--ease-spring) 0.75s backwards;
 }
 
 .cover__ornament-rule {
@@ -299,6 +327,7 @@ onMounted(() => preloadAdjacent(page.value));
   text-transform: uppercase;
   color: var(--faint);
   margin: 44px 0 0;
+  animation: lj-bob 2.4s ease-in-out 1.5s infinite;
 }
 
 /* ---- Plates ------------------------------------------------------------- */
@@ -406,14 +435,30 @@ onMounted(() => preloadAdjacent(page.value));
   border: 1px solid var(--line);
   padding: 18px 18px 26px;
   box-shadow: 0 34px 64px -50px rgba(42, 38, 32, 0.55);
-  transform: rotate(var(--tilt, -1deg));
-  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.5s ease;
+  /* --tilt is the print's resting angle; --tilt-x/-y lean it toward the pointer. */
+  transform: perspective(1400px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+    rotate(var(--hover-rot, var(--tilt, -1deg))) scale(var(--lift, 1));
+  transition: transform 900ms var(--ease-spring), box-shadow 0.5s ease;
+}
+
+.plate__frame.is-tilting {
+  transition: transform 350ms var(--ease-out), box-shadow 0.5s ease;
 }
 
 .plate:hover .plate__frame,
 .plate:focus-visible .plate__frame {
-  transform: rotate(0deg) scale(1.015);
+  --hover-rot: 0deg;
+  --lift: 1.015;
   box-shadow: 0 42px 72px -46px rgba(42, 38, 32, 0.6);
+}
+
+.plate__photo img {
+  transition: scale 1.4s var(--ease-out);
+}
+
+.plate:hover .plate__photo img,
+.plate:focus-visible .plate__photo img {
+  scale: 1.035;
 }
 
 .plate__photo {

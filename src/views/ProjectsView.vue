@@ -56,6 +56,15 @@ useSeo({
   margin: 14px 0 0;
 }
 
+/* The heading is set down line by line as the page opens. */
+.projects__head > * {
+  --reveal-rot: -1deg;
+  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--n, 0) * 90ms + 60ms) backwards;
+}
+
+.projects__title { --n: 1; }
+.projects__lede { --n: 2; }
+
 .projects__lede {
   font-family: var(--font-serif);
   font-style: italic;
@@ -70,11 +79,24 @@ useSeo({
   margin: 0 auto;
 }
 
+/* The top rule is a background so it can be drawn across as the card arrives. */
 .proj {
-  border-top: 1px solid var(--line);
+  background: linear-gradient(var(--line), var(--line)) top left / 100% 1px no-repeat;
   padding: 32px 0;
   display: grid;
   gap: 12px;
+}
+
+.proj.reveal--in {
+  animation:
+    lj-settle var(--dur-settle) var(--ease-settle) calc(var(--i, 0) * 90ms) backwards,
+    lj-rule-across 900ms var(--ease-out) calc(var(--i, 0) * 90ms) backwards;
+}
+
+@keyframes lj-rule-across {
+  from {
+    background-size: 0% 1px;
+  }
 }
 
 .proj__head {

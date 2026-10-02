@@ -24,6 +24,24 @@
   --mat: #e3e4db;      /* page colour behind the sheets */
 
   --transition: 160ms ease;
+
+  /* Motion. Things here move like paper being handled: lifted quickly,
+     then set down so they settle with a little give. */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-lift: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-settle: var(--ease-out);
+  --ease-spring: var(--ease-out);
+  --dur-quick: 220ms;
+  --dur-settle: 760ms;
+}
+
+/* Spring curves where the browser can draw them (sampled damped springs):
+   settle barely overshoots, spring visibly bounces once. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-settle: linear(0, 0.042, 0.142, 0.271, 0.408, 0.54, 0.658, 0.758, 0.839, 0.903, 0.95, 0.983, 1.006, 1.019, 1.026, 1.028, 1.028, 1.025, 1.021, 1.018, 1.014, 1.01, 1.007, 1.005, 1.003, 1.002, 1.001, 1);
+    --ease-spring: linear(0, 0.052, 0.18, 0.347, 0.526, 0.694, 0.839, 0.954, 1.038, 1.091, 1.119, 1.126, 1.119, 1.103, 1.081, 1.059, 1.038, 1.019, 1.005, 0.995, 0.988, 0.985, 0.984, 0.985, 0.987, 0.99, 0.993, 0.995, 0.998, 0.999, 1.001, 1.002, 1);
+  }
 }
 
 /* Warm palette - the reference's other variant ("summer"). */
@@ -209,28 +227,60 @@ em { font-style: italic; }
   outline-offset: 3px;
 }
 
-/* Soft cross-fade between routes. */
-.page-enter-active,
+/* Between routes the old page is lifted off, the new one set down. */
 .page-leave-active {
-  transition: opacity 240ms ease;
+  transition: opacity var(--dur-quick) ease-in, translate var(--dur-quick) var(--ease-lift);
 }
 
-.page-enter-from,
+.page-enter-active {
+  transition: opacity 420ms ease-out, translate var(--dur-settle) var(--ease-settle);
+}
+
 .page-leave-to {
   opacity: 0;
+  translate: 0 -10px;
+}
+
+.page-enter-from {
+  opacity: 0;
+  translate: 0 22px;
 }
 
 /* Scroll-reveal - the .reveal class is added by the v-reveal directive
-   only when motion is allowed, so reduced-motion users see content as-is. */
-.reveal {
+   only when motion is allowed, so reduced-motion users see content as-is.
+   A keyframe animation rather than a transition, so it never fights an
+   element's own hover transitions; it fills backwards only, so once it ends
+   the element is back to its own styles. --i staggers things that come into
+   view together. */
+.reveal:not(.reveal--in) {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 600ms ease, transform 600ms ease;
 }
 
 .reveal--in {
-  opacity: 1;
-  transform: none;
+  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--i, 0) * 90ms) backwards;
+}
+
+@keyframes lj-settle {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+    rotate: var(--reveal-rot, -0.8deg);
+  }
+  45% {
+    opacity: 1;
+  }
+}
+
+/* Smaller things pop into place. */
+@keyframes lj-pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+    rotate: -10deg;
+  }
+  30% {
+    opacity: 1;
+  }
 }
 
 /* Hand-drawn underline draw-on (paths use pathLength="1"). */
@@ -240,6 +290,59 @@ em { font-style: italic; }
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* Handwriting appears left to right, as if being written. */
+@keyframes lj-write {
+  from {
+    clip-path: inset(-20% 100% -20% 0);
+  }
+  to {
+    clip-path: inset(-20% -5% -20% 0);
+  }
+}
+
+/* A slow, idle sway for tape and pinned notes. Uses `rotate`, so it adds
+   to whatever rotation the element already has. */
+@keyframes lj-sway {
+  from {
+    rotate: calc(-1 * var(--sway, 1deg));
+  }
+  to {
+    rotate: var(--sway, 1deg);
+  }
+}
+
+/* A rule drawn out to its full length. */
+@keyframes lj-rule {
+  from {
+    scale: 0 1;
+  }
+}
+
+/* A gentle nudge, for "scroll down" cues. */
+@keyframes lj-bob {
+  0%, 60%, 100% {
+    translate: 0 0;
+  }
+  30% {
+    translate: 0 5px;
+  }
+}
+
+/* Pressed onto the page like a rubber stamp. */
+@keyframes lj-stamp {
+  from {
+    opacity: 0;
+    scale: 1.45;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
   }
 }
 
@@ -255,6 +358,9 @@ em { font-style: italic; }
   * {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
   }
   html { scroll-behavior: auto; }
 }

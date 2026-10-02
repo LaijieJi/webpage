@@ -25,14 +25,5 @@
     "href": "https://github.com/LaijieJi/mercadonaIT",
     "label": "Repo",
     "wip": false
-  },
-  {
-    "name": "F / nF",
-    "dates": "in progress",
-    "tech": "PyTorch · FastAPI",
-    "summary": "A small machine-learning experiment, still cooking.",
-    "href": "",
-    "label": "",
-    "wip": true
   }
 ]
