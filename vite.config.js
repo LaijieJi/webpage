@@ -91,47 +91,6 @@ function sitemap() {
   };
 }
 
-// three.js must only ever be reachable through the lazily-imported shelf. If it
-// is loaded eagerly, every visitor pays for it - fail the build instead.
-// "Eagerly" means the entry chunk and everything it statically imports, not the
-// entry alone: Rollup can hoist a shared module into a separate chunk that the
-// entry imports, and checking only the entry's own modules would miss it.
-function assertNoThreeInEntry() {
-  const isThree = (id) => /node_modules[/\\]three[/\\]/.test(id);
-  return {
-    name: 'lj-entry-guard',
-    apply: 'build',
-    generateBundle(_options, bundle) {
-      const chunks = new Map(
-        Object.values(bundle)
-          .filter((item) => item.type === 'chunk')
-          .map((chunk) => [chunk.fileName, chunk])
-      );
-      for (const entry of chunks.values()) {
-        if (!entry.isEntry) continue;
-        const eager = new Set();
-        const queue = [entry.fileName];
-        while (queue.length) {
-          const name = queue.pop();
-          if (eager.has(name) || !chunks.has(name)) continue;
-          eager.add(name);
-          queue.push(...chunks.get(name).imports);
-        }
-        for (const name of eager) {
-          const offenders = Object.keys(chunks.get(name).modules || {}).filter(isThree);
-          if (offenders.length) {
-            this.error(
-              `three.js is loaded eagerly: ${name} (reached from entry ${entry.fileName}). ` +
-                `The shelf must be loaded with defineAsyncComponent. Offending modules:\n  ` +
-                offenders.slice(0, 5).join('\n  ')
-            );
-          }
-        }
-      }
-    }
-  };
-}
-
 export default defineConfig({
   base: '/',
   plugins: [
@@ -149,8 +108,7 @@ export default defineConfig({
       frontmatter: true
     }),
     readingTimes(),
-    sitemap(),
-    assertNoThreeInEntry()
+    sitemap()
   ],
   ssgOptions: {
     dirStyle: 'nested',

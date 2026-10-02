@@ -23,27 +23,8 @@ export const routes = [
   }
 ];
 
-// App.vue calls this from its page transition's after-leave: the old view has
-// finished fading and is gone.
-let onPageLeft = [];
-export function pageHasLeft() {
-  onPageLeft.forEach((resolve) => resolve());
-  onPageLeft = [];
-}
-function whenPageHasLeft() {
-  return new Promise((resolve) => {
-    onPageLeft.push(resolve);
-    setTimeout(resolve, 1000); // never hold the scroll hostage
-  });
-}
-
 export function scrollBehavior(to, from) {
   // Same page, only the query changed (e.g. journal pagination) - stay put.
   if (to.path === from.path) return false;
-  // Leaving the shelf by leaning into a book: the old view is zoomed in on a
-  // page, so it must not scroll away while it fades. Jump once it is gone.
-  if (typeof window !== 'undefined' && window.history.state?.leanIn) {
-    return whenPageHasLeft().then(() => ({ top: 0, left: 0 }));
-  }
   return { top: 0, left: 0, behavior: 'smooth' };
 }

@@ -21,27 +21,9 @@
 
     <!-- the journal sheet -->
     <div class="journal__wrap">
-      <ShelfIndex />
-
-      <div v-if="webglOk" class="journal__views">
-        <button
-          type="button"
-          class="journal__view"
-          :aria-pressed="view === 'shelf'"
-          @pointerenter="prefetchShelf"
-          @pointerdown="prefetchShelf"
-          @focus="prefetchShelf"
-          @click="setView(view === 'shelf' ? 'paper' : 'shelf')"
-        >
-          {{ view === 'shelf' ? 'back to the page' : 'see the shelf' }}
-        </button>
-      </div>
-
-      <div v-if="showCovers" ref="coverSheet" class="journal__covers"></div>
-
-      <div ref="stackEl" class="journal__stack" :data-stage="stage">
+      <div ref="stackEl" class="journal__stack">
         <!-- ribbon bookmarks peeking out from between the stacked pages -->
-        <nav v-if="paperOn && pageCount > 1" class="journal__tabs" aria-label="Journal pages">
+        <nav v-if="pageCount > 1" class="journal__tabs" aria-label="Journal pages">
           <button
             v-for="n in pageCount"
             :key="n"
@@ -56,7 +38,7 @@
           </button>
         </nav>
 
-        <transition v-if="paperOn" :name="turnName" @after-leave="unlockTurn">
+        <transition :name="turnName" @after-leave="unlockTurn">
           <div class="journal__leaf" :key="page">
             <div class="journal__sheet">
               <span class="journal__shade" aria-hidden="true"></span>
@@ -108,7 +90,7 @@
 
         <!-- Invisible ghosts of every page keep the notebook sized to its
              tallest page, so turning never makes the sheet twitch. -->
-        <template v-if="paperOn && pageCount > 1">
+        <template v-if="pageCount > 1">
           <div
             v-for="n in pageCount"
             :key="`ghost-${n}`"
@@ -143,11 +125,7 @@
           </div>
         </template>
 
-        <div v-if="shelfOn" ref="shelfSlotEl" class="journal__shelf-slot">
-          <JournalShelf :fade-in="stage === 'shelf'" @ready="onShelfReady" />
-        </div>
-
-        <span v-if="stage === 'paper'" class="visually-hidden" aria-live="polite">Page {{ page + 1 }} of {{ pageCount }}</span>
+        <span class="visually-hidden" aria-live="polite">Page {{ page + 1 }} of {{ pageCount }}</span>
       </div>
 
       <section class="shelf" v-reveal>
@@ -166,35 +144,13 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, nextTick, defineAsyncComponent, h } from 'vue';
-import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import posts from '../data/posts.js';
 import { readingList } from '../data/books.js';
 import { lamyImg } from '../data/media.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
-import ShelfIndex from '../components/ShelfIndex.vue';
-import { bookcase } from '../components/shelf/book.js';
 import { useSeo } from '../composables/useSeo.js';
-
-// three.js lives in this chunk and nowhere else. An async component does not
-// resolve during SSR either, so the prerendered HTML is always the paper view.
-// Both placeholders are render functions: the site ships Vue's runtime-only
-// build, which silently renders nothing for a `template` string.
-const loadShelf = () => import('../components/JournalShelf.vue');
-const JournalShelf = defineAsyncComponent({
-  loader: loadShelf,
-  loadingComponent: {
-    render: () => h('p', { class: 'journal__shelf-note' }, 'taking the books down…')
-  },
-  errorComponent: {
-    render: () => h('p', { class: 'journal__shelf-note' }, [
-      'The shelf did not load. ',
-      h(RouterLink, { to: '/blog' }, () => 'Back to the page.')
-    ])
-  },
-  delay: 200,
-  timeout: 12000
-});
 
 useSeo({
   title: 'The Journal - Laijie Ji',
@@ -248,194 +204,6 @@ function toRoman(n) {
   }
   return out;
 }
-
-// Probed synchronously in setup, so the first client render already knows:
-// vite-ssg mounts fresh rather than hydrating, so there is no server markup to
-// mismatch. On the server it is simply false - the prerender is paper.
-let shelfSupport = null;
-function canRunShelf() {
-  if (typeof document === 'undefined') return false;
-  if (shelfSupport === null) {
-    try {
-      const gl = document.createElement('canvas').getContext('webgl2')
-        || document.createElement('canvas').getContext('webgl');
-      shelfSupport = !!gl;
-      // Hand the probe's context straight back rather than wait for GC.
-      if (gl) gl.getExtension('WEBGL_lose_context')?.loseContext();
-    } catch (e) {
-      shelfSupport = false;
-    }
-  }
-  return shelfSupport;
-}
-
-/* ---- View: the paper journal, or the 3D shelf ---------------------------- */
-// A query param, not a route: /blog stays the only canonical, prerendered URL.
-// The shelf only exists where it can run: a shared ?view=shelf link opened with
-// no WebGL lands on the paper journal instead of an empty box.
-const webglOk = ref(canRunShelf());
-// useRoute() is the router's current route, and it changes the moment a link
-// is followed - while this view is still on screen fading out. Without this, a
-// view leaving /blog?view=shelf for a review would read "no ?view" and swap back
-// to paper mid-fade. Only this view's own path gets a say.
-const ownPath = route.path;
-let heldView = 'paper';
-const view = computed(() => {
-  if (route.path !== ownPath) return heldView;
-  heldView = route.query.view === 'shelf' && webglOk.value ? 'shelf' : 'paper';
-  return heldView;
-});
-
-/* ---- Swapping views -------------------------------------------------------
-   `view` is what was asked for; `stage` is what is showing. The paper stays up
-   until the shelf has drawn its first frame, then the two cross-fade in the same
-   grid cell while the notebook's height eases to the new one - no empty moment,
-   no jump. */
-const SWAP_MS = 450;
-const SWAP_EASE = 'cubic-bezier(0.45, 0.05, 0.25, 1)';
-// If the shelf has not drawn by then (slow network, a failure), fade across
-// anyway: the slot will be saying so.
-const REVEAL_WITHIN_MS = 1500;
-
-const stage = ref('paper');
-const paperOn = ref(true); // the prerender is paper, so the client starts there too
-const shelfOn = ref(view.value === 'shelf');
-const shelfSlotEl = ref(null);
-let shelfReady = false;
-let onReady = null;
-
-// Fetch the shelf on intent - hover, focus, press - so it is there by the click,
-// without charging anyone who never reaches for the button.
-function prefetchShelf() {
-  loadShelf().catch(() => {});
-}
-
-function onShelfReady() {
-  shelfReady = true;
-  if (onReady) onReady();
-}
-
-function shelfSettled() {
-  if (shelfReady) return Promise.resolve();
-  return new Promise((resolve) => {
-    onReady = resolve;
-    setTimeout(resolve, REVEAL_WITHIN_MS);
-  });
-}
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const still = () => typeof window !== 'undefined'
-  && window.matchMedia
-  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function tweenHeight(el, from, to) {
-  el.classList.add('journal__stack--resizing');
-  if (still() || Math.abs(from - to) < 1) return Promise.resolve();
-  el.style.height = `${from}px`;
-  void el.offsetHeight; // commit the start height before transitioning
-  el.style.transition = `height ${SWAP_MS}ms ${SWAP_EASE}`;
-  el.style.height = `${to}px`;
-  return wait(SWAP_MS);
-}
-
-function releaseHeight(el) {
-  el.style.transition = '';
-  el.style.height = '';
-  el.classList.remove('journal__stack--resizing');
-}
-
-async function toShelf() {
-  shelfOn.value = true;
-  await shelfSettled();
-  if (view.value !== 'shelf') return;
-  await nextTick();
-  const el = stackEl.value;
-  const from = el.getBoundingClientRect().height;
-  // The shelf's own height - or, if it is still only a loading line, the 16:10
-  // it is about to be, so the notebook does not close up and then jump open.
-  const shelf = shelfSlotEl.value && shelfSlotEl.value.firstElementChild;
-  const width = el.getBoundingClientRect().width;
-  const to = Math.max(shelf ? shelf.getBoundingClientRect().height : 0, (width * 10 * bookcase(posts.length).scale) / 16);
-  stage.value = 'shelf'; // paper fades out, shelf fades in...
-  await tweenHeight(el, from, to); // ...while the notebook closes up to the shelf
-  paperOn.value = false;
-  await nextTick();
-  releaseHeight(el);
-}
-
-async function toPaper() {
-  const el = stackEl.value;
-  const from = el.getBoundingClientRect().height;
-  el.style.height = `${from}px`; // hold the height while the paper mounts
-  paperOn.value = true;
-  await nextTick();
-  el.style.height = 'auto';
-  const to = el.getBoundingClientRect().height;
-  stage.value = 'paper'; // the page fades in as it unrolls to its full height
-  await tweenHeight(el, from, to);
-  shelfOn.value = false;
-  shelfReady = false;
-  releaseHeight(el);
-}
-
-// One swap at a time; a change of mind mid-swap is picked up when it lands.
-let swapping = null;
-function syncView() {
-  if (swapping) return swapping;
-  swapping = (async () => {
-    while (stage.value !== view.value) {
-      if (view.value === 'shelf') await toShelf();
-      else await toPaper();
-    }
-    if (stage.value === 'paper' && shelfOn.value && view.value === 'paper') {
-      shelfOn.value = false;
-      shelfReady = false;
-    }
-  })().finally(() => {
-    swapping = null;
-    if (stage.value !== view.value) syncView();
-  });
-  return swapping;
-}
-
-watch(view, syncView);
-onMounted(syncView);
-
-function setView(next) {
-  if (next === view.value) return;
-  const query = { ...route.query };   // spread keeps ?page= intact
-  if (next === 'shelf') query.view = 'shelf';
-  else delete query.view;
-  router.replace({ query });
-}
-
-
-/* ---- Dev-only contact sheet: ?covers=1 paints all fifteen generated covers
-   in a grid so they can be eyeballed once. Gated on DEV so it cannot ship. --- */
-const showCovers = computed(() => import.meta.env.DEV && route.query.covers === '1');
-const coverSheet = ref(null);
-
-watch(showCovers, async (on) => {
-  if (!on) return;
-  const [{ ensureFonts, drawFront }, { readPalette }] = await Promise.all([
-    import('../components/shelf/covers.js'),
-    import('../components/shelf/palette.js')
-  ]);
-  await ensureFonts();
-  const palette = readPalette();
-  const host = coverSheet.value;
-  if (!host) return;
-  host.innerHTML = '';
-  for (const post of posts) {
-    const src = drawFront(post, palette, { width: 256, height: 384 });
-    const out = document.createElement('canvas');
-    out.width = 256;
-    out.height = 384;
-    out.getContext('2d').drawImage(src, 0, 0);
-    out.style.cssText = 'width:128px;height:192px;margin:6px;border:1px solid #0002';
-    host.appendChild(out);
-  }
-}, { immediate: true });
 
 const turnName = ref('turn-fwd');
 const turning = ref(false);
@@ -763,86 +531,6 @@ function unlockTurn() {
    Page markers hanging out of the bottom of the journal, roots tucked up
    behind the sheet and its pile of page edges; the open page's ribbon is
    pulled out a little further. */
-.journal__covers {
-  max-width: 860px;
-  margin: 0 auto 24px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* The swap: paper and shelf share one grid cell and cross-fade on `stage`. */
-.journal__stack > .journal__leaf:not(.journal__leaf--ghost),
-.journal__tabs,
-.journal__shelf-slot {
-  transition: opacity 450ms ease;
-}
-
-.journal__stack[data-stage='shelf'] > .journal__leaf,
-.journal__stack[data-stage='shelf'] .journal__tabs,
-.journal__stack[data-stage='paper'] .journal__shelf-slot {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* While the height eases, clip the taller view and tuck the hanging bookmarks
-   away; they fade back in once the notebook has settled. */
-.journal__stack--resizing {
-  overflow: clip;
-}
-
-.journal__stack--resizing .journal__tabs {
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .journal__stack > .journal__leaf:not(.journal__leaf--ghost),
-  .journal__tabs,
-  .journal__shelf-slot {
-    transition: none;
-  }
-}
-
-.journal__views {
-  max-width: 860px;
-  margin: 0 auto 18px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.journal__view {
-  padding: 4px 2px;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid transparent;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  cursor: pointer;
-  transition: color var(--transition), border-color var(--transition);
-}
-
-.journal__view:hover,
-.journal__view:focus-visible {
-  color: var(--ink);
-  border-bottom-color: var(--line);
-}
-
-/* Same grid cell the leaves use, so the shelf sits where the page would. */
-.journal__shelf-slot {
-  grid-area: 1 / 1;
-  min-width: 0;
-}
-
-.journal__shelf-note {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-  padding: 60px 0;
-}
-
 .journal__tabs {
   position: absolute;
   top: 100%;
