@@ -3,6 +3,7 @@ title: Book Review - To Live
 date: 2026-09-30
 book: To Live
 bookAuthor: Yu Hua
+rating: 4
 tags: [books, historical-fiction]
 excerpt: Nothing heroic about it. They are still alive, so they keep on living
 ---

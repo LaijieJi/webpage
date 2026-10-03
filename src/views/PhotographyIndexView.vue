@@ -36,7 +36,7 @@
                 :ratio="mediaFor(entry.slug).ratio"
                 alt=""
                 sizes="(max-width: 640px) 92vw, 320px"
-                eager
+                :eager="i < 2"
               />
             </a>
           </RouterLink>

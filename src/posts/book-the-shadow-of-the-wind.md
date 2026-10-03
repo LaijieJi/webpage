@@ -3,6 +3,7 @@ title: Book Review - The Shadow of the Wind
 date: 2022-09-12
 book: The Shadow of the Wind
 bookAuthor: Carlos Ruiz Zafón
+rating: 5
 tags: [books, gothic]
 excerpt: Some books you choose, and a rare few, in a hidden library in Barcelona, choose you
 ---

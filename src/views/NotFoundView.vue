@@ -14,7 +14,9 @@
 <script setup>
 import { useHead } from '@unhead/vue';
 
-useHead({ title: 'Lost - Laijie Ji' });
+// Also prerendered as 404.html, served for every unknown URL: keep it out of
+// search results.
+useHead({ title: 'Lost - Laijie Ji', meta: [{ name: 'robots', content: 'noindex' }] });
 </script>
 
 <style scoped>

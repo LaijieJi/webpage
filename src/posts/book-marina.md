@@ -3,6 +3,7 @@ title: Book Review - Marina
 date: 2025-03-30
 book: Marina
 bookAuthor: Carlos Ruiz Zafón
+rating: 4.5
 tags: [books, gothic]
 excerpt: A gothic Barcelona, a love that was never going to last, and a book that haunted me twice
 ---

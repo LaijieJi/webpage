@@ -3,6 +3,7 @@ title: Book Review - Crossroads of Ravens
 date: 2025-10-29
 book: Crossroads of Ravens
 bookAuthor: Andrzej Sapkowski
+rating: 5
 tags: [books, fantasy]
 excerpt: They call the witchers monsters, but the cruellest ones here are human
 ---

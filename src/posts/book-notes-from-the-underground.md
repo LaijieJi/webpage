@@ -3,6 +3,7 @@ title: Book Review - Notes from the Underground
 date: 2025-04-13
 book: Notes from the Underground
 bookAuthor: Fyodor Dostoevsky
+rating: 4.5
 tags: [books, classics]
 excerpt: He thought his way out of every decent instinct, including the one that could have saved him
 ---

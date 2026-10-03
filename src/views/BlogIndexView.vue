@@ -7,12 +7,26 @@
       </div>
       <span class="front__pull" aria-hidden="true"></span>
       <p class="front__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
+      <!-- label holders on the drawer front: which entries to file in it -->
+      <div class="shelves" role="group" aria-label="Show entries">
+        <button
+          v-for="s in SHELVES"
+          :key="s.id"
+          type="button"
+          class="shelf"
+          :aria-pressed="shelf === s.id"
+          @click="pickShelf(s.id)"
+        >
+          <span class="shelf__label">{{ s.id }} <span class="shelf__n">{{ counts[s.id] }}</span></span>
+        </button>
+      </div>
     </header>
 
     <!-- the open drawer: one index card per entry, filed newest first,
          with a guide card at the start of each year -->
     <div ref="drawerEl" class="drawer">
-      <ol class="drawer__cards">
+      <!-- keyed by shelf, so switching refiles every card -->
+      <ol :key="shelf" class="drawer__cards">
         <li
           v-for="(item, k) in items"
           :key="item.key"
@@ -52,7 +66,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
 import posts, { cardByline, cardTitle, cardStamp } from '../data/posts.js';
 import { readingList } from '../data/books.js';
 import { openWithMorph, isPlainClick, prefetchWhenIdle } from '../composables/useMorph.js';
@@ -64,7 +78,26 @@ useSeo({
   path: '/blog'
 });
 
+const route = useRoute();
 const router = useRouter();
+
+/* ---- Shelves: everything, the book reviews, or the rest ----------------- */
+const SHELVES = [
+  { id: 'all', has: () => true },
+  { id: 'books', has: (post) => post.frontmatter.tags.includes('books') },
+  { id: 'life', has: (post) => !post.frontmatter.tags.includes('books') }
+];
+const counts = Object.fromEntries(SHELVES.map((s) => [s.id, posts.filter(s.has).length]));
+const shelfOf = (id) => SHELVES.find((s) => s.id === id) || SHELVES[0];
+
+// Always 'all' while prerendering and hydrating; a ?shelf= link applies once
+// mounted, so the static HTML and the first client render agree.
+const shelf = ref('all');
+
+function pickShelf(id) {
+  shelf.value = id;
+  router.replace({ query: id === 'all' ? {} : { shelf: id } });
+}
 
 /* ---- Filing: newest first, a guide card wherever the year changes -------- */
 const TABS = ['4%', '28%', '52%', '76%'];
@@ -72,7 +105,7 @@ const TABS = ['4%', '28%', '52%', '76%'];
 const items = computed(() => {
   const out = [];
   let year = null;
-  posts.forEach((post) => {
+  posts.filter(shelfOf(shelf.value).has).forEach((post) => {
     const y = new Date(post.frontmatter.date).getFullYear();
     if (y !== year) {
       year = y;
@@ -119,6 +152,7 @@ function onScroll() {
 }
 
 onMounted(() => {
+  shelf.value = shelfOf(route.query.shelf).id;
   if (posts.length) prefetchWhenIdle(router, `/blog/${posts[0].slug}`);
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   lastY = window.scrollY;
@@ -217,6 +251,58 @@ onBeforeUnmount(() => {
   font-size: 18px;
   line-height: 1.5;
   color: var(--muted);
+}
+
+/* ---- Shelves: little brass label holders on the front -------------------- */
+.shelves {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 16px;
+  margin-top: 6px;
+}
+
+.shelf {
+  padding: 3px;
+  border: 0;
+  border-radius: 2px;
+  background: linear-gradient(160deg, #cdb27a, var(--brass) 45%, #7d643a);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  translate: 0 0;
+  transition: translate var(--dur-quick) var(--ease-spring), box-shadow var(--dur-quick) ease;
+}
+
+.shelf__label {
+  display: block;
+  padding: 4px 12px 3px;
+  background: var(--card-paper);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.16);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.shelf__n {
+  color: var(--faint);
+  font-size: 10.5px;
+}
+
+.shelf:hover .shelf__label,
+.shelf:focus-visible .shelf__label {
+  color: var(--ink);
+}
+
+/* the chosen one is pressed in, its label inked */
+.shelf[aria-pressed='true'] {
+  translate: 0 1px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.shelf[aria-pressed='true'] .shelf__label {
+  color: var(--accent);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.16), inset 0 -2px 0 var(--accent);
 }
 
 /* ---- The drawer --------------------------------------------------------- */

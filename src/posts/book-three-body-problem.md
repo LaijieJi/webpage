@@ -3,6 +3,7 @@ title: Book Review - The Three-Body Problem trilogy
 date: 2026-04-25
 book: The Three-Body Problem trilogy
 bookAuthor: Cixin Liu
+rating: 5
 tags: [books, sci-fi]
 excerpt: Two people were handed the survival of the species, and neither answer was the right one
 ---

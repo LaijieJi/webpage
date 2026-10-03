@@ -30,7 +30,8 @@ const posts = Object.entries(modules)
         excerpt: mod.excerpt || '',
         variant: mod.variant || '',
         book: mod.book || '',
-        bookAuthor: mod.bookAuthor || ''
+        bookAuthor: mod.bookAuthor || '',
+        rating: Number(mod.rating) || 0 // out of 5; book reviews only
       }
     };
   })

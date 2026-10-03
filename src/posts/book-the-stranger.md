@@ -3,6 +3,7 @@ title: Book Review - The Stranger
 date: 2025-04-27
 book: The Stranger
 bookAuthor: Albert Camus
+rating: 4
 tags: [books, classics]
 excerpt: He lived colourblind to the world, and only at the end saw the colour he had refused
 ---

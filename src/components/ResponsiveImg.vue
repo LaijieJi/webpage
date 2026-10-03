@@ -4,7 +4,8 @@
     <img
       :src="src"
       :alt="alt"
-      :loading="eager ? 'eager' : 'lazy'"
+      :loading="eager || priority ? 'eager' : 'lazy'"
+      :fetchpriority="priority ? 'high' : undefined"
       decoding="async"
       :style="imgStyle"
     />
@@ -22,7 +23,8 @@ const props = defineProps({
   ratio: { type: String, default: '' }, // e.g. "1 / 1"
   cover: { type: Boolean, default: false },
   fill: { type: Boolean, default: false },
-  eager: { type: Boolean, default: false }
+  eager: { type: Boolean, default: false },
+  priority: { type: Boolean, default: false } // the page's main image: fetch it first
 });
 
 const imgStyle = computed(() => {

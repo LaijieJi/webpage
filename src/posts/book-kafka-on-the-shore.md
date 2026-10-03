@@ -3,6 +3,7 @@ title: Book Review - Kafka on the Shore
 date: 2025-03-12
 book: Kafka on the Shore
 bookAuthor: Haruki Murakami
+rating: 5
 tags: [books, magical-realism]
 excerpt: Talking cats, fish that rain from the sky, and a world that still felt truer than my own
 ---

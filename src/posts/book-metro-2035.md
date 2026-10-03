@@ -3,6 +3,7 @@ title: Book Review - Metro 2035
 date: 2024-06-15
 book: Metro 2035
 bookAuthor: Dmitry Glukhovsky
+rating: 4.5
 tags: [books, sci-fi]
 excerpt: He came back with proof of a world outside, and nobody down there wanted to hear it
 ---

@@ -3,6 +3,7 @@ title: Book Review - No Longer Human
 date: 2026-05-22
 book: No Longer Human
 bookAuthor: Osamu Dazai
+rating: 4
 tags: [books, classics]
 excerpt: We all wear the mask in smaller doses, and we never learn what it is hiding
 ---

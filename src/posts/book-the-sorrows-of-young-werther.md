@@ -3,6 +3,7 @@ title: Book Review - The Sorrows of Young Werther
 date: 2026-08-26
 book: The Sorrows of Young Werther
 bookAuthor: Johann Wolfgang von Goethe
+rating: 4.5
 tags: [books, classics]
 excerpt: The flame that lights him is the same one that burns him
 ---

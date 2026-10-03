@@ -14,6 +14,7 @@
           <p v-if="post.frontmatter.excerpt" class="post__excerpt">{{ post.frontmatter.excerpt }}</p>
           <p class="post__meta">
             <span v-if="genre">{{ genre }}</span>
+            <span v-if="rating">rated {{ rating }}/5</span>
             <span>{{ post.readingTime }} min read</span>
           </p>
         </div>
@@ -56,7 +57,7 @@ import { computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { getPostBySlug, getAdjacentPosts, cardByline, cardTitle, cardGenre, cardStamp } from '../data/posts.js';
 import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
-import { useSeo, SITE_URL, OG_IMAGE } from '../composables/useSeo.js';
+import { useSeo, pageUrl, SITE_URL, OG_CARD_SIZE } from '../composables/useSeo.js';
 
 const route = useRoute();
 const post = computed(() => getPostBySlug(route.params.slug));
@@ -69,6 +70,7 @@ const neighbours = computed(() => [
 ].filter(Boolean));
 
 const genre = computed(() => (post.value ? cardGenre(post.value) : ''));
+const rating = computed(() => post.value?.frontmatter.rating);
 const isoDate = computed(() => {
   const time = post.value && Date.parse(post.value.frontmatter.date);
   return time ? new Date(time).toISOString().slice(0, 10) : undefined;
@@ -86,26 +88,31 @@ function open(event, target) {
 if (post.value) {
   const fm = post.value.frontmatter;
   const path = `/blog/${route.params.slug}`;
-  const url = `${SITE_URL}${path}`;
+  const url = pageUrl(path);
+  // The entry's catalogue card, rendered at build time (scripts/og-cards.js).
+  const image = `${SITE_URL}/og/blog/${route.params.slug}.png`;
   // YAML parses unquoted dates into Date objects; normalize to yyyy-mm-dd.
   const published = fm.date ? new Date(fm.date).toISOString().slice(0, 10) : undefined;
-  const laijie = { '@type': 'Person', name: 'Laijie Ji', url: `${SITE_URL}/` };
+  const laijie = { '@type': 'Person', name: 'Laijie Ji', url: pageUrl('/') };
 
   const ld = fm.book
     ? {
         '@context': 'https://schema.org',
         '@type': 'Review',
-        name: fm.title,
+        name: `${fm.book} review`,
         itemReviewed: {
           '@type': 'Book',
           name: fm.book,
           author: fm.bookAuthor.split(',').map((name) => ({ '@type': 'Person', name: name.trim() }))
         },
+        ...(fm.rating && {
+          reviewRating: { '@type': 'Rating', ratingValue: fm.rating, bestRating: 5, worstRating: 1 }
+        }),
         reviewBody: fm.excerpt,
         datePublished: published,
         url,
         mainEntityOfPage: url,
-        image: OG_IMAGE,
+        image,
         author: laijie,
         publisher: laijie
       }
@@ -117,7 +124,7 @@ if (post.value) {
         datePublished: published,
         url,
         mainEntityOfPage: url,
-        image: OG_IMAGE,
+        image,
         author: laijie,
         publisher: laijie
       };
@@ -128,6 +135,9 @@ if (post.value) {
     description: fm.excerpt,
     path,
     type: 'article',
+    image,
+    imageSize: OG_CARD_SIZE,
+    meta: published ? [{ property: 'article:published_time', content: published }] : [],
     ld: [ld]
   });
 }

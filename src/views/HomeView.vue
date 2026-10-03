@@ -158,7 +158,7 @@ import photoEntries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import DeskScene from '../components/DeskScene.vue';
-import { useSeo, SITE_URL, OG_IMAGE } from '../composables/useSeo.js';
+import { useSeo, pageUrl, OG_IMAGE } from '../composables/useSeo.js';
 
 useSeo({
   title: 'Laijie Ji - Software Developer',
@@ -173,7 +173,7 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Laijie Ji',
-      url: `${SITE_URL}/`,
+      url: pageUrl('/'),
       image: OG_IMAGE,
       jobTitle: 'Full-Stack Developer',
       worksFor: { '@type': 'Organization', name: 'Wegrant' },
@@ -186,7 +186,7 @@ useSeo({
         'https://www.instagram.com/laijie.jpg/'
       ]
     },
-    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Laijie Ji', url: `${SITE_URL}/` }
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Laijie Ji', url: pageUrl('/') }
   ]
 });
 

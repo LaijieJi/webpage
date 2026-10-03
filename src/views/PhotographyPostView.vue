@@ -8,9 +8,10 @@
           <ResponsiveImg
             :src="media.image"
             :webp="media.webp"
+            :ratio="media.ratio"
             :alt="entry.frontmatter.title"
             sizes="(max-width: 1040px) 92vw, 960px"
-            eager
+            priority
           />
         </div>
       </div>
@@ -56,17 +57,41 @@ import { useRoute } from 'vue-router';
 import { getPhotoEntryBySlug } from '../data/photography.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import { mediaFor } from '../data/photoMedia.js';
-import { useSeo } from '../composables/useSeo.js';
+import { useSeo, pageUrl, SITE_URL } from '../composables/useSeo.js';
 
 const route = useRoute();
 const entry = computed(() => getPhotoEntryBySlug(route.params.slug));
 const media = computed(() => mediaFor(route.params.slug));
 
 if (entry.value) {
+  const fm = entry.value.frontmatter;
+  const path = `/photography/${route.params.slug}`;
+  const url = pageUrl(path);
+  // The story's lead photograph is its share image too.
+  const image = new URL(media.value.image, SITE_URL).href;
+  const published = fm.date ? new Date(fm.date).toISOString().slice(0, 10) : undefined;
+  const laijie = { '@type': 'Person', name: 'Laijie Ji', url: pageUrl('/') };
   useSeo({
-    title: `${entry.value.frontmatter.title} - Laijie Ji`,
-    description: entry.value.frontmatter.excerpt || '',
-    path: `/photography/${route.params.slug}`
+    title: `${fm.title} - Laijie Ji`,
+    description: fm.excerpt || '',
+    path,
+    type: 'article',
+    image,
+    meta: published ? [{ property: 'article:published_time', content: published }] : [],
+    ld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: fm.title,
+        description: fm.excerpt || undefined,
+        datePublished: published,
+        url,
+        mainEntityOfPage: url,
+        image: { '@type': 'ImageObject', url: image, creator: laijie, creditText: 'Laijie Ji' },
+        author: laijie,
+        publisher: laijie
+      }
+    ]
   });
 }
 const igHref = computed(() => {

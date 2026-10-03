@@ -7,7 +7,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#4c6b4a" />
+    <!-- Browser bar colour: the header's paper. Kept in step with the palette
+         and theme by the script below. -->
+    <meta name="theme-color" content="#e9eae2" />
 
     <!-- Per-route title / description / canonical / OG / JSON-LD are rendered
          by unhead (see src/composables/useSeo.js); site-wide card constants
@@ -39,6 +41,21 @@
         } catch (e) {
           /* ignore */
         }
+
+        // --paper for each palette and theme (src/styles/main.css). The footer
+        // switches only flip data-* on <html>, so watching those is enough.
+        var paper = {
+          alpine: { light: '#e9eae2', dark: '#1b1e1c' },
+          warm: { light: '#f2ece0', dark: '#1f1b17' }
+        };
+        var root = document.documentElement;
+        function syncThemeColor() {
+          var meta = document.querySelector('meta[name="theme-color"]');
+          var palette = root.dataset.palette === 'warm' ? 'warm' : 'alpine';
+          if (meta) meta.content = paper[palette][root.dataset.theme === 'dark' ? 'dark' : 'light'];
+        }
+        syncThemeColor();
+        new MutationObserver(syncThemeColor).observe(root, { attributeFilter: ['data-theme', 'data-palette'] });
       })();
     </script>
   </head>
