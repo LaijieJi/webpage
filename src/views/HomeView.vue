@@ -113,6 +113,8 @@
           <dt>Last finished</dt>
           <dd><router-link :to="`/blog/${latestBook.slug}`"><em>{{ cardTitle(latestBook) }}</em></router-link>, {{ cardByline(latestBook) }}</dd>
         </template>
+        <dt>Read so far</dt>
+        <dd><router-link to="/shelf">{{ shelfCount }} books, on the shelf</router-link></dd>
         <template v-if="lastTrip">
           <dt>Last trip</dt>
           <dd><router-link :to="`/photography/${lastTrip.slug}`">{{ placeOf(lastTrip) }}</router-link>, {{ monthYear(lastTrip.frontmatter.date) }}</dd>
@@ -154,6 +156,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import posts, { cardByline, cardTitle } from '../data/posts.js';
 import { readingList } from '../data/books.js';
+import { shelfCount } from '../data/shelf.js';
 import photoEntries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';

@@ -6,6 +6,7 @@ import { morphing } from './composables/useMorph.js';
 const ProjectsView = () => import('./views/ProjectsView.vue');
 const BlogIndexView = () => import('./views/BlogIndexView.vue');
 const BlogPostView = () => import('./views/BlogPostView.vue');
+const ShelfView = () => import('./views/ShelfView.vue');
 const PhotographyIndexView = () => import('./views/PhotographyIndexView.vue');
 const PhotographyPostView = () => import('./views/PhotographyPostView.vue');
 const NotFoundView = () => import('./views/NotFoundView.vue');
@@ -15,6 +16,7 @@ export const routes = [
   { path: '/projects', name: 'projects', component: ProjectsView },
   { path: '/blog', name: 'blog', component: BlogIndexView },
   { path: '/blog/:slug', name: 'blog-post', component: BlogPostView, props: true },
+  { path: '/shelf', name: 'shelf', component: ShelfView },
   { path: '/photography', name: 'photography', component: PhotographyIndexView },
   { path: '/photography/:slug', name: 'photography-post', component: PhotographyPostView, props: true },
   {

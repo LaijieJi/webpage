@@ -19,6 +19,7 @@ function allRoutePaths() {
     '/',
     '/projects',
     '/blog',
+    '/shelf',
     '/photography',
     ...slugsIn(path.resolve('src/posts')).map((s) => `/blog/${s}`),
     ...slugsIn(path.resolve('src/photography')).map((s) => `/photography/${s}`)

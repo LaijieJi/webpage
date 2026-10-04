@@ -22,6 +22,12 @@
 
       <div class="post__sheet">
         <component :is="post.component" class="post__body" />
+        <!-- a slip clipped to the foot of the sheet: answering is a letter away -->
+        <aside class="reply" aria-label="Reply">
+          <p class="reply__label">let's talk about it</p>
+          <p class="reply__ask">{{ replyAsk }}</p>
+          <a class="reply__link" :href="replyHref">contact@laijie.dev →</a>
+        </aside>
       </div>
 
       <!-- the cards filed either side of this one -->
@@ -71,6 +77,15 @@ const neighbours = computed(() => [
 
 const genre = computed(() => (post.value ? cardGenre(post.value) : ''));
 const rating = computed(() => post.value?.frontmatter.rating);
+
+const replyAsk = computed(() =>
+  post.value?.frontmatter.book
+    ? 'Read it too, or saw it differently? Write to me.'
+    : 'Something here you want to talk about? Write to me.'
+);
+const replyHref = computed(() =>
+  post.value ? `mailto:contact@laijie.dev?subject=${encodeURIComponent(`Re: ${cardTitle(post.value)}`)}` : undefined
+);
 const isoDate = computed(() => {
   const time = post.value && Date.parse(post.value.frontmatter.date);
   return time ? new Date(time).toISOString().slice(0, 10) : undefined;
@@ -404,6 +419,64 @@ if (post.value) {
 }
 
 /* ---- The neighbours: the cards filed either side ------------------------- */
+/* ---- Reply slip ---------------------------------------------------------- */
+.reply {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  width: fit-content;
+  max-width: 100%;
+  margin: 56px 0 0;
+  padding: 20px 24px 18px;
+  background: var(--card-paper);
+  box-shadow: 0 0 0 1px var(--line), 0 12px 20px -16px rgb(var(--shadow) / 0.55);
+  rotate: -1.2deg;
+}
+
+/* the paper clip */
+.reply::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 22px;
+  width: 11px;
+  height: 26px;
+  border: 2px solid color-mix(in srgb, var(--ink) 45%, transparent);
+  border-radius: 6px;
+}
+
+.reply__label {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--accent2);
+}
+
+.reply__ask {
+  margin: 4px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.reply__link {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+}
+
+.reply__link:hover,
+.reply__link:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .post__filed {
   display: grid;
   grid-template-columns: 1fr 1fr;

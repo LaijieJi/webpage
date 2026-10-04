@@ -60,6 +60,7 @@
           <span class="slip__author">{{ book.author }}</span>
         </li>
       </ul>
+      <router-link class="next__shelf" to="/shelf">everything I've read, on the shelf →</router-link>
     </section>
   </div>
 </template>
@@ -510,6 +511,22 @@ onBeforeUnmount(() => {
 }
 
 /* ---- Next up ------------------------------------------------------------ */
+.next__shelf {
+  display: table;
+  margin-top: 30px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+}
+
+.next__shelf:hover,
+.next__shelf:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .next {
   margin-top: 46px;
 }
