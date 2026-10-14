@@ -140,6 +140,82 @@ function ogCards() {
   });
 }
 
+// The site as plain text for language models (https://llmstxt.org): llms.txt
+// is the index - who this is and a link to every entry - and llms-full.txt the
+// entries themselves, whole. Book reviews are the journal entries with a `book:`.
+function llmsTxt() {
+  const entries = (dir, base) =>
+    slugsIn(path.resolve(dir))
+      .map((slug) => {
+        const raw = fs.readFileSync(path.resolve(dir, `${slug}.md`), 'utf8');
+        return { ...readFrontmatter(raw), url: `${SITE_URL}${base}/${slug}/`, body: plainBody(raw) };
+      })
+      .sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
+
+  // The markdown as written, minus frontmatter and the odd bit of HTML (the
+  // Miata's number plate) - its text stays, the tags go.
+  function plainBody(raw) {
+    return raw
+      .replace(/^---[\s\S]*?---\s*/, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/^[ \t]+/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  const link = (e) => `- [${e.title}](${e.url})${e.excerpt ? `: ${e.excerpt}` : ''}`;
+  const stamp = (e) => [e.date, e.bookAuthor && `${e.book} by ${e.bookAuthor}`, e.rating && `rated ${e.rating}/5`].filter(Boolean).join(' · ');
+
+  return clientBuildOnly({
+    name: 'lj-llms-txt',
+    generateBundle() {
+      const journal = entries('src/posts', '/blog');
+      const reviews = journal.filter((e) => e.book);
+      const essays = journal.filter((e) => !e.book);
+      const photos = entries('src/photography', '/photography');
+
+      const intro = [
+        '# Laijie Ji',
+        '',
+        "> Software developer in Valencia, working through a master's in AI at the UPV. This site is his journal (book reviews and the occasional essay), his photographs, and a few projects.",
+        ''
+      ];
+      const index = [
+        ...intro,
+        '## Pages',
+        '',
+        `- [Me](${SITE_URL}/): who he is, what he works on`,
+        `- [Projects](${SITE_URL}/projects/): things he has built`,
+        `- [The shelf](${SITE_URL}/shelf/): every book he has finished, by year, with ratings`,
+        '',
+        '## Journal',
+        '',
+        ...essays.map(link),
+        '',
+        '## Book reviews',
+        '',
+        ...reviews.map(link),
+        '',
+        '## Photography',
+        '',
+        ...photos.map(link),
+        '',
+        '## Optional',
+        '',
+        `- [Everything above, in full](${SITE_URL}/llms-full.txt)`,
+        ''
+      ];
+      const full = [
+        ...intro,
+        ...[...journal, ...photos].map((e) => `---\n\n# ${e.title}\n\n${e.url}\n${stamp(e)}\n\n${e.body}\n`)
+      ];
+
+      this.emitFile({ type: 'asset', fileName: 'llms.txt', source: index.join('\n') });
+      this.emitFile({ type: 'asset', fileName: 'llms-full.txt', source: full.join('\n') });
+    }
+  });
+}
+
 export default defineConfig({
   base: '/',
   plugins: [
@@ -158,7 +234,8 @@ export default defineConfig({
     }),
     readingTimes(),
     sitemap(),
-    ogCards()
+    ogCards(),
+    llmsTxt()
   ],
   ssgOptions: {
     dirStyle: 'nested',

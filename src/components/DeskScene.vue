@@ -1,7 +1,10 @@
 <template>
   <!-- The landing page's desk: a few things lying around the card, and the light
        from a window falling across it as the sun over Valencia moves (see
-       composables/useDeskLight.js). Purely decorative. -->
+       composables/useDeskLight.js). Most of the things lead somewhere - the
+       camera to the photographs, the books to the shelf - but only as a
+       shortcut for the mouse: everything they lead to is a click away from the header, so
+       the desk stays hidden from screen readers and out of the tab order. -->
   <div class="desk" :class="{ 'desk--lit': lit, 'desk--dark': theme === 'dark' }" :style="light" aria-hidden="true">
     <!-- things on the desk, drawn from above; they scroll away with the card -->
     <div class="desk__things">
@@ -18,80 +21,98 @@
       </svg>
 
       <!-- the camera, its strap lying in a loop beside it -->
-      <svg class="thing thing--camera" viewBox="0 0 360 340">
-        <path d="M58 86 C 10 92, 6 200, 70 262 C 140 328, 300 320, 330 230 C 350 168, 334 104, 302 86" fill="none" stroke="#3b342e" stroke-width="11" stroke-linecap="round" />
-        <rect x="124" y="128" width="112" height="78" rx="6" fill="#1f2321" />
-        <rect x="124" y="148" width="112" height="5" fill="#363b38" />
-        <rect x="124" y="166" width="112" height="5" fill="#363b38" />
-        <rect x="132" y="196" width="96" height="16" rx="4" fill="#2c312e" />
-        <rect x="46" y="76" width="16" height="22" rx="4" fill="#7c7f78" />
-        <rect x="298" y="76" width="16" height="22" rx="4" fill="#7c7f78" />
-        <rect x="54" y="52" width="252" height="84" rx="16" fill="#a8aaa3" />
-        <rect x="54" y="52" width="252" height="84" rx="16" fill="none" stroke="#7c7f78" stroke-width="3" />
-        <rect x="160" y="58" width="40" height="30" rx="3" fill="#6c706b" />
-        <circle cx="246" cy="94" r="21" fill="#3a3e3c" />
-        <circle cx="246" cy="94" r="14" fill="none" stroke="#5a5f5b" stroke-width="3" stroke-dasharray="2 3" />
-        <circle cx="278" cy="72" r="7" fill="#3a3e3c" />
-        <circle cx="104" cy="94" r="18" fill="#3a3e3c" />
-        <circle cx="104" cy="94" r="5" fill="#7c7f78" />
-      </svg>
+      <router-link to="/photography" class="thing thing--camera thing--link" tabindex="-1">
+        <svg viewBox="0 0 360 340">
+          <path d="M58 86 C 10 92, 6 200, 70 262 C 140 328, 300 320, 330 230 C 350 168, 334 104, 302 86" fill="none" stroke="#3b342e" stroke-width="11" stroke-linecap="round" />
+          <rect x="124" y="128" width="112" height="78" rx="6" fill="#1f2321" />
+          <rect x="124" y="148" width="112" height="5" fill="#363b38" />
+          <rect x="124" y="166" width="112" height="5" fill="#363b38" />
+          <rect x="132" y="196" width="96" height="16" rx="4" fill="#2c312e" />
+          <rect x="46" y="76" width="16" height="22" rx="4" fill="#7c7f78" />
+          <rect x="298" y="76" width="16" height="22" rx="4" fill="#7c7f78" />
+          <rect x="54" y="52" width="252" height="84" rx="16" fill="#a8aaa3" />
+          <rect x="54" y="52" width="252" height="84" rx="16" fill="none" stroke="#7c7f78" stroke-width="3" />
+          <rect x="160" y="58" width="40" height="30" rx="3" fill="#6c706b" />
+          <circle cx="246" cy="94" r="21" fill="#3a3e3c" />
+          <circle cx="246" cy="94" r="14" fill="none" stroke="#5a5f5b" stroke-width="3" stroke-dasharray="2 3" />
+          <circle cx="278" cy="72" r="7" fill="#3a3e3c" />
+          <circle cx="104" cy="94" r="18" fill="#3a3e3c" />
+          <circle cx="104" cy="94" r="5" fill="#7c7f78" />
+        </svg>
+        <span class="thing__label">photography</span>
+      </router-link>
 
       <!-- a notebook and the pen, a couple of index cards under them -->
-      <svg class="thing thing--notes" viewBox="0 0 400 420">
-        <g transform="rotate(-9 200 210)">
-          <rect x="70" y="40" width="250" height="160" rx="5" fill="#fbfaf3" />
-          <rect x="70" y="74" width="250" height="2" fill="rgba(164,22,26,0.5)" />
-        </g>
-        <g transform="rotate(6 200 210)">
-          <rect x="96" y="20" width="250" height="160" rx="5" fill="#f4f1e6" />
-          <rect x="96" y="54" width="250" height="2" fill="rgba(164,22,26,0.5)" />
-        </g>
-        <rect x="70" y="92" width="226" height="296" rx="9" fill="#2b312d" />
-        <rect x="292" y="98" width="9" height="284" rx="2" fill="#e6e2d4" />
-        <rect x="250" y="92" width="10" height="296" fill="#1b201d" />
-        <g transform="rotate(-27 190 250)">
-          <rect x="40" y="240" width="300" height="21" rx="10.5" fill="#3a3f3c" />
-          <rect x="40" y="240" width="112" height="21" rx="10.5" fill="#2f3431" />
-          <rect x="70" y="236" width="74" height="6" rx="3" fill="#c3c5bf" />
-          <rect x="318" y="244" width="28" height="13" rx="4" fill="#242826" />
-          <path d="M346 246 L 360 250.5 L 346 255 Z" fill="#b9bbb4" />
-        </g>
-      </svg>
+      <router-link to="/blog" class="thing thing--notes thing--link" tabindex="-1">
+        <svg viewBox="0 0 400 420">
+          <g transform="rotate(-9 200 210)">
+            <rect x="70" y="40" width="250" height="160" rx="5" fill="#fbfaf3" />
+            <rect x="70" y="74" width="250" height="2" fill="rgba(164,22,26,0.5)" />
+          </g>
+          <g transform="rotate(6 200 210)">
+            <rect x="96" y="20" width="250" height="160" rx="5" fill="#f4f1e6" />
+            <rect x="96" y="54" width="250" height="2" fill="rgba(164,22,26,0.5)" />
+          </g>
+          <rect x="70" y="92" width="226" height="296" rx="9" fill="#2b312d" />
+          <rect x="292" y="98" width="9" height="284" rx="2" fill="#e6e2d4" />
+          <rect x="250" y="92" width="10" height="296" fill="#1b201d" />
+          <g transform="rotate(-27 190 250)">
+            <rect x="40" y="240" width="300" height="21" rx="10.5" fill="#3a3f3c" />
+            <rect x="40" y="240" width="112" height="21" rx="10.5" fill="#2f3431" />
+            <rect x="70" y="236" width="74" height="6" rx="3" fill="#c3c5bf" />
+            <rect x="318" y="244" width="28" height="13" rx="4" fill="#242826" />
+            <path d="M346 246 L 360 250.5 L 346 255 Z" fill="#b9bbb4" />
+          </g>
+        </svg>
+        <span class="thing__label">blog</span>
+      </router-link>
 
       <!-- two books, the top one with its ribbon out -->
-      <svg class="thing thing--books" viewBox="0 0 320 380">
-        <g transform="rotate(7 160 190)">
-          <rect x="46" y="30" width="224" height="318" rx="6" fill="#3c5560" />
-          <rect x="262" y="38" width="10" height="302" fill="#e8e4d6" />
-        </g>
-        <g transform="rotate(-5 160 190)">
-          <path d="M196 330 L 196 372 L 205 362 L 214 372 L 214 330 Z" fill="#a4161a" />
-          <rect x="58" y="42" width="204" height="292" rx="6" fill="#74403a" />
-          <rect x="255" y="50" width="9" height="276" fill="#ece8da" />
-          <rect x="88" y="92" width="144" height="74" rx="3" fill="#efe9da" />
-          <rect x="104" y="114" width="112" height="6" rx="3" fill="#74403a" opacity="0.7" />
-          <rect x="120" y="132" width="80" height="5" rx="2.5" fill="#74403a" opacity="0.45" />
-        </g>
-      </svg>
+      <router-link to="/shelf" class="thing thing--books thing--link" tabindex="-1">
+        <svg viewBox="0 0 320 380">
+          <g transform="rotate(7 160 190)">
+            <rect x="46" y="30" width="224" height="318" rx="6" fill="#3c5560" />
+            <rect x="262" y="38" width="10" height="302" fill="#e8e4d6" />
+          </g>
+          <g transform="rotate(-5 160 190)">
+            <path d="M196 330 L 196 372 L 205 362 L 214 372 L 214 330 Z" fill="#a4161a" />
+            <rect x="58" y="42" width="204" height="292" rx="6" fill="#74403a" />
+            <rect x="255" y="50" width="9" height="276" fill="#ece8da" />
+            <rect x="88" y="92" width="144" height="74" rx="3" fill="#efe9da" />
+            <rect x="104" y="114" width="112" height="6" rx="3" fill="#74403a" opacity="0.7" />
+            <rect x="120" y="132" width="80" height="5" rx="2.5" fill="#74403a" opacity="0.45" />
+          </g>
+        </svg>
+        <span class="thing__label">the shelf</span>
+      </router-link>
 
       <!-- a couple of prints -->
       <div class="thing thing--prints">
-        <span class="print print--a"><img :src="triesteImg.src" :srcset="triesteImg.webp" sizes="220px" alt="" loading="lazy" decoding="async" /></span>
-        <span class="print print--b"><img :src="pragueImg.src" :srcset="pragueImg.webp" sizes="220px" alt="" loading="lazy" decoding="async" /></span>
+        <router-link to="/photography/trieste" class="print print--a" tabindex="-1">
+          <img :src="triesteImg.src" :srcset="triesteImg.webp" sizes="220px" alt="" loading="lazy" decoding="async" />
+          <span class="print__caption">Trieste</span>
+        </router-link>
+        <router-link to="/photography/prague" class="print print--b" tabindex="-1">
+          <img :src="pragueImg.src" :srcset="pragueImg.webp" sizes="220px" alt="" loading="lazy" decoding="async" />
+          <span class="print__caption">Prague</span>
+        </router-link>
       </div>
 
       <!-- the car key, on its ring with a small red tag -->
-      <svg class="thing thing--key" viewBox="0 0 220 160">
-        <circle cx="70" cy="64" r="26" fill="none" stroke="#a9aba5" stroke-width="5" />
-        <g transform="rotate(24 58 88)">
-          <rect x="36" y="80" width="40" height="72" rx="12" fill="#a4161a" />
-          <rect x="42" y="88" width="28" height="56" rx="8" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-dasharray="3 3" />
-        </g>
-        <rect x="88" y="40" width="112" height="52" rx="22" fill="#232624" transform="rotate(12 144 66)" />
-        <circle cx="128" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
-        <circle cx="152" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
-        <circle cx="176" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
-      </svg>
+      <router-link to="/blog/a-miata-of-my-own" class="thing thing--key thing--link" tabindex="-1">
+        <svg viewBox="0 0 220 160">
+          <circle cx="70" cy="64" r="26" fill="none" stroke="#a9aba5" stroke-width="5" />
+          <g transform="rotate(24 58 88)">
+            <rect x="36" y="80" width="40" height="72" rx="12" fill="#a4161a" />
+            <rect x="42" y="88" width="28" height="56" rx="8" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-dasharray="3 3" />
+          </g>
+          <rect x="88" y="40" width="112" height="52" rx="22" fill="#232624" transform="rotate(12 144 66)" />
+          <circle cx="128" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
+          <circle cx="152" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
+          <circle cx="176" cy="62" r="7" fill="#383c3a" transform="rotate(12 144 66)" />
+        </svg>
+        <span class="thing__label">the Miata</span>
+      </router-link>
     </div>
 
     <!-- the room: dimmer at night, a lamp left on -->
@@ -180,9 +201,65 @@ const branchB = branch(16, 0.62, 0.5);
   position: absolute;
   display: block;
   overflow: visible;
-  /* every object casts its shadow from the same sun (or lamp) */
-  filter: drop-shadow(var(--desk-shadow-x, 4px) var(--desk-shadow-y, 6px) var(--desk-shadow-blur, 10px) rgba(28, 30, 22, var(--desk-shadow-alpha, 0.2)));
+}
+
+/* Every object casts its shadow from the same sun (or lamp). On the drawing
+   itself, not its link, so a label never gets a shadow of its own; --lift
+   stretches it when the object is picked up. */
+.thing--plant,
+.thing--link > svg,
+.print {
+  filter: drop-shadow(
+    calc(var(--desk-shadow-x, 4px) * var(--lift, 1))
+    calc(var(--desk-shadow-y, 6px) * var(--lift, 1))
+    calc(var(--desk-shadow-blur, 10px) * var(--lift, 1))
+    rgba(28, 30, 22, var(--desk-shadow-alpha, 0.2))
+  );
   transition: filter 2s ease;
+}
+
+.thing--link > svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* The things that lead somewhere: picked up a little under the pointer, so
+   their shadow falls further and softer, from the same light. */
+.thing--link,
+.print {
+  pointer-events: auto;
+  transition: translate var(--dur-quick) var(--ease-out);
+}
+
+.thing--link:hover,
+.print:hover {
+  --lift: 1.9;
+  translate: 0 -5px;
+}
+
+.thing--link:hover > svg,
+.print:hover {
+  transition-duration: var(--dur-quick);
+}
+
+/* What it leads to, pencilled beside it - only while it's in hand. */
+.thing__label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  translate: -50% 4px;
+  font-family: var(--font-hand);
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity var(--dur-quick) ease;
+}
+
+.thing--link:hover .thing__label {
+  opacity: 1;
 }
 
 .thing--plant {
@@ -227,6 +304,21 @@ const branchB = branch(16, 0.62, 0.5);
   padding: 10px 10px 30px;
   background: #fbfaf3;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* where it was taken, written on the border */
+.print__caption {
+  position: absolute;
+  left: 14px;
+  bottom: 5px;
+  font-family: var(--font-hand);
+  font-size: 19px;
+  line-height: 1;
+  color: #4a4f4a;
+}
+
+.print:hover {
+  z-index: 1;
 }
 
 .print img {
@@ -384,8 +476,15 @@ const branchB = branch(16, 0.62, 0.5);
   display: none;
 }
 
-.desk--dark .thing {
-  filter: drop-shadow(var(--desk-shadow-x, 4px) var(--desk-shadow-y, 6px) var(--desk-shadow-blur, 10px) rgba(0, 0, 0, var(--desk-shadow-alpha, 0.5))) brightness(0.62) saturate(0.82);
+.desk--dark .thing--plant,
+.desk--dark .thing--link > svg,
+.desk--dark .print {
+  filter: drop-shadow(
+    calc(var(--desk-shadow-x, 4px) * var(--lift, 1))
+    calc(var(--desk-shadow-y, 6px) * var(--lift, 1))
+    calc(var(--desk-shadow-blur, 10px) * var(--lift, 1))
+    rgba(0, 0, 0, var(--desk-shadow-alpha, 0.5))
+  ) brightness(0.62) saturate(0.82);
 }
 
 @media (max-width: 1180px) {
