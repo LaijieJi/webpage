@@ -1,8 +1,9 @@
-import readingTimes from 'virtual:reading-times';
+import { defineAsyncComponent } from 'vue';
+import { posts as meta } from 'virtual:entry-meta';
 
-const modules = import.meta.glob('../posts/*.md', {
-  eager: true
-});
+// The lists only need each entry's frontmatter, built in (vite.config.js); its
+// body is a chunk of its own, fetched when the entry is opened.
+const bodies = import.meta.glob('../posts/*.md');
 
 function normalizeTags(value) {
   if (Array.isArray(value)) return value;
@@ -16,25 +17,35 @@ function normalizeTags(value) {
   return [];
 }
 
-const posts = Object.entries(modules)
-  .map(([path, mod]) => {
-    const slug = path.split('/').pop().replace(/\.md$/, '');
-    return {
-      slug,
-      component: mod.default,
-      readingTime: readingTimes[slug] || 1,
-      frontmatter: {
-        title: mod.title || slug,
-        date: mod.date || '',
-        tags: normalizeTags(mod.tags),
-        excerpt: mod.excerpt || '',
-        variant: mod.variant || '',
-        book: mod.book || '',
-        bookAuthor: mod.bookAuthor || '',
-        rating: Number(mod.rating) || 0 // out of 5; book reviews only
-      }
-    };
-  })
+// One fetch per body, shared by the router (which waits for it before showing
+// the page) and the component, which then renders without a gap.
+const loaded = {};
+export function loadPostBody(slug) {
+  const load = bodies[`../posts/${slug}.md`];
+  if (!load) return Promise.resolve();
+  // a failed fetch is forgotten, so opening the entry again tries again
+  return (loaded[slug] ||= load().then((mod) => mod.default, (error) => {
+    delete loaded[slug];
+    throw error;
+  }));
+}
+
+const posts = Object.entries(meta)
+  .map(([slug, mod]) => ({
+    slug,
+    component: defineAsyncComponent(() => loadPostBody(slug)),
+    readingTime: mod.readingTime || 1,
+    frontmatter: {
+      title: mod.title || slug,
+      date: mod.date || '',
+      tags: normalizeTags(mod.tags),
+      excerpt: mod.excerpt || '',
+      variant: mod.variant || '',
+      book: mod.book || '',
+      bookAuthor: mod.bookAuthor || '',
+      rating: Number(mod.rating) || 0 // out of 5; book reviews only
+    }
+  }))
   .sort((a, b) => toTime(b.frontmatter.date) - toTime(a.frontmatter.date));
 
 export default posts;

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vue from '@vitejs/plugin-vue';
 import Markdown from 'unplugin-vue-markdown/vite';
+import matter from 'gray-matter';
 import { renderPostCard, readFrontmatter } from './scripts/og-cards.js';
 
 const SITE_URL = 'https://laijie.dev';
@@ -26,12 +27,15 @@ function allRoutePaths() {
   ];
 }
 
-// Reading time is computed here, at build time, so post bodies never need to be
-// shipped to the browser just to be counted.
-function readingTimes() {
-  const VIRTUAL_ID = 'virtual:reading-times';
+// What the lists need to know about every entry - its frontmatter, and for a
+// journal entry its reading time - read here at build time, so the bodies
+// themselves load only when an entry is opened (see src/data/posts.js).
+// gray-matter, as the markdown plugin parses frontmatter with it; the JSON round
+// trip gives the same values the plugin exports (dates as ISO strings).
+function entryMeta() {
+  const VIRTUAL_ID = 'virtual:entry-meta';
   const RESOLVED_ID = '\0' + VIRTUAL_ID;
-  const POSTS_DIR = path.resolve('src/posts');
+  const DIRS = { posts: path.resolve('src/posts'), photography: path.resolve('src/photography') };
 
   function minutesFor(raw) {
     const text = raw
@@ -44,27 +48,28 @@ function readingTimes() {
     return Math.max(1, Math.round(words / 200));
   }
 
-  function table() {
-    if (!fs.existsSync(POSTS_DIR)) return {};
+  function table(dir, withReadingTime) {
     const out = {};
-    for (const file of fs.readdirSync(POSTS_DIR)) {
-      if (!file.endsWith('.md')) continue;
-      const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
-      out[file.replace(/\.md$/, '')] = minutesFor(raw);
+    for (const slug of slugsIn(dir)) {
+      const raw = fs.readFileSync(path.join(dir, `${slug}.md`), 'utf8');
+      out[slug] = JSON.parse(JSON.stringify(matter(raw).data));
+      if (withReadingTime) out[slug].readingTime = minutesFor(raw);
     }
     return out;
   }
 
   return {
-    name: 'lj-reading-times',
+    name: 'lj-entry-meta',
     resolveId(id) {
       if (id === VIRTUAL_ID) return RESOLVED_ID;
     },
     load(id) {
-      if (id === RESOLVED_ID) return `export default ${JSON.stringify(table())};`;
+      if (id !== RESOLVED_ID) return;
+      return `export const posts = ${JSON.stringify(table(DIRS.posts, true))};\n`
+        + `export const photography = ${JSON.stringify(table(DIRS.photography, false))};\n`;
     },
     configureServer(server) {
-      server.watcher.add(POSTS_DIR);
+      Object.values(DIRS).forEach((dir) => server.watcher.add(dir));
       server.watcher.on('all', (_event, file) => {
         if (!String(file).endsWith('.md')) return;
         const mod = server.moduleGraph.getModuleById(RESOLVED_ID);
@@ -232,7 +237,7 @@ export default defineConfig({
       // with the body-extracted excerpt (empty — no <!-- more --> markers).
       frontmatter: true
     }),
-    readingTimes(),
+    entryMeta(),
     sitemap(),
     ogCards(),
     llmsTxt()

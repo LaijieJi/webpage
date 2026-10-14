@@ -44,11 +44,15 @@ export const morphTransition = {
 // Fetch the code of the page a link opens. Routes load on demand, and once a
 // morph has started the browser shows nothing new until the page is in - so
 // the download has to happen before, not during.
+// An entry's route also waits for the entry's text (meta.load, in router.js),
+// so that is fetched here too.
 export function prefetchRoute(router, to) {
-  const loads = router.resolve(to).matched.map((record) => {
+  const route = router.resolve(to);
+  const loads = route.matched.map((record) => {
     const component = record.components && record.components.default;
     return typeof component === 'function' ? component() : null;
   });
+  if (route.meta.load) loads.push(route.meta.load(route.params.slug));
   return Promise.all(loads).catch(() => {});
 }
 
