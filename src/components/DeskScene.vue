@@ -243,14 +243,15 @@ const branchB = branch(16, 0.62, 0.5);
   transition-duration: var(--dur-quick);
 }
 
-/* What it leads to, pencilled beside it - only while it's in hand. */
+/* What it leads to, shown beside it - only while it's in hand. */
 .thing__label {
   position: absolute;
   left: 50%;
   top: 100%;
   translate: -50% 4px;
-  font-family: var(--font-hand);
-  font-size: 24px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
   line-height: 1;
   white-space: nowrap;
   color: var(--accent);
@@ -306,13 +307,14 @@ const branchB = branch(16, 0.62, 0.5);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
-/* where it was taken, written on the border */
+/* where it was taken, printed on the border */
 .print__caption {
   position: absolute;
   left: 14px;
   bottom: 5px;
-  font-family: var(--font-hand);
-  font-size: 19px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
   line-height: 1;
   color: #4a4f4a;
 }

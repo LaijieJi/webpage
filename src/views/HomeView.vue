@@ -273,17 +273,17 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   z-index: 1;
 }
 
-/* ---- Greeting, handwritten across the top of the card ------------------ */
+/* ---- Greeting, across the top of the card ------------------ */
 .entry__hello {
   display: flex;
   align-items: baseline;
   min-height: 1.2em;
   margin: 0;
-  font-family: var(--font-hand);
-  font-size: clamp(26px, 3.2vw, 32px);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(22px, 2.6vw, 26px);
   line-height: 1.1;
   color: var(--accent);
-  rotate: -2deg;
 }
 
 .entry__hello > span {

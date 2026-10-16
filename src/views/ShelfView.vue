@@ -35,7 +35,7 @@
     </div>
 
     <section v-if="readingList.length" class="pile" v-reveal>
-      <h2 class="pile__label">on the pile</h2>
+      <h2 class="pile__label">Reading next</h2>
       <p class="pile__books">
         <template v-for="(book, i) in readingList" :key="book.title">
           <em>{{ book.title }}</em>, {{ book.author }}<template v-if="i < readingList.length - 1"> · </template>
@@ -198,13 +198,13 @@ useSeo({
 }
 
 .pile__label {
-  margin: 0 0 8px;
-  font-family: var(--font-hand);
-  font-weight: 400;
-  font-size: 28px;
-  color: var(--accent2);
-  rotate: -2deg;
-  width: fit-content;
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .pile__books {

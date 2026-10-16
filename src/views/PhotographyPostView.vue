@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="story__cap">
-        <span class="story__plate">Plate · {{ media.place || entry.frontmatter.title }}</span>
+        <span class="story__plate">{{ media.place || entry.frontmatter.title }}</span>
         <span class="story__date">{{ dateLong(entry.frontmatter.date) }}</span>
       </div>
 
@@ -39,14 +39,13 @@
           <span class="story__ig-cta">view post →</span>
         </a>
 
-        <div class="story__foot"><span>~ plate ~</span></div>
       </div>
     </article>
 
     <article class="story story--missing" v-else>
       <router-link class="story__back" to="/photography">← all photographs</router-link>
-      <h1 class="story__title">That plate isn't here.</h1>
-      <p class="story__excerpt">Browse the rest of the gallery instead.</p>
+      <h1 class="story__title">That trip isn't here.</h1>
+      <p class="story__excerpt">Every trip is on the photographs page.</p>
     </article>
   </div>
 </template>
@@ -272,20 +271,6 @@ function dateLong(value) {
   font-size: 13px;
   color: var(--accent2);
   white-space: nowrap;
-}
-
-.story__foot {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  text-align: center;
-}
-
-.story__foot span {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--faint);
 }
 
 .story--missing .story__title {

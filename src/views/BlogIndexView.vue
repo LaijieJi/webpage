@@ -6,7 +6,7 @@
         <h1 class="front__label">The Journal</h1>
       </div>
       <span class="front__pull" aria-hidden="true"></span>
-      <p class="front__lede">Books I've loved, things I'm learning, and the occasional letter to myself.</p>
+      <p class="front__lede">What I thought of the books I've read, and a few posts about other things.</p>
       <!-- label holders on the drawer front: which entries to file in it -->
       <div class="shelves" role="group" aria-label="Show entries">
         <button
@@ -53,7 +53,7 @@
 
     <!-- what's waiting: slips clipped to the drawer -->
     <section class="next" v-reveal>
-      <h2 class="next__label">next up</h2>
+      <h2 class="next__label">Reading next</h2>
       <ul class="next__slips">
         <li v-for="book in readingList" :key="book.title" class="slip">
           <span class="slip__title">{{ book.title }}</span>
@@ -75,7 +75,7 @@ import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
   title: 'The Journal - Laijie Ji',
-  description: 'Notes from a slow reader - book reviews and the occasional rabbit hole.',
+  description: 'Book reviews, and a few posts about other things.',
   path: '/blog'
 });
 
@@ -533,11 +533,12 @@ onBeforeUnmount(() => {
 
 .next__label {
   margin: 0 0 14px;
-  font-family: var(--font-hand);
-  font-weight: 400;
-  font-size: 28px;
-  color: var(--accent2);
-  rotate: -2deg;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .next__slips {

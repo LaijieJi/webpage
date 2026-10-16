@@ -1,12 +1,12 @@
 <template>
   <section class="nf">
     <p class="nf__eyebrow">Error 404</p>
-    <h1 class="nf__title">This page wandered off the trail.</h1>
-    <p class="nf__note">- let's get you back</p>
+    <h1 class="nf__title">There's nothing at this address.</h1>
+    <p class="nf__note">The link may be wrong, or the page may have moved.</p>
     <div class="nf__links">
-      <router-link class="nf__link" to="/">← back home</router-link>
+      <router-link class="nf__link" to="/">← home</router-link>
       <router-link class="nf__link" to="/blog">the journal</router-link>
-      <router-link class="nf__link nf__link--alt" to="/photography">the gallery</router-link>
+      <router-link class="nf__link nf__link--alt" to="/photography">photographs</router-link>
     </div>
   </section>
 </template>
@@ -46,10 +46,10 @@ useHead({ title: 'Lost - Laijie Ji', meta: [{ name: 'robots', content: 'noindex'
 }
 
 .nf__note {
-  font-family: var(--font-hand);
-  font-size: clamp(24px, 3vw, 32px);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
   color: var(--muted);
-  transform: rotate(-2deg);
   margin: 22px 0 40px;
 }
 

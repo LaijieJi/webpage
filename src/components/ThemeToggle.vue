@@ -1,6 +1,6 @@
 <template>
   <div class="theme">
-    <span class="theme__label">night</span>
+    <span class="theme__label">dark</span>
     <button
       type="button"
       class="theme__switch"

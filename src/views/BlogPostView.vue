@@ -24,7 +24,7 @@
         <component :is="post.component" class="post__body" />
         <!-- a slip clipped to the foot of the sheet: answering is a letter away -->
         <aside class="reply" aria-label="Reply">
-          <p class="reply__label">let's talk about it</p>
+          <p class="reply__label">Reply</p>
           <p class="reply__ask">{{ replyAsk }}</p>
           <a class="reply__link" :href="replyHref">contact@laijie.dev →</a>
         </aside>
@@ -448,10 +448,12 @@ if (post.value) {
 
 .reply__label {
   margin: 0;
-  font-family: var(--font-hand);
-  font-size: 24px;
-  line-height: 1;
-  color: var(--accent2);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .reply__ask {
@@ -513,10 +515,11 @@ if (post.value) {
 }
 
 .filed__dir {
-  font-family: var(--font-hand);
-  font-size: 20px;
-  line-height: 1;
-  color: var(--accent2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .filed__by {

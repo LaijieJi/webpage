@@ -3,7 +3,7 @@
     <section class="projects__head">
       <p class="eyebrow">Selected work</p>
       <h1 class="projects__title">Things I've built.</h1>
-      <p class="projects__lede">Mostly built to learn something, or to scratch an itch I couldn't ignore.</p>
+      <p class="projects__lede">Mostly built to learn something.</p>
     </section>
     <section class="projects__list">
       <article v-for="project in projects" :key="project.name" class="proj" v-reveal>
@@ -33,7 +33,7 @@ import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
   title: 'Projects - Laijie Ji',
-  description: "Selected things I've built - mostly to learn something, or to scratch an itch.",
+  description: "Things I've built, mostly to learn something.",
   path: '/projects'
 });
 </script>
