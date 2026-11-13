@@ -39,7 +39,7 @@
           <circle cx="104" cy="94" r="18" fill="#3a3e3c" />
           <circle cx="104" cy="94" r="5" fill="#7c7f78" />
         </svg>
-        <span class="thing__label">photography</span>
+        <span class="thing__label">photographs</span>
       </router-link>
 
       <!-- a notebook and the pen, a couple of index cards under them -->
@@ -64,7 +64,7 @@
             <path d="M346 246 L 360 250.5 L 346 255 Z" fill="#b9bbb4" />
           </g>
         </svg>
-        <span class="thing__label">blog</span>
+        <span class="thing__label">journal</span>
       </router-link>
 
       <!-- two books, the top one with its ribbon out -->

@@ -9,7 +9,7 @@ My personal site.
 - **Vue Router** - client-side routing (history mode) for the me page, Projects, the Journal, Photographs, and their post pages.
 - **vite-ssg** - every route is prerendered to static HTML at build time.
 - **unplugin-vue-markdown** - blog posts live as `.md` files in `src/posts/` with front matter, compiled to Vue components at build time.
-- **Plain CSS** - no Tailwind, no framework. CSS variables drive two palettes (`data-palette`) and a light/dark theme (`data-theme`) on `<html>`. The theme follows the system until the footer switch is used; both choices persist in `localStorage`.
+- **Plain CSS** - no Tailwind, no framework. CSS variables drive a light/dark theme (`data-theme` on `<html>`). The theme follows the system until the footer switch is used; the choice persists in `localStorage`.
 
 ## Run
 

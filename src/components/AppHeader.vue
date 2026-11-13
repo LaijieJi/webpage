@@ -35,17 +35,15 @@ import { useRoute } from 'vue-router';
 import BrandMark from './BrandMark.vue';
 
 const route = useRoute();
+// One name per section, the same one its page uses. The mark leads home.
 const links = [
-  { label: 'me', to: '/', color: 'var(--accent)' },
   { label: 'projects', to: '/projects', color: 'var(--accent)' },
-  { label: 'blog', to: '/blog', color: 'var(--accent)' },
-  { label: 'photography', to: '/photography', color: 'var(--accent2)' }
+  { label: 'journal', to: '/blog', color: 'var(--accent)' },
+  { label: 'shelf', to: '/shelf', color: 'var(--accent)' },
+  { label: 'photographs', to: '/photography', color: 'var(--accent2)' }
 ];
 
-const isCurrent = (path) => {
-  if (path === '/') return route.path === '/';
-  return route.path.startsWith(path);
-};
+const isCurrent = (path) => route.path.startsWith(path);
 </script>
 
 <style scoped>
@@ -80,7 +78,7 @@ const isCurrent = (path) => {
 
 /* The dot hops when the mark is pointed at. */
 .site-brand :deep(.brand-mark__dot) {
-  transition: translate 500ms var(--ease-spring);
+  transition: translate 500ms var(--ease-out);
 }
 
 .site-brand:hover :deep(.brand-mark__dot),
@@ -155,6 +153,20 @@ const isCurrent = (path) => {
   .site-nav {
     gap: 16px;
     justify-content: flex-end;
+  }
+}
+
+/* The narrowest phones: the links get a row of their own under the mark. */
+@media (max-width: 380px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .site-nav {
+    width: 100%;
+    gap: 8px;
+    justify-content: space-between;
+    font-size: 12px;
   }
 }
 </style>

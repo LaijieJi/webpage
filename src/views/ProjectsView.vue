@@ -1,10 +1,9 @@
 <template>
   <div class="projects">
-    <section class="projects__head">
-      <p class="eyebrow">Selected work</p>
-      <h1 class="projects__title">Things I've built.</h1>
-      <p class="projects__lede">Mostly built to learn something.</p>
-    </section>
+    <header class="projects__head page-head">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-lede">Things I've built, mostly to learn something.</p>
+    </header>
     <section class="projects__list">
       <article v-for="project in projects" :key="project.name" class="proj" v-reveal>
         <div class="proj__head">
@@ -45,33 +44,7 @@ useSeo({
 
 .projects__head {
   max-width: 880px;
-  margin: 0 auto 8px;
-}
-
-.projects__title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(32px, 4.6vw, 52px);
-  line-height: 1.06;
-  margin: 14px 0 0;
-}
-
-/* The heading is set down line by line as the page opens. */
-.projects__head > * {
-  --reveal-rot: -1deg;
-  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--n, 0) * 90ms + 60ms) backwards;
-}
-
-.projects__title { --n: 1; }
-.projects__lede { --n: 2; }
-
-.projects__lede {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 19px;
-  color: var(--muted);
-  margin: 16px 0 0;
-  max-width: 52ch;
+  margin-inline: auto;
 }
 
 .projects__list {
@@ -124,7 +97,7 @@ useSeo({
 
 .proj__tech {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent2);

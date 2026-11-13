@@ -1,7 +1,7 @@
 // Share images for journal entries: each post's catalogue card, rendered at
 // build time to a 1200x630 PNG (og/blog/<slug>.png). Satori lays the card out
 // from plain element objects, resvg rasterises it. Colours are the alpine
-// palette's light values from src/styles/main.css.
+// light values from src/styles/main.css.
 import fs from 'node:fs';
 import path from 'node:path';
 import satori from 'satori';

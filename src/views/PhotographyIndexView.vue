@@ -1,8 +1,8 @@
 <template>
   <div class="photos">
-    <header class="photos__head">
-      <h1 class="photos__title">Photographs</h1>
-      <p class="photos__sub">One frame from each trip.</p>
+    <header class="photos__head page-head">
+      <h1 class="page-title">Photographs</h1>
+      <p class="page-lede">One frame from each trip.</p>
     </header>
 
     <!-- a contact sheet: every trip's frame printed on one strip of film, in the
@@ -225,26 +225,7 @@ onBeforeUnmount(() => clearTimeout(firstPick));
 /* ---- Heading ------------------------------------------------------------ */
 .photos__head {
   max-width: 880px;
-  margin: 0 auto 40px;
-}
-
-.photos__title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(40px, 6.4vw, 72px);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  animation: lj-settle 800ms var(--ease-settle) backwards;
-}
-
-.photos__sub {
-  margin: 14px 0 0;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 20px;
-  color: var(--muted);
-  animation: lj-settle 800ms var(--ease-settle) 90ms backwards;
+  margin-inline: auto;
 }
 
 /* ---- The contact sheet -------------------------------------------------- */
@@ -369,7 +350,7 @@ onBeforeUnmount(() => clearTimeout(firstPick));
   pointer-events: none;
   opacity: 0;
   scale: 0.6;
-  transition: opacity 180ms ease, scale 420ms var(--ease-spring);
+  transition: opacity 180ms ease, scale 420ms var(--ease-out);
 }
 
 /* a glint on the glass */
@@ -492,7 +473,7 @@ onBeforeUnmount(() => clearTimeout(firstPick));
   }
   .cell__where {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--film-print);
     opacity: 0.7;
   }

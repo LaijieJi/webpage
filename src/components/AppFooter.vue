@@ -10,7 +10,6 @@
           <a class="is-alt" href="https://www.instagram.com/laijie.jpg/" target="_blank" rel="noreferrer">instagram</a>
         </div>
         <div class="site-footer__switches">
-          <PaletteToggle />
           <ThemeToggle />
         </div>
       </div>
@@ -19,7 +18,6 @@
 </template>
 
 <script setup>
-import PaletteToggle from './PaletteToggle.vue';
 import ThemeToggle from './ThemeToggle.vue';
 </script>
 

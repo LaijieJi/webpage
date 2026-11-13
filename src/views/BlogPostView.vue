@@ -250,7 +250,7 @@ if (post.value) {
   color: var(--accent2);
   opacity: 0.85;
   rotate: -4deg;
-  animation: lj-stamp 560ms var(--ease-spring) 0.55s backwards;
+  animation: lj-stamp 560ms var(--ease-settle) 0.55s backwards;
 }
 
 /* Below the rule, the card is ruled in faint blue, one line per 30px. */
@@ -498,7 +498,7 @@ if (post.value) {
   box-shadow: 0 0 0 1px var(--line), 0 14px 22px -18px rgb(var(--shadow) / 0.5);
   color: var(--ink);
   rotate: -0.8deg;
-  transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring), box-shadow 300ms ease;
+  transition: rotate 600ms var(--ease-out), translate 600ms var(--ease-out), box-shadow 300ms ease;
 }
 
 .filed--later {
@@ -516,7 +516,7 @@ if (post.value) {
 
 .filed__dir {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -525,7 +525,7 @@ if (post.value) {
 .filed__by {
   margin-top: 6px;
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -565,7 +565,7 @@ if (post.value) {
     padding: 20px 20px 0;
   }
   .post__head { column-gap: 12px; }
-  .post__stamp { font-size: 10.5px; padding: 3px 6px 2px; }
+  .post__stamp { font-size: 12px; padding: 3px 6px 2px; }
   .post__excerpt { font-size: 19px; }
   .post__sheet { padding: 58px 22px 44px; }
   .post__body :deep(blockquote) {

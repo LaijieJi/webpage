@@ -428,11 +428,11 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
 .contents__n {
   font-variant-numeric: oldstyle-nums;
   color: var(--accent);
-  transition: translate 500ms var(--ease-spring);
+  transition: translate 500ms var(--ease-out);
 }
 
 .contents__name {
-  transition: color var(--transition), translate 500ms var(--ease-spring);
+  transition: color var(--transition), translate 500ms var(--ease-out);
 }
 
 .contents__link:hover .contents__name,
@@ -477,7 +477,7 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   padding: 0;
   list-style: none;
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 12px;
   line-height: 1.9;
   color: var(--muted);
 }

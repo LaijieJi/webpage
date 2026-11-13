@@ -158,7 +158,7 @@ function dateLong(value) {
 
 .story__plate {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent2);
@@ -166,7 +166,7 @@ function dateLong(value) {
 
 .story__date {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
 }
@@ -254,7 +254,7 @@ function dateLong(value) {
 
 .story__ig-label {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);

@@ -1,12 +1,17 @@
 <template>
   <div class="journal">
-    <!-- the drawer front: a steel catalogue drawer with its label in a brass frame -->
-    <header class="front">
+    <header class="page-head">
+      <h1 class="page-title">The Journal</h1>
+      <p class="page-lede">What I thought of the books I've read, and a few posts about other things.</p>
+    </header>
+
+    <!-- the drawer front: a steel catalogue drawer, the years it holds on a
+         label in a brass frame -->
+    <div class="front">
       <div class="front__plate">
-        <h1 class="front__label">The Journal</h1>
+        <p class="front__label">{{ span }}</p>
       </div>
       <span class="front__pull" aria-hidden="true"></span>
-      <p class="front__lede">What I thought of the books I've read, and a few posts about other things.</p>
       <!-- label holders on the drawer front: which entries to file in it -->
       <div class="shelves" role="group" aria-label="Show entries">
         <button
@@ -20,7 +25,7 @@
           <span class="shelf__label">{{ s.id }} <span class="shelf__n">{{ counts[s.id] }}</span></span>
         </button>
       </div>
-    </header>
+    </div>
 
     <!-- the open drawer: one index card per entry, filed newest first,
          with a guide card at the start of each year -->
@@ -42,9 +47,8 @@
             <a class="card" :href="href" @click="open($event, item.post)">
               <span class="card__by">{{ cardByline(item.post) }}</span>
               <h3 class="card__title">{{ cardTitle(item.post) }}</h3>
-              <span class="card__stamp">{{ cardStamp(item.post) }}</span>
+              <span class="card__stamp">{{ cardStamp(item.post) }}<span class="card__time"> · {{ item.post.readingTime }} min</span></span>
               <p v-if="item.post.frontmatter.excerpt" class="card__excerpt">{{ item.post.frontmatter.excerpt }}</p>
-              <span class="card__meta">{{ item.post.readingTime }} min read</span>
             </a>
           </RouterLink>
         </li>
@@ -89,6 +93,10 @@ const SHELVES = [
   { id: 'life', has: (post) => !post.frontmatter.tags.includes('books') }
 ];
 const counts = Object.fromEntries(SHELVES.map((s) => [s.id, posts.filter(s.has).length]));
+
+// The years the drawer holds, for its label: posts are newest first.
+const yearOf = (post) => new Date(post.frontmatter.date).getFullYear();
+const span = posts.length ? `${yearOf(posts[posts.length - 1])} – ${yearOf(posts[0])}` : '';
 const shelfOf = (id) => SHELVES.find((s) => s.id === id) || SHELVES[0];
 
 // Always 'all' while prerendering and hydrating; a ?shelf= link applies once
@@ -177,7 +185,7 @@ onBeforeUnmount(() => {
   /* The stack: every card is --card-h tall and shows --strip of itself above
      the one filed in front of it. */
   --card-h: 206px;
-  --strip: 74px;
+  --strip: 104px;
   --guide-strip: 26px;
   --tab-h: 30px;
 
@@ -243,17 +251,6 @@ onBeforeUnmount(() => {
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.25);
 }
 
-.front__lede {
-  margin: 4px 0 0;
-  max-width: 44ch;
-  text-align: center;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
 /* ---- Shelves: little brass label holders on the front -------------------- */
 .shelves {
   display: flex;
@@ -271,7 +268,7 @@ onBeforeUnmount(() => {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   cursor: pointer;
   translate: 0 0;
-  transition: translate var(--dur-quick) var(--ease-spring), box-shadow var(--dur-quick) ease;
+  transition: translate var(--dur-quick) var(--ease-out), box-shadow var(--dur-quick) ease;
 }
 
 .shelf__label {
@@ -287,7 +284,7 @@ onBeforeUnmount(() => {
 
 .shelf__n {
   color: var(--faint);
-  font-size: 10.5px;
+  font-size: 12px;
 }
 
 .shelf:hover .shelf__label,
@@ -395,7 +392,7 @@ onBeforeUnmount(() => {
   transform-origin: 50% 100%;
   transform: perspective(1000px) rotateX(var(--riffle, 0deg));
   translate: 0 0;
-  transition: translate 650ms var(--ease-spring), box-shadow 350ms ease;
+  transition: translate 650ms var(--ease-out), box-shadow 350ms ease;
 }
 
 /* Lifted out of the drawer by its top edge: it rises over the cards behind,
@@ -408,11 +405,6 @@ onBeforeUnmount(() => {
 
 .slot--card:has(.card:focus-visible) + .slot .card {
   translate: 0 8px;
-}
-
-.card:focus-visible .card__excerpt {
-  opacity: 1;
-  transition-delay: 120ms;
 }
 
 /* Only where there is a real pointer: on touch screens a tap leaves :hover
@@ -428,17 +420,20 @@ onBeforeUnmount(() => {
   }
 
   .slot--card:hover .card__excerpt {
-    opacity: 1;
-    transition-delay: 120ms;
+    -webkit-line-clamp: 3;
   }
 }
 
 .card__by,
 .card__title {
-  max-width: calc(100% - 130px);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+/* the byline shares its line with the date; the title has the card's width */
+.card__by {
+  max-width: calc(100% - 170px);
 }
 
 .card__by {
@@ -463,32 +458,23 @@ onBeforeUnmount(() => {
   color: var(--accent);
 }
 
-/* A library date stamp, inked slightly crooked. */
+/* Filed on: the date, and how long it takes to read. */
 .card__stamp {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  padding: 3px 7px 2px;
-  border: 1.5px solid currentColor;
-  border-radius: 3px;
+  top: 14px;
+  right: 22px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--accent2);
-  opacity: 0.82;
-  rotate: -3deg;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
-.slot--card:nth-child(even) .card__stamp {
-  rotate: 2deg;
-}
-
-/* Written on the lines below the rule: only readable once the card is lifted. */
+/* Written on the lines below the rule: the first line shows in the drawer,
+   the rest once the card is lifted. */
 .card__excerpt {
   margin: 0;
   padding-top: 9px;
-  opacity: 0;
-  transition: opacity 300ms ease;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 17px;
@@ -496,18 +482,13 @@ onBeforeUnmount(() => {
   color: var(--muted);
   max-width: 58ch;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.card__meta {
-  position: absolute;
-  left: 22px;
-  bottom: 13px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--faint);
+.card:focus-visible .card__excerpt {
+  -webkit-line-clamp: 3;
 }
 
 /* ---- Next up ------------------------------------------------------------ */
@@ -559,7 +540,7 @@ onBeforeUnmount(() => {
   background: var(--card-paper);
   box-shadow: 0 12px 20px -16px rgb(var(--shadow) / 0.55);
   rotate: -1.4deg;
-  transition: rotate 600ms var(--ease-spring), translate 600ms var(--ease-spring);
+  transition: rotate 600ms var(--ease-out), translate 600ms var(--ease-out);
 }
 
 .slip:nth-child(even) {
@@ -591,18 +572,21 @@ onBeforeUnmount(() => {
 
 .slip__author {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--muted);
 }
 
 @media (max-width: 640px) {
   .journal {
     --card-h: 200px;
-    --strip: 72px;
+    --strip: 104px;
     padding: 36px 16px 72px;
   }
   .front {
     padding: 26px 18px 24px;
+  }
+  .shelves {
+    gap: 10px;
   }
   .front__label {
     padding: 9px 22px 10px;
@@ -617,20 +601,18 @@ onBeforeUnmount(() => {
   .card {
     padding: 13px 16px 0;
   }
-  .card__by,
-  .card__title {
-    max-width: calc(100% - 112px);
+  .card__by {
+    max-width: calc(100% - 100px);
+  }
+  .card__time {
+    display: none;
   }
   .card__title {
     font-size: 20px;
   }
   .card__stamp {
-    top: 14px;
-    right: 12px;
-    font-size: 10px;
-  }
-  .card__meta {
-    left: 16px;
+    top: 13px;
+    right: 16px;
   }
   .guide__tab {
     font-size: 16px;

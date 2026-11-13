@@ -6,14 +6,13 @@
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-mono: 'Spline Sans Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* Alpine palette - the variant the reference applies on mount.
-     Cool grey-green paper, muted green accent, steel-blue secondary. */
+  /* Cool grey-green paper, muted green accent, steel-blue secondary. */
   --paper: #e9eae2;
   --surface: #f4f4ec;
   --gallery: #edeee6;
   --ink: #232a27;
-  --muted: #636963;
-  --faint: #7e847d;
+  --muted: #555b55;
+  --faint: #5f655e;
   --line: rgba(35, 42, 39, 0.14);
   --accent: #4c6b4a;   /* alpine green */
   --accent2: #3f6e84;  /* alpine steel blue */
@@ -39,38 +38,19 @@
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-lift: cubic-bezier(0.5, 0, 0.75, 0);
   --ease-settle: var(--ease-out);
-  --ease-spring: var(--ease-out);
   --dur-quick: 220ms;
   --dur-settle: 760ms;
 }
 
 /* Spring curves where the browser can draw them (sampled damped springs):
-   both settle with the barest overshoot - nothing visibly bounces. */
+   it settles with the barest overshoot - nothing visibly bounces. */
 @supports (transition-timing-function: linear(0, 1)) {
   :root {
     --ease-settle: linear(0, 0.042, 0.142, 0.271, 0.408, 0.54, 0.658, 0.758, 0.839, 0.903, 0.95, 0.983, 1.006, 1.019, 1.026, 1.028, 1.028, 1.025, 1.021, 1.018, 1.014, 1.01, 1.007, 1.005, 1.003, 1.002, 1.001, 1);
-    --ease-spring: var(--ease-settle);
   }
 }
 
-/* Warm palette - the reference's other variant ("summer"). */
-:root[data-palette='warm'] {
-  --paper: #f2ece0;
-  --surface: #fbf7ef;
-  --gallery: #f7f2e8;
-  --ink: #2a2620;
-  --muted: #6f6554;
-  --faint: #847a68;
-  --line: rgba(42, 38, 32, 0.14);
-  --accent: #50653c;
-  --accent2: #b25533;
-  --shade: #e7dfcf;
-  --veil: rgba(242, 236, 224, 0.86);
-  --mat: #ece6da;
-}
-
-/* Dark theme - the same desk at night. Independent of the palette: each
-   palette has its own dark version. Set on <html> before first paint (see
+/* Dark theme - the same desk at night. Set on <html> before first paint (see
    index.html) from the visitor's choice, or their system setting. */
 :root[data-theme='dark'] {
   color-scheme: dark;
@@ -79,7 +59,7 @@
   --gallery: #1e211f;
   --ink: #e2e4db;
   --muted: #a4a99f;
-  --faint: #868b83;
+  --faint: #959a91;
   --line: rgba(226, 228, 219, 0.13);
   --accent: #8db187;
   --accent2: #80aec4;
@@ -91,22 +71,6 @@
   --card-rule: rgba(226, 92, 92, 0.6);
   --card-line: rgba(128, 174, 196, 0.15);
   --shadow: 0 0 0;
-}
-
-:root[data-theme='dark'][data-palette='warm'] {
-  --paper: #1f1b17;
-  --surface: #27221d;
-  --gallery: #221e1a;
-  --ink: #ece4d5;
-  --muted: #b2a692;
-  --faint: #938875;
-  --line: rgba(236, 228, 213, 0.13);
-  --accent: #a6bd84;
-  --accent2: #e0926c;
-  --shade: #2d2721;
-  --veil: rgba(31, 27, 23, 0.86);
-  --mat: #1a1714;
-  --card-paper: #2d2822;
 }
 
 *, *::before, *::after {
@@ -201,15 +165,40 @@ em { font-style: italic; }
   color: var(--paper);
 }
 
-/* Shared eyebrow / kicker label. */
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
+/* Every section page opens the same way: its name, the one the nav uses,
+   and a line under it. The page's own metaphor starts below. */
+.page-head {
+  margin-bottom: 40px;
+}
+
+.page-title {
   margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(40px, 6.4vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.page-lede {
+  margin: 14px 0 0;
+  max-width: 52ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Set down line by line as the page opens. */
+.page-head > * {
+  --reveal-rot: -1deg;
+  animation: lj-settle var(--dur-settle) var(--ease-settle) 60ms backwards;
+}
+
+.page-head > .page-lede {
+  animation-delay: 150ms;
 }
 
 :focus-visible {

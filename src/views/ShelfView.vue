@@ -1,9 +1,8 @@
 <template>
   <div class="shelf">
-    <header class="shelf__head">
-      <p class="eyebrow">The shelf</p>
-      <h1 class="shelf__title">Everything I've read.</h1>
-      <p class="shelf__lede">
+    <header class="page-head">
+      <h1 class="page-title">The Shelf</h1>
+      <p class="page-lede">
         Every book I've finished, newest first, with the rating I gave it. Where I wrote about one, the title
         takes you to the review.
       </p>
@@ -64,32 +63,6 @@ useSeo({
   padding: 64px 40px 96px;
 }
 
-.shelf__title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(32px, 4.6vw, 52px);
-  line-height: 1.06;
-  margin: 14px 0 0;
-}
-
-/* The heading is set down line by line as the page opens. */
-.shelf__head > * {
-  --reveal-rot: -1deg;
-  animation: lj-settle var(--dur-settle) var(--ease-settle) calc(var(--n, 0) * 90ms + 60ms) backwards;
-}
-
-.shelf__title { --n: 1; }
-.shelf__lede { --n: 2; }
-
-.shelf__lede {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 19px;
-  color: var(--muted);
-  margin: 16px 0 0;
-  max-width: 52ch;
-}
-
 /* ---- The register: a ruled page, red double rule under the column heads -- */
 .register {
   --row: 44px;
@@ -110,7 +83,7 @@ useSeo({
   padding-bottom: 10px;
   border-bottom: 4px double var(--card-rule);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--faint);
 }
@@ -134,7 +107,7 @@ useSeo({
 .year__n {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--faint);
 }
 
