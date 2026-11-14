@@ -9,13 +9,11 @@
       @click="setTheme(theme === 'dark' ? 'light' : 'dark')"
     >
       <span class="theme__knob" aria-hidden="true"></span>
-      <!-- day: a window with the light coming through -->
+      <!-- day: the sun -->
       <span class="theme__ic theme__ic--day" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <rect x="4" y="4" width="7" height="7" rx="1" />
-          <rect x="13" y="4" width="7" height="7" rx="1" />
-          <rect x="4" y="13" width="7" height="7" rx="1" />
-          <rect x="13" y="13" width="7" height="7" rx="1" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+          <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8" />
         </svg>
       </span>
       <!-- night: the moon -->

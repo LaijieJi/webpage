@@ -43,5 +43,6 @@ export function scrollBehavior(to, from) {
   if (to.path === from.path) return false;
   // A morph puts the new page at the top itself, inside the transition.
   if (morphing.value) return false;
-  return { top: 0, left: 0, behavior: 'smooth' };
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return { top: 0, left: 0, behavior: still ? 'auto' : 'smooth' };
 }

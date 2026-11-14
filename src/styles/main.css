@@ -78,8 +78,41 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: var(--mat);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Small links and switches keep their look but get a target a finger can
+   hit (44px tall): an invisible margin around them. */
+.site-nav__link,
+.site-footer__links a,
+.post__back,
+.story__back {
+  position: relative;
+}
+
+.site-nav__link::after,
+.site-footer__links a::after,
+.post__back::after,
+.story__back::after,
+.theme__switch::after {
+  content: '';
+  position: absolute;
+  inset: -8px -4px;
+}
+
+.site-footer__links a::after {
+  inset: -12px -6px;
+}
+
+.post__back::after,
+.story__back::after {
+  inset: -15px -6px;
 }
 
 body {
