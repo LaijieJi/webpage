@@ -456,7 +456,6 @@ const branchB = branch(16, 0.62, 0.5);
   to { rotate: 1.4deg; translate: 8px 3px; }
 }
 
-/* Narrower screens: the desk keeps its light; the things step aside. */
 /* ---- In the dark ----------------------------------------------------------
    Soft-light barely shows on a dark desk, so the light adds itself instead
    (screen): there black is the neutral, so the leaves turn black to stay
@@ -495,7 +494,38 @@ const branchB = branch(16, 0.62, 0.5);
   .thing--key { left: calc(50% - 560px); }
 }
 
+/* Narrower screens: no room beside the column, so two things stay, peeking in
+   from the edges above the card - the camera and the books - with what they
+   lead to written beside them, since a finger can't hover. */
 @media (max-width: 1000px) {
   .thing { display: none; }
+
+  .thing--camera,
+  .thing--books {
+    display: block;
+  }
+
+  .thing--camera {
+    width: 116px;
+    left: calc(100% - 94px);
+    top: 66px;
+    rotate: -6deg;
+  }
+
+  .thing--books {
+    width: 86px;
+    left: -20px;
+    top: 60px;
+    rotate: 8deg;
+  }
+
+  .thing__label {
+    opacity: 1;
+    font-size: 16px;
+    translate: 0 6px;
+  }
+
+  .thing--camera .thing__label { left: 0; }
+  .thing--books .thing__label { left: 30px; }
 }
 </style>

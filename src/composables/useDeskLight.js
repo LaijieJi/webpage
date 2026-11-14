@@ -111,6 +111,26 @@ export function lightingAt(date, dark = false) {
   };
 }
 
+// The same moment in words, for the line under the card: what is lighting
+// the desk, and when, in Valencia's time. Follows lightingAt: in the dark
+// theme it is always night.
+export function lightNote(date, dark = false) {
+  const { sun, moon } = sky(date);
+  const el = sun.elevation;
+  const morning = sun.azimuth < 180;
+  let what;
+  if (!dark && el >= 8) what = morning ? 'morning sun' : 'afternoon sun';
+  else if (!dark && el >= -3) what = morning ? 'sunrise' : 'sunset';
+  else if (!dark && el >= -10) what = morning ? 'dawn' : 'dusk';
+  else what = moon.elevation > 0 && moon.lit > 0.25 ? 'moonlight' : 'lamplight';
+  const time = date.toLocaleTimeString('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
+  return `light over Valencia | ${time} | ${what}`;
+}
+
+// Set while the desk is on the page; empty before it mounts (and when
+// prerendering), so the line never shows a time that isn't now.
+export const deskNote = ref('');
+
 // Reactive CSS variables for the desk, refreshed every minute and whenever the
 // theme changes. In development, ?t=19:30 previews another time today and
 // ?at=2026-10-26T22:00Z any moment at all (a full moon, say).
@@ -134,7 +154,9 @@ export function useDeskLight() {
   }
 
   const update = () => {
-    style.value = lightingAt(moment(), theme.value === 'dark');
+    const at = moment();
+    style.value = lightingAt(at, theme.value === 'dark');
+    deskNote.value = lightNote(at, theme.value === 'dark');
   };
 
   onMounted(() => {

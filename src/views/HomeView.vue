@@ -22,6 +22,11 @@
       </div>
     </header>
 
+    <!-- what the desk's light is, so the trick isn't a secret -->
+    <p class="desk-note">
+      <transition name="note"><span v-if="deskNote">{{ deskNote }}</span></transition>
+    </p>
+
     <nav class="contents" aria-labelledby="contents-title">
       <h2 id="contents-title" class="contents__title">Contents</h2>
       <ol class="contents__list">
@@ -120,7 +125,6 @@
           <dd><router-link :to="`/photography/${lastTrip.slug}`">{{ placeOf(lastTrip) }}</router-link>, {{ monthYear(lastTrip.frontmatter.date) }}</dd>
         </template>
       </dl>
-      <p class="chapter__updated">updated October 2026</p>
     </section>
 
     <!-- 4 -->
@@ -143,7 +147,7 @@
               :webp="mediaFor(trip.slug).webp"
               :ratio="mediaFor(trip.slug).ratio"
               :alt="trip.frontmatter.title"
-              sizes="200px"
+              sizes="(max-width: 680px) 45vw, 320px"
             />
           </router-link>
         </li>
@@ -161,6 +165,7 @@ import photoEntries from '../data/photography.js';
 import { mediaFor } from '../data/photoMedia.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import DeskScene from '../components/DeskScene.vue';
+import { deskNote } from '../composables/useDeskLight.js';
 import { useSeo, pageUrl, OG_IMAGE } from '../composables/useSeo.js';
 
 useSeo({
@@ -386,10 +391,29 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   }
 }
 
+/* ---- The light, in words -------------------------------------------------- */
+.desk-note {
+  min-height: 18px; /* held open before the time is known, so nothing shifts */
+  margin: 18px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 18px;
+  text-align: right;
+  color: var(--faint);
+}
+
+.note-enter-active {
+  transition: opacity 1.2s ease 0.8s;
+}
+
+.note-enter-from {
+  opacity: 0;
+}
+
 /* ---- Contents ----------------------------------------------------------- */
 .contents {
   max-width: 560px;
-  margin: 64px 0 0 auto;
+  margin: 46px 0 0 auto;
 }
 
 .contents__title {
@@ -521,13 +545,6 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   color: var(--muted);
 }
 
-.chapter .chapter__updated {
-  margin-top: 14px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--faint);
-}
-
 /* A two-column ledger: the thing on the left, where or when on the right. */
 .ledger {
   display: grid;
@@ -594,8 +611,12 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
 
 /* ---- A short strip of film: the photographs, smaller --------------------- */
 .strip {
+  --strip-w: min(900px, 100vw - 80px);
   display: flex;
-  margin: 30px 0 0;
+  width: var(--strip-w);
+  /* the chapter's text sits 52px right of the page's centre (its 112px margin
+     column, halved); undo that and the margin, so the strip is centred */
+  margin: 34px 0 0 calc((100% - var(--strip-w)) / 2 - 52px);
   padding: 0;
   list-style: none;
 }
@@ -628,9 +649,15 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   filter: brightness(1.08);
 }
 
+@media (max-width: 1000px) {
+  .me {
+    padding-top: 168px;
+  }
+}
+
 @media (max-width: 680px) {
   .me {
-    padding: 34px 16px 72px;
+    padding: 164px 16px 72px;
   }
   .entry {
     padding: 24px 22px 0;
@@ -640,7 +667,10 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
     font-size: 19px;
   }
   .contents {
-    margin-top: 48px;
+    margin-top: 36px;
+  }
+  .desk-note {
+    text-align: left;
   }
   .contents__link {
     font-size: 20px;
@@ -670,6 +700,8 @@ onBeforeUnmount(() => window.clearInterval(greetTimer));
   }
   .strip {
     flex-wrap: wrap;
+    width: auto;
+    margin-left: 0;
   }
   .strip__cell {
     flex-basis: calc(var(--ratio) * 110px);
