@@ -39,6 +39,28 @@
           <span class="story__ig-cta">view post →</span>
         </a>
 
+        <!-- the trips either side of this one, as prints -->
+        <nav v-if="neighbours.length" class="story__filed" aria-label="Neighbouring trips">
+          <router-link
+            v-for="side in neighbours"
+            :key="side.dir"
+            class="trip"
+            :class="`trip--${side.dir}`"
+            :to="`/photography/${side.entry.slug}`"
+          >
+            <ResponsiveImg
+              :src="mediaFor(side.entry.slug).image"
+              :webp="mediaFor(side.entry.slug).webp"
+              ratio="3 / 2"
+              cover
+              alt=""
+              sizes="300px"
+            />
+            <span class="trip__dir">{{ side.dir }}</span>
+            <span class="trip__title">{{ side.entry.frontmatter.title }}</span>
+          </router-link>
+        </nav>
+
       </div>
     </article>
 
@@ -53,7 +75,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPhotoEntryBySlug } from '../data/photography.js';
+import entries, { getPhotoEntryBySlug } from '../data/photography.js';
 import ResponsiveImg from '../components/ResponsiveImg.vue';
 import { mediaFor } from '../data/photoMedia.js';
 import { useSeo, pageUrl, SITE_URL } from '../composables/useSeo.js';
@@ -61,6 +83,16 @@ import { useSeo, pageUrl, SITE_URL } from '../composables/useSeo.js';
 const route = useRoute();
 const entry = computed(() => getPhotoEntryBySlug(route.params.slug));
 const media = computed(() => mediaFor(route.params.slug));
+
+// Entries are newest first: the earlier trip is the next one along.
+const neighbours = computed(() => {
+  const i = entries.findIndex((e) => e.slug === route.params.slug);
+  if (i === -1) return [];
+  return [
+    entries[i + 1] && { dir: 'earlier', entry: entries[i + 1] },
+    entries[i - 1] && { dir: 'later', entry: entries[i - 1] }
+  ].filter(Boolean);
+});
 
 if (entry.value) {
   const fm = entry.value.frontmatter;
@@ -273,11 +305,78 @@ function dateLong(value) {
   white-space: nowrap;
 }
 
+.story__filed {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 48px;
+}
+
+/* a print: the photo in its white border, where and which way written under it */
+.trip {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 10px 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 22px -18px rgb(var(--shadow) / 0.5);
+  color: var(--ink);
+  transition: translate var(--dur-quick) var(--ease-out), box-shadow 300ms ease;
+}
+
+.trip--later {
+  grid-column: 2;
+  text-align: right;
+}
+
+.trip :deep(.rimg) {
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.trip :deep(img) {
+  transition: scale 900ms var(--ease-out);
+}
+
+.trip:hover,
+.trip:focus-visible {
+  translate: 0 -2px;
+  box-shadow: 0 20px 26px -18px rgb(var(--shadow) / 0.55);
+}
+
+.trip:hover :deep(img),
+.trip:focus-visible :deep(img) {
+  scale: 1.03;
+}
+
+.trip__dir {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.trip__title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.25;
+  transition: color var(--transition);
+}
+
+.trip:hover .trip__title,
+.trip:focus-visible .trip__title {
+  color: var(--accent2);
+}
+
 .story--missing .story__title {
   margin-top: 22px;
 }
 
 @media (max-width: 640px) {
   .story { padding: 30px 18px 64px; }
+  .story__filed { gap: 12px; }
+  .trip__title { font-size: 16px; }
 }
 </style>

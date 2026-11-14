@@ -75,6 +75,17 @@
     <!-- what the pick is: follows hover and keyboard focus -->
     <transition name="caption" mode="out-in">
       <div :key="shown.slug" class="caption">
+        <RouterLink :to="`/photography/${shown.slug}`" custom v-slot="{ href }">
+          <a class="caption__frame" :href="href" tabindex="-1" aria-hidden="true" @click="open($event, shown)">
+            <ResponsiveImg
+              :src="mediaFor(shown.slug).image"
+              :webp="mediaFor(shown.slug).webp"
+              :ratio="mediaFor(shown.slug).ratio"
+              alt=""
+              sizes="(max-width: 1040px) 92vw, 960px"
+            />
+          </a>
+        </RouterLink>
         <h2 class="caption__title">
           <RouterLink :to="`/photography/${shown.slug}`">{{ shown.frontmatter.title }}</RouterLink>
         </h2>
@@ -374,6 +385,29 @@ onBeforeUnmount(() => clearTimeout(firstPick));
   text-align: center;
 }
 
+.caption__frame {
+  --frame-w: min(960px, 100vw - 80px);
+  display: block;
+  width: var(--frame-w);
+  margin: 0 0 30px calc((100% - var(--frame-w)) / 2);
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 34px 64px -50px rgb(var(--shadow) / 0.55);
+}
+
+.caption__frame :deep(.rimg) {
+  overflow: hidden;
+}
+
+.caption__frame :deep(img) {
+  transition: scale 900ms var(--ease-out);
+}
+
+.caption__frame:hover :deep(img) {
+  scale: 1.02;
+}
+
 .caption__title {
   margin: 0;
   font-family: var(--font-serif);
@@ -443,6 +477,10 @@ onBeforeUnmount(() => clearTimeout(firstPick));
 
 /* ---- Small screens: the strip is cut into single frames, stacked -------- */
 @media (max-width: 640px) {
+  /* the strip runs down the page here, each frame already full width */
+  .caption__frame {
+    display: none;
+  }
   .photos {
     padding: 40px 16px 72px;
   }
