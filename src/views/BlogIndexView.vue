@@ -47,8 +47,11 @@
             <a class="card" :href="href" @click="open($event, item.post)">
               <span class="card__by">{{ cardByline(item.post) }}</span>
               <h3 class="card__title">{{ cardTitle(item.post) }}</h3>
+              <span v-if="item.post.frontmatter.rating" class="card__rating" :aria-label="`rated ${item.post.frontmatter.rating} out of 5`">{{ item.post.frontmatter.rating }}/5</span>
               <span class="card__stamp">{{ cardStamp(item.post) }}<span class="card__time"> · {{ item.post.readingTime }} min</span></span>
               <p v-if="item.post.frontmatter.excerpt" class="card__excerpt">{{ item.post.frontmatter.excerpt }}</p>
+              <!-- the cover, low on the card: it shows once the card is lifted -->
+              <img v-if="coverFor(item.post.slug)" class="card__cover" :src="coverFor(item.post.slug)" alt="" loading="lazy" decoding="async" width="60" height="90" />
             </a>
           </RouterLink>
         </li>
@@ -74,6 +77,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import posts, { cardByline, cardTitle, cardStamp } from '../data/posts.js';
 import { readingList } from '../data/books.js';
+import { coverFor } from '../data/covers.js';
 import { openWithMorph, isPlainClick, prefetchWhenIdle } from '../composables/useMorph.js';
 import { useSeo } from '../composables/useSeo.js';
 
@@ -422,6 +426,11 @@ onBeforeUnmount(() => {
   .slot--card:hover .card__excerpt {
     -webkit-line-clamp: 3;
   }
+
+  .slot--card:hover .card__cover {
+    opacity: 1;
+    transition-delay: 120ms;
+  }
 }
 
 .card__by,
@@ -456,6 +465,44 @@ onBeforeUnmount(() => {
 .card:hover .card__title,
 .card:focus-visible .card__title {
   color: var(--accent);
+}
+
+/* The rating, in the margin in the librarian's blue, as on the shelf. */
+.card__rating {
+  position: absolute;
+  top: 44px;
+  right: 22px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent2);
+}
+
+.card:has(.card__rating) .card__title {
+  max-width: calc(100% - 56px);
+}
+
+.card__cover {
+  position: absolute;
+  top: 108px;
+  right: 22px;
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 4px 10px -4px rgb(var(--shadow) / 0.5);
+  rotate: 2.5deg;
+  /* out of sight until the card is lifted: the year tabs leave gaps it would show through */
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.card:focus-visible .card__cover {
+  opacity: 1;
+  transition-delay: 120ms;
+}
+
+.card:has(.card__cover) .card__excerpt {
+  max-width: min(58ch, calc(100% - 84px));
 }
 
 /* Filed on: the date, and how long it takes to read. */
@@ -604,8 +651,13 @@ onBeforeUnmount(() => {
   .card__by {
     max-width: calc(100% - 100px);
   }
-  .card__time {
+  .card__time,
+  .card__cover {
     display: none;
+  }
+  .card__rating {
+    top: 42px;
+    right: 16px;
   }
   .card__title {
     font-size: 20px;

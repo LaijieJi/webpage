@@ -9,14 +9,16 @@ import { Resvg } from '@resvg/resvg-js';
 import { OG_CARD_SIZE } from '../src/composables/useSeo.js';
 
 const FONTS_DIR = path.resolve('brand/fonts');
+// JPEG twins of src/assets/covers: satori and resvg don't draw WebP.
+const COVERS_DIR = path.resolve('brand/covers');
 const MARK_URI = `data:image/svg+xml;base64,${fs.readFileSync(path.resolve('brand/laijie-mark.svg')).toString('base64')}`;
 
 const C = {
   mat: '#e3e4db',
   card: '#fbfaf3',
   ink: '#232a27',
-  muted: '#636963',
-  faint: '#7e847d',
+  muted: '#555b55',
+  faint: '#5f655e',
   accent: '#4c6b4a',
   accent2: '#3f6e84',
   rule: 'rgba(164, 22, 26, 0.55)',
@@ -40,12 +42,15 @@ export function readFrontmatter(raw) {
   return out;
 }
 
+// Mirrors lifeByline in src/data/posts.js (which can't load here: it needs Vite).
+const lifeByline = (tag) => (tag ? `Life | ${tag[0].toUpperCase()}${tag.slice(1)}` : '');
+
 // Mirrors cardByline / cardTitle / cardGenre / cardStamp in src/data/posts.js.
 export function cardFields(fm) {
   const tags = Array.isArray(fm.tags) ? fm.tags : [];
   const d = new Date(fm.date);
   return {
-    byline: fm.bookAuthor || tags[0] || '',
+    byline: fm.bookAuthor || lifeByline(tags[0]),
     title: fm.book || (fm.title || '').replace(/^Book Review - /, ''),
     genre: tags
       .filter((tag, i) => tag !== 'books' && (fm.bookAuthor || i > 0))
@@ -63,13 +68,14 @@ function h(type, style, ...children) {
   return { type, props: { style, children: kids.length > 1 ? kids : kids[0] } };
 }
 
-export function card({ byline, title, genre, stamp, excerpt }) {
+export function card({ byline, title, genre, stamp, excerpt, cover }) {
   const titleSize = title.length > 26 ? 60 : 74;
 
   return h('div', { display: 'flex', width: '100%', height: '100%', background: C.mat, alignItems: 'center', justifyContent: 'center' },
     h('div', {
       display: 'flex',
       flexDirection: 'column',
+      position: 'relative',
       width: 1060,
       height: 500,
       padding: '44px 56px 0',
@@ -101,8 +107,18 @@ export function card({ byline, title, genre, stamp, excerpt }) {
       // the excerpt on the card's blue lines, ruled as far down as there is room
       h('div', { display: 'flex', flexDirection: 'column', flex: 1, position: 'relative', overflow: 'hidden', paddingTop: 12 },
         ...[1, 2, 3, 4, 5, 6].map((i) => h('div', { position: 'absolute', left: 0, right: 0, top: 12 + 48 * i - 1, height: 1.5, background: C.line })),
-        h('div', { display: 'block', fontFamily: 'Newsreader', fontStyle: 'italic', fontSize: 32, lineHeight: '48px', color: C.muted, lineClamp: 3, maxWidth: 880 }, excerpt)
+        h('div', { display: 'block', fontFamily: 'Newsreader', fontStyle: 'italic', fontSize: 32, lineHeight: '48px', color: C.muted, lineClamp: 3, maxWidth: cover ? 700 : 880 }, excerpt)
       ),
+      // the book, clipped to the card as on the entry's page
+      cover && {
+        type: 'img',
+        props: {
+          src: cover,
+          width: 150,
+          height: 225,
+          style: { position: 'absolute', right: 52, top: 148, objectFit: 'cover', borderRadius: 3, transform: 'rotate(3deg)', boxShadow: '0 14px 26px -12px rgba(30, 30, 25, 0.6)' }
+        }
+      },
       h('div', { display: 'flex', height: 84, alignItems: 'center', justifyContent: 'space-between' },
         h('div', { fontFamily: 'Spline Sans Mono', fontSize: 20, color: C.faint }, genre || ' '),
         h('div', { display: 'flex', alignItems: 'center' },
@@ -124,7 +140,12 @@ function loadFonts() {
   return fonts;
 }
 
-export async function renderPostCard(fm) {
-  const svg = await satori(card(cardFields(fm)), { ...OG_CARD_SIZE, fonts: loadFonts() });
+function coverUri(slug) {
+  const file = path.join(COVERS_DIR, `${slug.replace(/^book-/, '')}.jpg`);
+  return fs.existsSync(file) ? `data:image/jpeg;base64,${fs.readFileSync(file).toString('base64')}` : '';
+}
+
+export async function renderPostCard(fm, slug = '') {
+  const svg = await satori(card({ ...cardFields(fm), cover: coverUri(slug) }), { ...OG_CARD_SIZE, fonts: loadFonts() });
   return new Resvg(svg, { fitTo: { mode: 'width', value: OG_CARD_SIZE.width } }).render().asPng();
 }

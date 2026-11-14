@@ -11,6 +11,8 @@
           <time class="post__stamp" :datetime="isoDate">{{ cardStamp(post) }}</time>
         </div>
         <div class="post__lined">
+          <!-- the book itself, clipped to its card -->
+          <img v-if="cover" class="post__cover" :src="cover" :alt="`Cover of ${cardTitle(post)}`" width="112" height="168" />
           <p v-if="post.frontmatter.excerpt" class="post__excerpt">{{ post.frontmatter.excerpt }}</p>
           <p class="post__meta">
             <span v-if="genre">{{ genre }}</span>
@@ -63,6 +65,7 @@ import { computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { getPostBySlug, getAdjacentPosts, cardByline, cardTitle, cardGenre, cardStamp } from '../data/posts.js';
 import { openWithMorph, isPlainClick } from '../composables/useMorph.js';
+import { coverFor } from '../data/covers.js';
 import { useSeo, pageUrl, SITE_URL, OG_CARD_SIZE } from '../composables/useSeo.js';
 
 const route = useRoute();
@@ -77,6 +80,7 @@ const neighbours = computed(() => [
 
 const genre = computed(() => (post.value ? cardGenre(post.value) : ''));
 const rating = computed(() => post.value?.frontmatter.rating);
+const cover = computed(() => coverFor(post.value?.slug));
 
 const replyAsk = computed(() =>
   post.value?.frontmatter.book
@@ -255,8 +259,22 @@ if (post.value) {
 
 /* Below the rule, the card is ruled in faint blue, one line per 30px. */
 .post__lined {
+  display: flow-root; /* holds the cover */
   padding: 10px 0 54px;
   background: repeating-linear-gradient(to bottom, transparent 0 29px, var(--card-line) 29px 30px) 0 10px / 100% calc(100% - 64px) no-repeat;
+}
+
+/* Floated, so the excerpt and meta run beside it; it hangs over the card's
+   edge like a photo clipped on. */
+.post__cover {
+  float: right;
+  width: 112px;
+  height: 168px;
+  margin: 4px -62px 10px 22px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 10px 22px -10px rgb(var(--shadow) / 0.55);
+  rotate: 3deg;
 }
 
 .post__excerpt {
@@ -567,6 +585,8 @@ if (post.value) {
   .post__head { column-gap: 12px; }
   .post__stamp { font-size: 12px; padding: 3px 6px 2px; }
   .post__excerpt { font-size: 19px; }
+  .post__cover { width: 76px; height: 114px; margin: 6px -8px 8px 14px; }
+  .post__meta { clear: both; }
   .post__sheet { padding: 58px 22px 44px; }
   .post__body :deep(blockquote) {
     margin: 40px -6px;

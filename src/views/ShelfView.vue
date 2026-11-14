@@ -21,6 +21,8 @@
         </h2>
         <ol class="year__books">
           <li v-for="book in entry.books" :key="book.title" class="book">
+            <img v-if="coverFor(book.slug)" class="book__cover" :src="coverFor(book.slug)" alt="" loading="lazy" decoding="async" width="28" height="42" />
+            <span v-else class="book__cover book__cover--none" aria-hidden="true"></span>
             <span class="book__title">
               <router-link v-if="book.slug" :to="`/blog/${book.slug}`">{{ book.title }}</router-link>
               <template v-else>{{ book.title }}</template>
@@ -47,6 +49,7 @@
 <script setup>
 import { shelf, shelfCount } from '../data/shelf.js';
 import { readingList } from '../data/books.js';
+import { coverFor } from '../data/covers.js';
 import { useSeo } from '../composables/useSeo.js';
 
 useSeo({
@@ -88,6 +91,10 @@ useSeo({
   color: var(--faint);
 }
 
+.register__cols {
+  padding-left: 46px; /* over the columns, not the covers */
+}
+
 .register__cols span:last-child {
   text-align: right;
 }
@@ -120,9 +127,9 @@ useSeo({
 
 .book {
   display: grid;
-  grid-template-columns: var(--cols);
+  grid-template-columns: 28px var(--cols); /* the cover, then the columns */
   gap: 18px;
-  align-items: baseline;
+  align-items: center;
   min-height: var(--row);
   padding: 11px 0 9px;
   border-bottom: 1px solid var(--card-line);
@@ -151,6 +158,20 @@ useSeo({
   font-family: var(--font-mono);
   font-size: 12.5px;
   color: var(--muted);
+}
+
+.book__cover {
+  flex: none;
+  width: 28px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 1px;
+  box-shadow: 0 2px 5px -2px rgb(var(--shadow) / 0.5);
+}
+
+.book__cover--none {
+  background: var(--card-line);
+  box-shadow: none;
 }
 
 /* the rating, written in the margin in the librarian's blue */
@@ -208,16 +229,21 @@ useSeo({
   }
 
   .book {
-    grid-template-columns: var(--cols);
+    grid-template-columns: 28px var(--cols);
     row-gap: 2px;
   }
 
+  .book__cover {
+    grid-row: 1 / span 2;
+  }
+
   .book__author {
+    grid-column: 2;
     grid-row: 2;
   }
 
   .book__rating {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 1;
   }
 }

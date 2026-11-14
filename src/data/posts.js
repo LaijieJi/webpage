@@ -70,7 +70,12 @@ export function getAdjacentPosts(slug) {
 // Book reviews are filed under their author; anything else under its subject.
 export function cardByline(post) {
   const fm = post.frontmatter;
-  return fm.bookAuthor || fm.tags[0] || '';
+  return fm.bookAuthor || lifeByline(fm.tags[0]);
+}
+
+// "erasmus" -> "Life | Erasmus": the shelf it's on, then its subject.
+export function lifeByline(tag) {
+  return tag ? `Life | ${tag[0].toUpperCase()}${tag.slice(1)}` : '';
 }
 
 export function cardTitle(post) {

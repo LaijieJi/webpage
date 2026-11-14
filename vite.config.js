@@ -139,7 +139,7 @@ function ogCards() {
       const dir = path.resolve('src/posts');
       for (const slug of slugsIn(dir)) {
         const fm = readFrontmatter(fs.readFileSync(path.join(dir, `${slug}.md`), 'utf8'));
-        this.emitFile({ type: 'asset', fileName: `og/blog/${slug}.png`, source: await renderPostCard(fm) });
+        this.emitFile({ type: 'asset', fileName: `og/blog/${slug}.png`, source: await renderPostCard(fm, slug) });
       }
     }
   });
