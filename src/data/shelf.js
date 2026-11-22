@@ -30,7 +30,9 @@ finished.forEach((book, i) => {
     // unreviewed books have no date: keep them in the order they're listed
     time: review && review.year === book.year ? review.time : -i,
     rating: book.rating || review?.rating || 0,
-    slug: review?.slug
+    slug: review?.slug,
+    // unreviewed books keep their cover under the title's own name
+    cover: review?.slug || book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   });
 });
 

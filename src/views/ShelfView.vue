@@ -21,7 +21,7 @@
         </h2>
         <ol class="year__books">
           <li v-for="book in entry.books" :key="book.title" class="book">
-            <img v-if="coverFor(book.slug)" class="book__cover" :src="coverFor(book.slug)" alt="" loading="lazy" decoding="async" width="28" height="42" />
+            <img v-if="coverFor(book.cover || book.slug)" class="book__cover" :src="coverFor(book.cover || book.slug)" alt="" loading="lazy" decoding="async" width="28" height="42" />
             <span v-else class="book__cover book__cover--none" aria-hidden="true"></span>
             <span class="book__title">
               <router-link v-if="book.slug" :to="`/blog/${book.slug}`">{{ book.title }}</router-link>
